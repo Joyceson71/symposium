@@ -12,7 +12,8 @@ export default function ParticlesField({ count = 3000 }: { count?: number }) {
   // Scale down particles for mobile as per rules
   const finalCount = isMobile ? Math.min(count, 800) : count;
 
-  const [positions, scales] = useMemo(() => {
+  const geometry = useMemo(() => {
+    const geo = new THREE.BufferGeometry();
     const pos = new Float32Array(finalCount * 3);
     const scl = new Float32Array(finalCount);
 
@@ -23,42 +24,29 @@ export default function ParticlesField({ count = 3000 }: { count?: number }) {
 
       scl[i] = Math.random();
     }
-    return [pos, scl];
+    
+    geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+    geo.setAttribute('scale', new THREE.BufferAttribute(scl, 1));
+    return geo;
   }, [finalCount]);
 
-  const geometryRef = React.useRef<THREE.BufferGeometry>(null);
-
   useFrame((state) => {
-    if (shouldReduceMotion || !geometryRef.current) return;
+    if (shouldReduceMotion || !geometry) return;
     
     // Slow rotation
     const time = state.clock.getElapsedTime() * 0.05;
-    const positions = geometryRef.current.attributes.position.array as Float32Array;
+    const positions = geometry.attributes.position.array as Float32Array;
     
     for (let i = 0; i < finalCount; i++) {
       const i3 = i * 3;
       // Gentle floating motion
       positions[i3 + 1] += Math.sin(time + positions[i3]) * 0.01;
     }
-    geometryRef.current.attributes.position.needsUpdate = true;
+    geometry.attributes.position.needsUpdate = true;
   });
 
   return (
-    <points>
-      <bufferGeometry ref={geometryRef} key={finalCount}>
-        <bufferAttribute
-          attach="attributes-position"
-          count={finalCount}
-          array={positions}
-          itemSize={3}
-        />
-        <bufferAttribute
-          attach="attributes-scale"
-          count={finalCount}
-          array={scales}
-          itemSize={1}
-        />
-      </bufferGeometry>
+    <points geometry={geometry}>
       <pointsMaterial
         size={0.05}
         color="#ff3b30"
