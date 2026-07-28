@@ -30,7 +30,7 @@ export default function Footer() {
               [College Name Placeholder]
             </p>
             <p className="italic text-sm text-snow/70">
-              "Where Engineers Swing Into the Future"
+              &quot;Where Engineers Swing Into the Future&quot;
             </p>
           </div>
 

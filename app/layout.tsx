@@ -8,7 +8,7 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 
 export const metadata: Metadata = {
-  title: 'TechnoKings-2k26 | [College Name Placeholder]', // TODO: Update College Name
+  title: 'TechnoKings-2k26 | Kings Engineering College',
   description: 'A premium, futuristic ECE department symposium experience built with Next.js.',
 };
 

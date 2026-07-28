@@ -23,7 +23,7 @@ export default function AboutSection() {
           </h3>
           <div className="space-y-6 text-steel leading-relaxed">
             <p>
-              Techno Kings 2k26 is the premier national-level technical symposium organized by the Department of Electronics and Communication Engineering. We bridge the gap between theoretical knowledge and practical innovation.
+              TechnoKings-2k26 is the premier national-level technical symposium organized by the Department of Electronics and Communication Engineering. We bridge the gap between theoretical knowledge and practical innovation.
             </p>
             <p>
               Join us for a two-day tech extravaganza featuring cutting-edge competitions, expert workshops, and networking opportunities that will propel your engineering career into the future.
