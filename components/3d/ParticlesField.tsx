@@ -45,7 +45,7 @@ export default function ParticlesField({ count = 3000 }: { count?: number }) {
 
   return (
     <points>
-      <bufferGeometry ref={geometryRef}>
+      <bufferGeometry ref={geometryRef} key={finalCount}>
         <bufferAttribute
           attach="attributes-position"
           count={finalCount}
