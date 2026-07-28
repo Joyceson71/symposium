@@ -597,594 +597,6 @@ function submitForm() {
             window.location.href = "index.html";
         }, 2000);
     }, 2000);
-}======== */
-const cur = document.getElementById("cursor"),
-    ring = document.getElementById("cursor-ring");
-let mx = 0,
-    my = 0,
-    rx = 0,
-    ry = 0;
-document.addEventListener("mousemove", (e) => {
-    mx = e.clientX;
-    my = e.clientY;
-    cur.style.left = mx + "px";
-    cur.style.top = my + "px";
-});
-(function animRing() {
-    rx += (mx - rx) * 0.12;
-    ry += (my - ry) * 0.12;
-    ring.style.left = rx + "px";
-    ring.style.top = ry + "px";
-    requestAnimationFrame(animRing);
-})();
-document
-    .querySelectorAll(
-        "a,button,.event-card,.stat-card,.nontech-card,.tier-card,.team-label-box,.upload-zone",
-    )
-    .forEach((el) => {
-        el.addEventListener("mouseenter", () => {
-            cur.style.width = "40px";
-            cur.style.height = "40px";
-            ring.style.opacity = "0";
-        });
-        el.addEventListener("mouseleave", () => {
-            cur.style.width = "10px";
-            cur.style.height = "10px";
-            ring.style.opacity = "1";
-        });
-    });
-
-/* ===================== LOADER ===================== */
-window.addEventListener("load", () => {
-    setTimeout(() => {
-        const loader = document.getElementById("loader");
-        if(loader) {
-            loader.style.opacity = "0";
-            setTimeout(() => (loader.style.display = "none"), 800);
-        }
-    }, 2800);
-});
-
-/* ===================== NAVBAR ===================== */
-window.addEventListener("scroll", () => {
-    document
-        .getElementById("navbar")
-        .classList.toggle("scrolled", window.scrollY > 80);
-});
-function scrollToReg() {
-    window.location.href = "register.html";
-}
-function toggleMenu() {
-    const m = document.getElementById("mobile-menu");
-    m.classList.toggle("open");
-}
-
-/* ===================== HERO 3D CANVAS ===================== */
-(function initHero() {
-    const canvas = document.getElementById("hero-canvas");
-    if(!canvas) return;
-    const renderer = new THREE.WebGLRenderer({
-        canvas,
-        antialias: true,
-        alpha: true,
-    });
-    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1;
-    const scene = new THREE.Scene();
-    scene.fog = new THREE.Fog(0x050505, 8, 22);
-    const cam = new THREE.PerspectiveCamera(
-        60,
-        window.innerWidth / window.innerHeight,
-        0.1,
-        100,
-    );
-    cam.position.set(0, 0, 9);
-
-    /* LIGHTS */
-    scene.add(new THREE.AmbientLight(0x110000, 0.5));
-    const spot1 = new THREE.SpotLight(0xff1a1a, 80, 20, 0.3, 1);
-    spot1.position.set(5, 8, 5);
-    scene.add(spot1);
-    const spot2 = new THREE.SpotLight(0xcc0000, 30, 15);
-    spot2.position.set(-5, -4, 3);
-    scene.add(spot2);
-
-    /* SPIDER WEB */
-    const webGroup = new THREE.Group();
-    const radials = 12,
-        rings = 7,
-        radius = 6;
-    const mat = new THREE.LineBasicMaterial({
-        color: 0xcc0000,
-        transparent: true,
-        opacity: 0.6,
-    });
-    for (let i = 0; i < radials; i++) {
-        const a = ((Math.PI * 2) / radials) * i;
-        const geo = new THREE.BufferGeometry().setFromPoints([
-            new THREE.Vector3(0, 0, 0),
-            new THREE.Vector3(Math.cos(a) * radius, Math.sin(a) * radius, 0),
-        ]);
-        webGroup.add(new THREE.Line(geo, mat));
-    }
-    for (let r = 1; r <= rings; r++) {
-        const pts = [];
-        for (let i = 0; i <= radials; i++) {
-            const a = ((Math.PI * 2) / radials) * i;
-            const rr = (radius / rings) * r;
-            pts.push(new THREE.Vector3(Math.cos(a) * rr, Math.sin(a) * rr, 0));
-        }
-        const geo = new THREE.BufferGeometry().setFromPoints(pts);
-        webGroup.add(new THREE.Line(geo, mat));
-    }
-    webGroup.position.z = -3;
-    scene.add(webGroup);
-
-    /* CENTRAL ORB */
-    const orbGeo = new THREE.SphereGeometry(0.8, 32, 32);
-    const orbMat = new THREE.MeshStandardMaterial({
-        color: 0xcc0000,
-        emissive: 0xff1a1a,
-        emissiveIntensity: 1.2,
-        roughness: 0,
-        metalness: 0.9,
-    });
-    const orb = new THREE.Mesh(orbGeo, orbMat);
-    scene.add(orb);
-    const orbLight = new THREE.PointLight(0xff1a1a, 6, 8);
-    orb.add(orbLight);
-
-    /* PARTICLES */
-    const count = window.innerWidth < 768 ? 600 : 2500;
-    const pGeo = new THREE.BufferGeometry();
-    const pos = new Float32Array(count * 3);
-    for (let i = 0; i < count * 3; i += 3) {
-        const theta = Math.random() * Math.PI * 2,
-            phi = Math.acos(2 * Math.random() - 1),
-            r = 2 + Math.random() * 10;
-        pos[i] = r * Math.sin(phi) * Math.cos(theta);
-        pos[i + 1] = r * Math.sin(phi) * Math.sin(theta);
-        pos[i + 2] = r * Math.cos(phi);
-    }
-    pGeo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
-    const pMat = new THREE.PointsMaterial({
-        color: 0xcc0000,
-        size: 0.04,
-        transparent: true,
-        opacity: 0.7,
-    });
-    const particles = new THREE.Points(pGeo, pMat);
-    scene.add(particles);
-
-    /* RINGS */
-    const r1Mat = new THREE.MeshStandardMaterial({
-        color: 0xcc0000,
-        emissive: 0xff0000,
-        emissiveIntensity: 0.5,
-        roughness: 0.3,
-        metalness: 0.8,
-    });
-    const ring1 = new THREE.Mesh(
-        new THREE.TorusGeometry(3.5, 0.012, 16, 100),
-        r1Mat,
-    );
-    const ring2 = new THREE.Mesh(
-        new THREE.TorusGeometry(4.8, 0.008, 16, 100),
-        r1Mat,
-    );
-    scene.add(ring1, ring2);
-
-    /* MOUSE */
-    let mouseX = 0,
-        mouseY = 0;
-    document.addEventListener("mousemove", (e) => {
-        mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
-        mouseY = -(e.clientY / window.innerHeight - 0.5) * 2;
-    });
-
-    /* RESIZE */
-    window.addEventListener("resize", () => {
-        cam.aspect = window.innerWidth / window.innerHeight;
-        cam.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-
-    /* ANIMATION */
-    const clock = new THREE.Clock();
-    (function anim() {
-        requestAnimationFrame(anim);
-        const t = clock.getElapsedTime();
-        webGroup.rotation.y = t * 0.05;
-        webGroup.rotation.z = t * 0.02;
-        orb.scale.setScalar(0.95 + 0.07 * Math.sin(t * 1.5));
-        orbMat.emissiveIntensity = 1.0 + 0.4 * Math.sin(t * 2);
-        r1Mat.emissiveIntensity = 0.4 + 0.3 * Math.sin(t * 1.2);
-        ring1.rotation.x = t * 0.3;
-        ring1.rotation.y = t * 0.2;
-        ring2.rotation.x = -t * 0.2;
-        ring2.rotation.z = t * 0.15;
-        particles.rotation.y += 0.0005;
-        particles.rotation.x = mouseY * 0.05;
-        particles.rotation.z = mouseX * 0.03;
-        cam.position.x += (mouseX * 0.5 - cam.position.x) * 0.03;
-        cam.position.y += (mouseY * 0.3 - cam.position.y) * 0.03;
-        cam.lookAt(scene.position);
-        renderer.render(scene, cam);
-    })();
-})();
-
-/* ===================== ABOUT MINI-SCENE ===================== */
-(function initAbout() {
-    const canvas = document.getElementById("about-canvas");
-    if(!canvas) return;
-    if (!canvas) return;
-    const renderer = new THREE.WebGLRenderer({
-        canvas,
-        antialias: true,
-        alpha: true,
-    });
-    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-    const w = canvas.parentElement.offsetWidth,
-        h = canvas.parentElement.offsetHeight || 400;
-    renderer.setSize(w, h);
-    const scene = new THREE.Scene();
-    const cam = new THREE.PerspectiveCamera(50, w / h, 0.1, 100);
-    cam.position.set(0, 0, 5);
-    scene.add(new THREE.AmbientLight(0x220000, 1));
-    const sl = new THREE.SpotLight(0xff1a1a, 40, 12, 0.4);
-    sl.position.set(3, 4, 4);
-    scene.add(sl);
-    const ico = new THREE.Mesh(
-        new THREE.IcosahedronGeometry(1.4, 0),
-        new THREE.MeshStandardMaterial({
-            color: 0xcc0000,
-            emissive: 0xff0000,
-            emissiveIntensity: 0.6,
-            roughness: 0.1,
-            metalness: 0.9,
-            wireframe: false,
-        }),
-    );
-    const icoWire = new THREE.Mesh(
-        new THREE.IcosahedronGeometry(1.42, 0),
-        new THREE.MeshBasicMaterial({
-            color: 0xff4444,
-            wireframe: true,
-            transparent: true,
-            opacity: 0.3,
-        }),
-    );
-    scene.add(ico, icoWire);
-    const clock = new THREE.Clock();
-    let hovered = false;
-    canvas.addEventListener("mouseenter", () => (hovered = true));
-    canvas.addEventListener("mouseleave", () => (hovered = false));
-    (function a() {
-        requestAnimationFrame(a);
-        const t = clock.getElapsedTime();
-        ico.rotation.y = t * 0.4;
-        ico.rotation.x = t * 0.2;
-        icoWire.rotation.y = t * 0.4;
-        icoWire.rotation.x = t * 0.2;
-        ico.scale.setScalar(1 + 0.04 * Math.sin(t * 2));
-        renderer.render(scene, cam);
-    })();
-})();
-
-/* ===================== COUNTDOWN ===================== */
-function updateCountdown() {
-    const target = new Date("2026-09-18T09:00:00+05:30").getTime();
-    const now = Date.now();
-    const diff = target - now;
-    if (diff <= 0) {
-        document
-            .querySelectorAll(".count-num")
-            .forEach((e) => (e.textContent = "00"));
-        return;
-    }
-    const d = Math.floor(diff / 86400000);
-    const h = Math.floor((diff % 86400000) / 3600000);
-    const m = Math.floor((diff % 3600000) / 60000);
-    const s = Math.floor((diff % 60000) / 1000);
-    const cdDays = document.getElementById("cd-days");
-    if (!cdDays) return;
-    cdDays.textContent = String(d).padStart(2, "0");
-    document.getElementById("cd-hours").textContent = String(h).padStart(2, "0");
-    document.getElementById("cd-mins").textContent = String(m).padStart(2, "0");
-    document.getElementById("cd-secs").textContent = String(s).padStart(2, "0");
-}
-setInterval(updateCountdown, 1000);
-updateCountdown();
-
-/* ===================== PRIZE PARTICLE RAIN ===================== */
-(function initPrize() {
-    const canvas = document.getElementById("prize-canvas");
-    if(!canvas) return;
-    const ctx = canvas.getContext("2d");
-    let W,
-        H,
-        particles = [];
-    function resize() {
-        W = canvas.width = canvas.parentElement.offsetWidth;
-        H = canvas.height = canvas.parentElement.offsetHeight;
-    }
-    resize();
-    window.addEventListener("resize", resize);
-    for (let i = 0; i < 80; i++)
-        particles.push({
-            x: Math.random() * 1400,
-            y: Math.random() * 800,
-            s: Math.random() * 2 + 0.5,
-            speed: Math.random() * 1.5 + 0.5,
-            o: Math.random() * 0.5 + 0.1,
-        });
-    (function a() {
-        requestAnimationFrame(a);
-        ctx.clearRect(0, 0, W, H);
-        particles.forEach((p) => {
-            ctx.fillStyle = `rgba(204,0,0,${p.o})`;
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.s, 0, Math.PI * 2);
-            ctx.fill();
-            p.y += p.speed;
-            if (p.y > H) {
-                p.y = -5;
-                p.x = Math.random() * W;
-            }
-        });
-    })();
-})();
-
-/* ===================== COUNT-UP ===================== */
-function countUp(el, target, prefix) {
-    let start = 0;
-    const dur = 2000,
-        step = 16;
-    const inc = target / (dur / step);
-    const t = setInterval(() => {
-        start += inc;
-        if (start >= target) {
-            start = target;
-            clearInterval(t);
-        }
-        if (prefix === "₹") {
-            el.textContent =
-                prefix +
-                (start >= 1000 ? Math.floor(start / 1000) + "K" : Math.floor(start));
-        } else {
-            el.textContent = Math.floor(start);
-        }
-    }, step);
-}
-
-/* ===================== PRIZE COUNT-UP ===================== */
-let prizeTriggered = false;
-const prizeEl = document.getElementById("prize-count");
-
-/* ===================== SCROLL REVEAL ===================== */
-const reveals = document.querySelectorAll(".reveal,.reveal-left,.reveal-right");
-const observer = new IntersectionObserver(
-    (entries) => {
-        entries.forEach((e) => {
-            if (e.isIntersecting) {
-                e.target.classList.add("visible");
-                /* stats count-up */
-                e.target.querySelectorAll("[data-count]").forEach((el) => {
-                    const cnt = parseInt(el.dataset.count);
-                    const pre = el.dataset.prefix || "";
-                    countUp(el, cnt, pre);
-                });
-                /* prize count-up */
-                if (
-                    !prizeTriggered &&
-                    e.target.contains &&
-                    e.target.contains(prizeEl)
-                ) {
-                    prizeTriggered = true;
-                    countUp(prizeEl, 20000, "");
-                }
-            }
-        });
-    },
-    { threshold: 0.15 },
-);
-reveals.forEach((r) => observer.observe(r));
-
-/* Prize section separately */
-const prizeSection = document.getElementById("prize");
-const prizeObs = new IntersectionObserver(
-    (entries) => {
-        if (entries[0].isIntersecting && !prizeTriggered) {
-            prizeTriggered = true;
-            countUp(prizeEl, 20000, "");
-        }
-    },
-    { threshold: 0.3 },
-);
-if (prizeSection) prizeObs.observe(prizeSection);
-
-/* ===================== MULTI-STEP FORM ===================== */
-let currentStep = 1;
-let uploadedFile = null;
-
-function goStep(n) {
-    if (n > currentStep && !validateStep(currentStep)) return;
-    document
-        .getElementById("form-step-" + currentStep)
-        .classList.remove("active");
-    document.getElementById("step-ind-" + currentStep).classList.remove("active");
-    document.getElementById("step-ind-" + currentStep).classList.add("done");
-    currentStep = n;
-    document.getElementById("form-step-" + n).classList.add("active");
-    document.getElementById("step-ind-" + n).classList.add("active");
-    document.getElementById("step-ind-" + n).classList.remove("done");
-    if (n < 4) {
-        for (let i = n + 1; i <= 4; i++) {
-            const el = document.getElementById("step-ind-" + i);
-            if (el) {
-                el.classList.remove("active", "done");
-            }
-        }
-    }
-    document
-        .querySelector(".register-wrap")
-        .scrollIntoView({ behavior: "smooth", block: "start" });
-}
-
-function showErr(id, show) {
-    const e = document.getElementById(id);
-    if (e) e.classList.toggle("show", show);
-}
-function setFieldErr(id, err) {
-    const f = document.getElementById(id);
-    if (f) f.classList.toggle("error", err);
-}
-
-function validateStep(step) {
-    let ok = true;
-    const check = (id, condition) => {
-        showErr("e-" + id, !condition);
-        setFieldErr("f-" + id, !condition);
-        if (!condition) ok = false;
-    };
-
-    if (step === 1) {
-        const name = document.getElementById("f-name").value.trim();
-        const dob = document.getElementById("f-dob").value;
-        const gender = document.getElementById("f-gender").value;
-        const email = document.getElementById("f-email").value.trim();
-        const phone = document.getElementById("f-phone").value.trim();
-        const emerg = document.getElementById("f-emergency").value.trim();
-        
-        check("name", name.length >= 3);
-        check("dob", !!dob);
-        check("gender", !!gender);
-        check("email", /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
-        check("phone", /^[6-9]\d{9}$/.test(phone));
-        check("emergency", /^[6-9]\d{9}$/.test(emerg));
-        
-        return ok;
-    }
-    if (step === 2) {
-        const col = document.getElementById("f-college").value.trim();
-        const dept = document.getElementById("f-dept").value.trim();
-        const year = document.getElementById("f-year").value;
-        const roll = document.getElementById("f-roll").value.trim();
-        
-        check("college", col.length >= 3);
-        check("dept", dept.length >= 2);
-        check("year", !!year);
-        check("roll", roll.length >= 3);
-        return ok;
-    }
-    if (step === 3) {
-        const evt = document.getElementById("f-event").value;
-        check("event", !!evt);
-        
-        const teamSize = document.querySelector('input[name="teamsize"]:checked').value;
-        if (teamSize === "2") {
-            const tm = document.getElementById("f-teammate").value.trim();
-            check("teammate", tm.length >= 2);
-        }
-        
-        const accom = document.getElementById("f-accom").value;
-        check("accom", !!accom);
-        
-        return ok;
-    }
-    return true;
-}
-
-function toggleTeammate(show) {
-    const w = document.getElementById("teammate-wrap");
-    w.classList.toggle("visible", show);
-}
-
-function handleFileSelect(e) {
-    const file = e.target.files[0];
-    processFile(file);
-}
-function handleDragOver(e) {
-    e.preventDefault();
-    document.getElementById("upload-zone").classList.add("dragover");
-}
-function handleDragLeave() {
-    document.getElementById("upload-zone").classList.remove("dragover");
-}
-function handleDrop(e) {
-    e.preventDefault();
-    document.getElementById("upload-zone").classList.remove("dragover");
-    const file = e.dataTransfer.files[0];
-    processFile(file);
-}
-function processFile(file) {
-    if (!file) return;
-    const validTypes = ["image/jpeg", "image/png", "image/webp"];
-    if (!validTypes.includes(file.type)) {
-        showErr("e-file", true);
-        document.getElementById("e-file").textContent =
-            "Please upload a JPG, PNG, or WEBP image";
-        return;
-    }
-    if (file.size > 5 * 1024 * 1024) {
-        showErr("e-file", true);
-        document.getElementById("e-file").textContent =
-            "File size must be under 5MB";
-        return;
-    }
-    uploadedFile = file;
-    showErr("e-file", false);
-    document.getElementById("preview-name").textContent =
-        file.name + " (" + Math.round(file.size / 1024) + "KB)";
-    document.getElementById("file-preview").style.display = "flex";
-}
-function removeFile() {
-    uploadedFile = null;
-    document.getElementById("file-input").value = "";
-    document.getElementById("file-preview").style.display = "none";
-}
-
-function submitForm() {
-    if (!uploadedFile) {
-        showErr("e-file", true);
-        document.getElementById("e-file").textContent =
-            "Please upload your payment screenshot";
-        return;
-    }
-    showErr("e-file", false);
-    const btn = document.getElementById("submit-btn");
-    btn.textContent = "SUBMITTING...";
-    btn.disabled = true;
-    const formData = {
-        name: document.getElementById("f-name").value.trim(),
-        department: document.getElementById("f-dept").value.trim(),
-        college: document.getElementById("f-college").value.trim(),
-        email: document.getElementById("f-email").value.trim(),
-        phone: document.getElementById("f-phone").value.trim(),
-        event: document.getElementById("f-event").value,
-        teamSize: document.querySelector('input[name="teamsize"]:checked').value,
-        teammateName: document.getElementById("f-teammate").value.trim() || "—",
-        paymentScreenshotName: uploadedFile.name,
-    };
-    /* Simulate API call - replace with actual fetch to /api/register */
-    setTimeout(() => {
-        btn.textContent = "SUBMIT REGISTRATION";
-        btn.disabled = false;
-        document.getElementById("success-name").textContent = formData.name
-            .split(" ")[0]
-            .toUpperCase();
-        document.getElementById("success-event").textContent =
-            formData.event.toUpperCase();
-        document.getElementById("success-modal").classList.add("show");
-        fireConfetti();
-    }, 1800);
-}
-
-function closeSuccess() {
-    document.getElementById("success-modal").classList.remove("show");
-    document.getElementById("events").scrollIntoView({ behavior: "smooth" });
 }
 
 /* ===================== CONFETTI ===================== */
@@ -1402,3 +814,149 @@ function showEvent(idx) {
         </div>
     `;
 }
+
+
+/* ===================== SPIDER-MAN: WEB-SLINGER ENGINE ===================== */
+// Inject the Web Canvas
+const webCanvas = document.createElement("canvas");
+webCanvas.id = "web-slinger-canvas";
+webCanvas.style.position = "fixed";
+webCanvas.style.top = "0";
+webCanvas.style.left = "0";
+webCanvas.style.width = "100vw";
+webCanvas.style.height = "100vh";
+webCanvas.style.pointerEvents = "none";
+webCanvas.style.zIndex = "9000"; // Below modals, above some backgrounds
+document.body.appendChild(webCanvas);
+
+const wctx = webCanvas.getContext("2d");
+let cw, ch;
+function resizeWebCanvas() {
+    cw = webCanvas.width = window.innerWidth;
+    ch = webCanvas.height = window.innerHeight;
+}
+window.addEventListener("resize", resizeWebCanvas);
+resizeWebCanvas();
+
+// Web physics nodes
+const numNodes = 5;
+const nodes = [];
+const targetMouse = { x: cw / 2, y: ch / 2 };
+const currentMouse = { x: cw / 2, y: ch / 2 };
+
+// Anchor points (Corners + Edges)
+const anchors = [];
+
+function initAnchors() {
+    anchors.length = 0;
+    anchors.push({ x: 0, y: 0 }); // Top Left
+    anchors.push({ x: cw, y: 0 }); // Top Right
+    anchors.push({ x: 0, y: ch }); // Bottom Left
+    anchors.push({ x: cw, y: ch }); // Bottom Right
+    anchors.push({ x: cw / 2, y: 0 }); // Top Center
+}
+initAnchors();
+window.addEventListener("resize", initAnchors);
+
+document.addEventListener("mousemove", (e) => {
+    targetMouse.x = e.clientX;
+    targetMouse.y = e.clientY;
+});
+
+class WebNode {
+    constructor(anchorX, anchorY) {
+        this.anchor = { x: anchorX, y: anchorY };
+        this.pos = { x: anchorX, y: anchorY };
+        this.vel = { x: 0, y: 0 };
+        this.attached = false;
+        this.restLength = Math.random() * 200 + 100;
+        this.stiffness = 0.05 + Math.random() * 0.05;
+        this.damping = 0.8;
+    }
+    update(mx, my) {
+        let tx = this.anchor.x;
+        let ty = this.anchor.y;
+        
+        // If mouse is somewhat close, attach to it
+        const dx = mx - this.anchor.x;
+        const dy = my - this.anchor.y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        
+        if (dist < 600) {
+            this.attached = true;
+            // Point on the line between anchor and mouse
+            tx = this.anchor.x + dx * 0.8;
+            ty = this.anchor.y + dy * 0.8;
+        } else {
+            this.attached = false;
+        }
+        
+        const forceX = (tx - this.pos.x) * this.stiffness;
+        const forceY = (ty - this.pos.y) * this.stiffness;
+        
+        this.vel.x = (this.vel.x + forceX) * this.damping;
+        this.vel.y = (this.vel.y + forceY) * this.damping;
+        
+        this.pos.x += this.vel.x;
+        this.pos.y += this.vel.y;
+    }
+    draw(ctx, mx, my) {
+        if (!this.attached) return; // Only draw when active
+        
+        ctx.beginPath();
+        ctx.moveTo(this.anchor.x, this.anchor.y);
+        // Draw chaotic web strands
+        ctx.quadraticCurveTo(this.pos.x, this.pos.y, mx, my);
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.4)";
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+        
+        // Minor connecting threads
+        ctx.beginPath();
+        ctx.moveTo(this.pos.x, this.pos.y);
+        ctx.lineTo(mx + (Math.random() - 0.5) * 50, my + (Math.random() - 0.5) * 50);
+        ctx.strokeStyle = "rgba(255, 0, 60, 0.2)";
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+    }
+}
+
+let webNodes = [];
+function resetWebNodes() {
+    webNodes = anchors.map(a => new WebNode(a.x, a.y));
+}
+resetWebNodes();
+window.addEventListener("resize", resetWebNodes);
+
+function animateWebs() {
+    wctx.clearRect(0, 0, cw, ch);
+    
+    // Smooth mouse follow
+    currentMouse.x += (targetMouse.x - currentMouse.x) * 0.15;
+    currentMouse.y += (targetMouse.y - currentMouse.y) * 0.15;
+    
+    webNodes.forEach(node => {
+        node.update(currentMouse.x, currentMouse.y);
+        node.draw(wctx, currentMouse.x, currentMouse.y);
+    });
+    
+    requestAnimationFrame(animateWebs);
+}
+animateWebs();
+
+/* ===================== SPIDEY-SENSE INTERACTION ===================== */
+// Inject vignette
+const spideySense = document.createElement("div");
+spideySense.id = "spidey-sense-vignette";
+document.body.appendChild(spideySense);
+
+// Triggers
+const senseTriggers = document.querySelectorAll("button, a, .event-card, .spider-node, .stat-card");
+senseTriggers.forEach(el => {
+    el.addEventListener("mouseenter", () => {
+        document.body.classList.add("spidey-sense-active");
+    });
+    el.addEventListener("mouseleave", () => {
+        document.body.classList.remove("spidey-sense-active");
+    });
+});

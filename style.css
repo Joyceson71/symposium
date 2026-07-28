@@ -2431,3 +2431,155 @@ footer::before {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--neon-red);
 }
+
+
+/* ===================== SPIDER-MAN: MILES MORALES OVERHAUL ===================== */
+
+/* Spidey-Sense Vignette */
+#spidey-sense-vignette {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  pointer-events: none;
+  z-index: 8999;
+  background: radial-gradient(circle, transparent 40%, rgba(255, 0, 60, 0) 100%);
+  transition: background 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body.spidey-sense-active #spidey-sense-vignette {
+  background: radial-gradient(circle, transparent 30%, rgba(255, 0, 60, 0.15) 80%, rgba(255, 0, 60, 0.4) 100%);
+  animation: sensePulse 0.4s infinite alternate;
+}
+
+@keyframes sensePulse {
+  0% { opacity: 0.8; }
+  100% { opacity: 1; }
+}
+
+body.spidey-sense-active .container {
+  animation: cameraShake 0.1s infinite alternate;
+}
+
+@keyframes cameraShake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  100% { transform: translate(-1px, -2px) rotate(-0.5deg); }
+}
+
+/* Comic Book Halftone Background Overlay */
+body::after {
+  /* Override previous grid with a halftone dot pattern */
+  background-image: radial-gradient(rgba(255, 0, 60, 0.15) 15%, transparent 16%),
+                    radial-gradient(rgba(255, 0, 60, 0.15) 15%, transparent 16%);
+  background-size: 8px 8px;
+  background-position: 0 0, 4px 4px;
+  opacity: 0.4;
+  mask-image: radial-gradient(circle, black 30%, transparent 80%);
+  -webkit-mask-image: radial-gradient(circle, black 30%, transparent 80%);
+}
+
+/* Aggressive Angled Cards (Spider-Suit Paneling) */
+.stat-card, .event-card, .nontech-card, .tier-card, .form-step {
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  border: none !important; /* Replaced by drop-shadow trick or box-shadow */
+  background: rgba(10, 10, 15, 0.8) !important;
+  box-shadow: 0 0 0 2px var(--neon-red) inset, 0 10px 30px rgba(0,0,0,0.8);
+}
+
+/* Intense Web-Sling Drop Transition for reveals */
+.reveal, .reveal-left, .reveal-right {
+  transform: translateY(-50px) scale(0.95);
+  transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.reveal.visible, .reveal-left.visible, .reveal-right.visible {
+  transform: translateY(0) scale(1);
+}
+
+/* Web-Slinger Primary Buttons */
+.btn-primary {
+  clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+  background: #ff003c !important;
+  color: #fff !important;
+  font-weight: 900;
+  letter-spacing: 2px;
+  box-shadow: none !important;
+  position: relative;
+  border: none !important;
+}
+
+.btn-primary::after {
+  content: "»";
+  position: absolute;
+  right: -20px;
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.btn-primary:hover {
+  background: #fff !important;
+  color: #ff003c !important;
+  text-shadow: none !important;
+  transform: scale(1.1) rotate(-2deg);
+}
+
+.btn-primary:hover::after {
+  right: 15px;
+  opacity: 1;
+}
+
+/* Arc Reactor / Spider Tracer Hub */
+.spider-center {
+  background: radial-gradient(circle, #ff003c 0%, #30000a 60%, #000 100%) !important;
+  border: 4px solid #fff;
+  box-shadow: 0 0 50px #ff003c, inset 0 0 40px #fff;
+  animation: arcPulse 2s infinite alternate !important;
+}
+
+@keyframes arcPulse {
+  0% { box-shadow: 0 0 40px #ff003c, inset 0 0 20px #fff; }
+  100% { box-shadow: 0 0 80px #ff003c, inset 0 0 60px #fff; }
+}
+
+.spider-center::before {
+  display: none; /* Remove previous conic gradient */
+}
+
+.spider-node {
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  border-radius: 0;
+  background: #111 !important;
+  box-shadow: none !important;
+  border: 2px solid #555 !important;
+  transition: all 0.3s;
+}
+
+.spider-node:hover, .spider-node.active {
+  background: #ff003c !important;
+  border-color: #fff !important;
+  filter: drop-shadow(0 0 15px #ff003c);
+  transform: translate(-50%, -50%) scale(1.3) !important;
+}
+
+.spider-web-bg g {
+  stroke: rgba(255, 255, 255, 0.2);
+  stroke-width: 2;
+  filter: none;
+  animation: none;
+}
+
+/* Graffiti / Urban Typography Touches (Miles Morales Style) */
+.section-eyebrow {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px;
+  color: #fff;
+  background: #ff003c;
+  display: inline-block;
+  padding: 4px 12px;
+  transform: rotate(-3deg);
+  letter-spacing: 4px;
+}
+
+/* Custom Selection */
+::selection {
+  background: #ff003c;
+  color: #fff;
+}
