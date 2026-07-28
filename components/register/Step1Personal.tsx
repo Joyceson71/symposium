@@ -4,7 +4,7 @@ import { useFormContext } from 'react-hook-form';
 import Button from '../ui/Button';
 
 export default function Step1Personal({ nextStep }: { nextStep: () => void }) {
-  const { register, formState: { errors } } = useFormContext();
+  const { register, watch, formState: { errors } } = useFormContext();
 
   const InputRow = ({ label, name, type = 'text', placeholder }: any) => (
     <div className="flex flex-col space-y-1">
@@ -18,6 +18,8 @@ export default function Step1Personal({ nextStep }: { nextStep: () => void }) {
       {errors[name] && <span className="text-ember text-xs">{errors[name]?.message as string}</span>}
     </div>
   );
+
+  const teamSize = watch('teamSize');
 
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -47,6 +49,23 @@ export default function Step1Personal({ nextStep }: { nextStep: () => void }) {
             <option value="4" className="bg-ink">4th Year</option>
           </select>
         </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="flex flex-col space-y-1">
+          <label className="text-sm font-bold text-snow tracking-wider uppercase">Team Size</label>
+          <select 
+            {...register('teamSize')}
+            className="w-full bg-white/5 border border-white/10 rounded px-4 py-3 text-snow focus:border-ember focus:outline-none transition-colors appearance-none"
+          >
+            <option value="1" className="bg-ink">Solo (1 Member)</option>
+            <option value="2" className="bg-ink">Duo (2 Members)</option>
+          </select>
+        </div>
+        
+        {teamSize === '2' && (
+          <InputRow label="Teammate Name" name="teammateName" placeholder="Jane Doe" />
+        )}
       </div>
 
       <div className="flex justify-end pt-6">

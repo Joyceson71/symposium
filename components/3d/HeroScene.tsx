@@ -48,9 +48,12 @@ export default function HeroScene() {
         dpr={[1, 2]} // Cap DPR at 2
       >
         <Suspense fallback={null}>
-          <color attach="background" args={['#04070b']} />
-          <ambientLight intensity={0.5} />
-          <directionalLight position={[10, 10, 5]} intensity={1} color="#ff3b30" />
+          <color attach="background" args={['#020202']} />
+          <ambientLight intensity={0.2} />
+          {/* Deep red directional lights for that menacing spidey look */}
+          <directionalLight position={[10, 10, 5]} intensity={2} color="#ff003c" />
+          <directionalLight position={[-10, -10, -5]} intensity={1} color="#ff3b30" />
+          <pointLight position={[0, 0, 0]} intensity={2} color="#cc0000" />
           
           <WebGeometry />
           <ParticlesField />
@@ -59,15 +62,15 @@ export default function HeroScene() {
             enableZoom={false} 
             enablePan={false}
             autoRotate 
-            autoRotateSpeed={0.5} 
+            autoRotateSpeed={1.0} 
           />
 
-          {/* Post Processing */}
+          {/* Post Processing - Stronger bloom for the red webs */}
           <EffectComposer>
-            <Bloom luminanceThreshold={0.2} mipmapBlur intensity={1.5} />
-            <Noise opacity={0.02} />
+            <Bloom luminanceThreshold={0.15} mipmapBlur intensity={2.0} />
+            <Noise opacity={0.03} />
           </EffectComposer>
-          <Environment preset="city" />
+          <Environment preset="night" />
         </Suspense>
       </Canvas>
     </div>

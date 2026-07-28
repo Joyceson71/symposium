@@ -24,15 +24,18 @@ export default function RegisterForm() {
       college: '',
       department: '',
       year: '1',
+      teamSize: '1',
+      teammateName: '',
       eventId: '',
       paymentId: '',
+      paymentScreenshot: '',
     },
   });
 
   const nextStep = async () => {
     let fieldsToValidate: any[] = [];
     if (step === 1) {
-      fieldsToValidate = ['fullName', 'email', 'phone', 'college', 'department', 'year'];
+      fieldsToValidate = ['fullName', 'email', 'phone', 'college', 'department', 'year', 'teamSize'];
     } else if (step === 2) {
       fieldsToValidate = ['eventId'];
     }

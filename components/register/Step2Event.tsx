@@ -6,12 +6,14 @@ import { useSearchParams } from 'next/navigation';
 import Button from '../ui/Button';
 
 const EVENTS = [
-  { id: '1', title: 'Hackathon 2k26', type: 'Technical' },
-  { id: '2', title: 'Robo Wars', type: 'Technical' },
-  { id: '3', title: 'Paper Presentation', type: 'Technical' },
-  { id: '4', title: 'Circuit Debugging', type: 'Technical' },
-  { id: '5', title: 'Ideathon', type: 'Non-Technical' },
-  { id: '6', title: 'Tech Quiz', type: 'Technical' },
+  { id: '1', title: 'Paper Presentation', type: 'Technical' },
+  { id: '2', title: 'Project Expo', type: 'Technical' },
+  { id: '3', title: 'Circuit Breakers', type: 'Technical' },
+  { id: '4', title: 'Technical Quiz', type: 'Technical' },
+  { id: '5', title: 'Minute to Win', type: 'Non-Technical' },
+  { id: '6', title: 'Detective', type: 'Non-Technical' },
+  { id: '7', title: 'Box Hunt', type: 'Non-Technical' },
+  { id: '8', title: 'Start Music', type: 'Non-Technical' },
 ];
 
 export default function Step2Event({ nextStep, prevStep }: { nextStep: () => void, prevStep: () => void }) {

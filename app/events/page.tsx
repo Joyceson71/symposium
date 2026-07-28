@@ -8,40 +8,60 @@ import Button from '@/components/ui/Button';
 
 const ALL_EVENTS = [
   {
-    id: 1,
-    title: 'Hackathon 2k26',
-    description: 'A 24-hour coding marathon to solve real-world problems using modern tech stacks.',
-    date: 'Day 1 - 09:00 AM',
-  },
-  {
-    id: 2,
-    title: 'Robo Wars',
-    description: 'Design, build, and battle. May the best bot win in this intense arena combat.',
-    date: 'Day 1 - 02:00 PM',
-  },
-  {
-    id: 3,
+    id: '1',
     title: 'Paper Presentation',
-    description: 'Showcase your research and technical papers to a panel of industry experts.',
-    date: 'Day 2 - 10:00 AM',
+    description: 'Showcase your research and technical papers to a panel of industry experts. Unveil the future of electronics.',
+    date: 'Day 1 - 10:00 AM',
+    type: 'Technical'
   },
   {
-    id: 4,
-    title: 'Circuit Debugging',
-    description: 'Test your electronic skills by finding and fixing complex circuit bugs.',
+    id: '2',
+    title: 'Project Expo',
+    description: 'Demonstrate your innovative working models and hardware prototypes. Let your ideas take physical form.',
+    date: 'Day 1 - 01:00 PM',
+    type: 'Technical'
+  },
+  {
+    id: '3',
+    title: 'Circuit Breakers',
+    description: 'Test your electronic skills by finding, fixing, and optimizing complex circuit bugs against the clock.',
+    date: 'Day 2 - 09:30 AM',
+    type: 'Technical'
+  },
+  {
+    id: '4',
+    title: 'Technical Quiz',
+    description: 'Battle of the brains. Test your knowledge on the latest trends in tech, electronics, and engineering.',
     date: 'Day 2 - 11:30 AM',
+    type: 'Technical'
   },
   {
-    id: 5,
-    title: 'Ideathon',
-    description: 'Pitch your innovative startup ideas to investors and win seed funding.',
+    id: '5',
+    title: 'Minute to Win',
+    description: 'Fast-paced, 60-second challenges that will test your reflexes, coordination, and sanity. Complete the task before time runs out.',
+    date: 'Day 1 - 03:00 PM',
+    type: 'Non-Technical'
+  },
+  {
+    id: '6',
+    title: 'Detective',
+    description: 'Follow the clues, solve the riddles, and uncover the mystery hidden within the campus. Unleash your inner Sherlock.',
     date: 'Day 2 - 01:00 PM',
+    type: 'Non-Technical'
   },
   {
-    id: 6,
-    title: 'Tech Quiz',
-    description: 'Test your knowledge on the latest trends in tech and electronics.',
-    date: 'Day 2 - 03:00 PM',
+    id: '7',
+    title: 'Box Hunt',
+    description: 'A thrilling treasure hunt where teams compete to locate hidden boxes filled with rewards across multiple zones.',
+    date: 'Day 1 - 11:00 AM',
+    type: 'Non-Technical'
+  },
+  {
+    id: '8',
+    title: 'Start Music',
+    description: 'A musical face-off. Guess the song, sing along, and compete in fun auditory challenges with your team.',
+    date: 'Day 2 - 03:30 PM',
+    type: 'Non-Technical'
   },
 ];
 

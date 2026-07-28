@@ -7,8 +7,8 @@ export default function CountdownSection() {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
   useEffect(() => {
-    // Target date: March 15, 2026 (Example)
-    const targetDate = new Date('2026-03-15T00:00:00').getTime();
+    // Target date: September 18, 2026
+    const targetDate = new Date('2026-09-18T00:00:00').getTime();
 
     const interval = setInterval(() => {
       const now = new Date().getTime();

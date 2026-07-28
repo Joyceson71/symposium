@@ -13,7 +13,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Invalid data', details: result.error }, { status: 400 });
     }
 
-    const { fullName, email, phone, college, department, year, eventId, paymentId } = result.data;
+    const { fullName, email, phone, college, department, year, teamSize, teammateName, eventId, paymentId, paymentScreenshot } = result.data;
 
     // Map to sheet columns
     const sheetValues = [
@@ -24,8 +24,11 @@ export async function POST(req: Request) {
       college,
       department,
       `Year ${year}`,
+      `Team Size: ${teamSize}`,
+      teammateName || 'N/A',
       eventId,
-      paymentId
+      paymentId,
+      paymentScreenshot ? 'Yes' : 'No'
     ];
 
     const sheetRes = await appendToSheet(sheetValues);

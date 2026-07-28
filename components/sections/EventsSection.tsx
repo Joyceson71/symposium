@@ -8,21 +8,21 @@ import Button from '../ui/Button';
 const PREVIEW_EVENTS = [
   {
     id: 1,
-    title: 'Hackathon 2k26',
-    description: 'A 24-hour coding marathon to solve real-world problems using modern tech stacks.',
-    date: 'Day 1 - 09:00 AM',
+    title: 'Circuit Breakers',
+    description: 'Test your electronic skills by finding, fixing, and optimizing complex circuit bugs against the clock.',
+    date: 'Day 2 - 09:30 AM',
   },
   {
     id: 2,
-    title: 'Robo Wars',
-    description: 'Design, build, and battle. May the best bot win in this intense arena combat.',
-    date: 'Day 1 - 02:00 PM',
+    title: 'Project Expo',
+    description: 'Demonstrate your innovative working models and hardware prototypes. Let your ideas take physical form.',
+    date: 'Day 1 - 01:00 PM',
   },
   {
     id: 3,
-    title: 'Paper Presentation',
-    description: 'Showcase your research and technical papers to a panel of industry experts.',
-    date: 'Day 2 - 10:00 AM',
+    title: 'Detective',
+    description: 'Follow the clues, solve the riddles, and uncover the mystery hidden within the campus. Unleash your inner Sherlock.',
+    date: 'Day 2 - 01:00 PM',
   },
 ];
 

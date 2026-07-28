@@ -19,7 +19,7 @@ export default function PrizePoolSection() {
         <div className="flex justify-center mb-16">
           <div className="relative">
             <h4 className="font-display text-8xl md:text-9xl text-snow drop-shadow-glow">
-              ₹50K<span className="text-ember">+</span>
+              ₹20K<span className="text-ember">+</span>
             </h4>
             <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 whitespace-nowrap font-orbitron text-steel tracking-[0.3em] text-sm">
               TOTAL WORTH
@@ -30,7 +30,7 @@ export default function PrizePoolSection() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
           <div className="p-8 border border-white/10 bg-ink/50 backdrop-blur rounded-xl shadow-[0_0_15px_rgba(255,255,255,0.05)]">
             <h5 className="font-display text-2xl text-snow mb-2">WINNER</h5>
-            <div className="text-ember font-bold text-xl">₹25,000</div>
+            <div className="text-ember font-bold text-xl">₹10,000</div>
           </div>
           <div className="p-8 border border-ember/30 bg-ember/5 backdrop-blur rounded-xl shadow-[0_0_20px_rgba(255,59,48,0.15)] transform scale-105">
             <h5 className="font-display text-2xl text-snow mb-2">OVERALL CHAMPION</h5>
@@ -38,7 +38,7 @@ export default function PrizePoolSection() {
           </div>
           <div className="p-8 border border-white/10 bg-ink/50 backdrop-blur rounded-xl shadow-[0_0_15px_rgba(255,255,255,0.05)]">
             <h5 className="font-display text-2xl text-snow mb-2">RUNNER UP</h5>
-            <div className="text-ember font-bold text-xl">₹15,000</div>
+            <div className="text-ember font-bold text-xl">₹5,000</div>
           </div>
         </div>
         <p className="text-steel text-sm mt-8">
