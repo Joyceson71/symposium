@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  @apply bg-ink text-snow antialiased;
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+
+@media (pointer: fine) {
+  body {
+    cursor: none;
+  }
+}
+
+h1, h2, h3, .font-display {
+  font-family: 'Bebas Neue', cursive;
+  letter-spacing: 0.08em;
+}
+
+.font-orbitron {
+  font-family: 'Orbitron', sans-serif;
+}
+
+::selection {
+  @apply bg-ember text-snow;
+}
+
+/* Spider web animation */
+.spider-web-path {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  animation: drawWeb 2s ease-out forwards;
+}
+
+@keyframes drawWeb {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Magnetic Button Hover text transition */
+.magnetic-btn-text {
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
