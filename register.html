@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Register | TechnoKings 2K26</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap"
+    rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+  
+  <nav id="navbar">
+    <a href="index.html" class="nav-logo">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <circle cx="16" cy="16" r="14" stroke="#CC0000" stroke-width="1.5" />
+        <path d="M16 4 L16 28 M4 16 L28 16 M7 7 L25 25 M25 7 L7 25" stroke="#CC0000" stroke-width="0.8" opacity="0.5" />
+        <circle cx="16" cy="16" r="4" fill="#CC0000" />
+      </svg>
+      <span class="nav-logo-text">TECHNO <span>KINGS</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html#hero">Home</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="events.html">Events</a></li>
+      <li><a href="register.html" class="active">Register</a></li>
+    </ul>
+    <button class="nav-cta" onclick="window.location.href='register.html'">REGISTER NOW</button>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+  
+  <div id="mobile-menu">
+    <button class="menu-close" onclick="toggleMenu()">✕</button>
+    <a href="index.html#hero" onclick="toggleMenu()">HOME</a>
+    <a href="index.html#about" onclick="toggleMenu()">ABOUT</a>
+    <a href="events.html" onclick="toggleMenu()">EVENTS</a>
+    <a href="register.html" onclick="toggleMenu()" class="active">REGISTER</a>
+  </div>
+
+  <!-- REGISTER -->
+  <section id="register">
+    <div class="container">
+      <div class="events-header reveal" style="text-align: center; margin-bottom: 56px">
+        <p class="section-eyebrow">JOIN THE BATTLE</p>
+        <h2 class="section-title">
+          REGISTER<br /><span class="red">NOW</span>
+        </h2>
+      </div>
+
+            <div class="register-wrap reveal">
+        <!-- STEP PROGRESS -->
+        <div class="step-progress" style="grid-template-columns: repeat(4, 1fr);">
+          <div class="step-item active" id="step-ind-1">
+            <div class="step-circle">1</div>
+            <div class="step-name">Personal</div>
+          </div>
+          <div class="step-item" id="step-ind-2">
+            <div class="step-circle">2</div>
+            <div class="step-name">Academic</div>
+          </div>
+          <div class="step-item" id="step-ind-3">
+            <div class="step-circle">3</div>
+            <div class="step-name">Event</div>
+          </div>
+          <div class="step-item" id="step-ind-4">
+            <div class="step-circle">4</div>
+            <div class="step-name">Payment</div>
+          </div>
+        </div>
+
+        <!-- STEP 1 -->
+        <div class="form-step active" id="form-step-1">
+          <div class="step-header">
+            <h2>LET'S START<br /><span class="red">WITH YOU</span></h2>
+            <p>Your basic personal details</p>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Full Name</label>
+            <input class="field-input" id="f-name" type="text" placeholder="Enter your full name" />
+            <div class="field-error" id="e-name">Please enter your full name (min 3 characters)</div>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Date of Birth</label>
+            <input class="field-input" id="f-dob" type="date" />
+            <div class="field-error" id="e-dob">Please enter your date of birth</div>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Gender</label>
+            <select class="field-select" id="f-gender">
+              <option value="">-- Select Gender --</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+              <option value="Prefer not to say">Prefer not to say</option>
+            </select>
+            <div class="field-error" id="e-gender">Please select your gender</div>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Email Address</label>
+            <input class="field-input" id="f-email" type="email" placeholder="yourname@email.com" />
+            <div class="field-error" id="e-email">Please enter a valid email address</div>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Phone Number</label>
+            <input class="field-input" id="f-phone" type="tel" placeholder="10-digit Indian mobile number" maxlength="10" />
+            <div class="field-error" id="e-phone">Please enter a valid 10-digit Indian mobile number</div>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Emergency Contact Number</label>
+            <input class="field-input" id="f-emergency" type="tel" placeholder="10-digit emergency number" maxlength="10" />
+            <div class="field-error" id="e-emergency">Please enter a valid 10-digit emergency number</div>
+          </div>
+          <div class="form-btns">
+            <button class="btn-next" onclick="goStep(2)">NEXT STEP →</button>
+          </div>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="form-step" id="form-step-2">
+          <div class="step-header">
+            <h2>YOUR<br /><span class="red">ACADEMICS</span></h2>
+            <p>Tell us about your educational background</p>
+          </div>
+          <div class="field-group">
+            <label class="field-label">College / University Name</label>
+            <input class="field-input" id="f-college" type="text" placeholder="Your institution name" />
+            <div class="field-error" id="e-college">Please enter your college name</div>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Degree & Department</label>
+            <input class="field-input" id="f-dept" type="text" placeholder="e.g. B.Tech ECE, B.E CSE..." />
+            <div class="field-error" id="e-dept">Please enter your department</div>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Year of Study</label>
+            <select class="field-select" id="f-year">
+              <option value="">-- Select Year --</option>
+              <option value="1">1st Year</option>
+              <option value="2">2nd Year</option>
+              <option value="3">3rd Year</option>
+              <option value="4">4th Year</option>
+            </select>
+            <div class="field-error" id="e-year">Please select your year of study</div>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Student ID / Roll Number</label>
+            <input class="field-input" id="f-roll" type="text" placeholder="Your official student ID" />
+            <div class="field-error" id="e-roll">Please enter your Student ID</div>
+          </div>
+          <div class="field-group">
+            <label class="field-label">LinkedIn / GitHub Profile (Optional)</label>
+            <input class="field-input" id="f-link" type="url" placeholder="https://..." />
+          </div>
+          <div class="form-btns" style="margin-top: 28px">
+            <button class="btn-back" onclick="goStep(1)">← BACK</button>
+            <button class="btn-next" onclick="goStep(3)">NEXT STEP →</button>
+          </div>
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="form-step" id="form-step-3">
+          <div class="step-header">
+            <h2>CHOOSE YOUR<br /><span class="red">BATTLE</span></h2>
+            <p>Select your event, team, and logistics</p>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Select Event</label>
+            <select class="field-select" id="f-event">
+              <option value="">-- Choose your event --</option>
+              <optgroup label="⚡ TECHNICAL EVENTS">
+                <option value="Paper Presentation">Paper Presentation</option>
+                <option value="Project Expo">Project Expo</option>
+                <option value="Circuit Breakers">Circuit Breakers</option>
+                <option value="Technical Quiz">Technical Quiz</option>
+              </optgroup>
+              <optgroup label="🕷️ NON-TECHNICAL EVENTS">
+                <option value="Minute to Win It">Minute to Win It</option>
+                <option value="Detective">Detective</option>
+                <option value="Box Hunt">Box Hunt</option>
+                <option value="Start Music">Start Music</option>
+              </optgroup>
+            </select>
+            <div class="field-error" id="e-event">Please select an event</div>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Team Size</label>
+            <div class="team-radio-group">
+              <label class="team-option">
+                <input type="radio" name="teamsize" value="1" checked onchange="toggleTeammate(false)" />
+                <div class="team-label-box">
+                  <span class="tl-main">SOLO</span>
+                  <span class="tl-sub">1 Member</span>
+                </div>
+              </label>
+              <label class="team-option">
+                <input type="radio" name="teamsize" value="2" onchange="toggleTeammate(true)" />
+                <div class="team-label-box">
+                  <span class="tl-main">DUO</span>
+                  <span class="tl-sub">2 Members</span>
+                </div>
+              </label>
+            </div>
+          </div>
+          <div id="teammate-wrap">
+            <div class="field-group">
+              <label class="field-label">Teammate's Name</label>
+              <input class="field-input" id="f-teammate" type="text" placeholder="Enter teammate's full name" />
+              <div class="field-error" id="e-teammate">Please enter your teammate's name</div>
+            </div>
+          </div>
+          <div class="field-group" style="margin-top: 16px;">
+            <label class="field-label">Do you require accommodation?</label>
+            <select class="field-select" id="f-accom">
+              <option value="">-- Select Option --</option>
+              <option value="Yes">Yes, I need hostel accommodation</option>
+              <option value="No">No, I will manage on my own</option>
+            </select>
+            <div class="field-error" id="e-accom">Please select an option</div>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Dietary Requirements</label>
+            <select class="field-select" id="f-diet">
+              <option value="Vegetarian">Vegetarian</option>
+              <option value="Non-Vegetarian">Non-Vegetarian</option>
+              <option value="Vegan">Vegan</option>
+              <option value="None">None</option>
+            </select>
+          </div>
+          <div class="form-btns" style="margin-top: 28px">
+            <button class="btn-back" onclick="goStep(2)">← BACK</button>
+            <button class="btn-next" onclick="goStep(4)">NEXT STEP →</button>
+          </div>
+        </div>
+
+        <!-- STEP 4 -->
+        <div class="form-step" id="form-step-4">
+          <div class="step-header">
+            <h2>COMPLETE YOUR<br /><span class="red">ENTRY</span></h2>
+            <p>Scan, pay, and upload your screenshot</p>
+          </div>
+
+          <div class="qr-wrap">
+            <div class="qr-title">SCAN & PAY TO REGISTER</div>
+            <div class="qr-img">
+              <div class="qr-placeholder">
+                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="5" y="5" width="38" height="38" rx="3" stroke="#CC0000" stroke-width="2" />
+                  <rect x="14" y="14" width="20" height="20" fill="#CC0000" opacity="0.4" />
+                  <rect x="57" y="5" width="38" height="38" rx="3" stroke="#CC0000" stroke-width="2" />
+                  <rect x="66" y="14" width="20" height="20" fill="#CC0000" opacity="0.4" />
+                  <rect x="5" y="57" width="38" height="38" rx="3" stroke="#CC0000" stroke-width="2" />
+                  <rect x="14" y="66" width="20" height="20" fill="#CC0000" opacity="0.4" />
+                  <rect x="57" y="57" width="10" height="10" fill="#CC0000" opacity="0.6" />
+                  <rect x="72" y="57" width="10" height="10" fill="#CC0000" opacity="0.6" />
+                  <rect x="87" y="57" width="10" height="10" fill="#CC0000" opacity="0.6" />
+                  <rect x="57" y="72" width="10" height="10" fill="#CC0000" opacity="0.6" />
+                  <rect x="72" y="87" width="10" height="10" fill="#CC0000" opacity="0.6" />
+                  <rect x="87" y="72" width="23" height="10" fill="#CC0000" opacity="0.6" />
+                </svg>
+                <p style="font-size: 10px; color: rgba(204, 0, 0, 0.5); margin-top: 8px; font-family: 'Orbitron', monospace; letter-spacing: 1px;">
+                  REPLACE WITH<br />REAL QR CODE
+                </p>
+              </div>
+            </div>
+            <p class="qr-upi">UPI: yourname@okaxis</p>
+            <p class="qr-fee">Registration Fee: ₹[AMOUNT]</p>
+            <p class="qr-note">Pay exactly the specified amount. Screenshot must show successful payment confirmation with transaction ID.</p>
+          </div>
+
+          <div class="pay-steps">
+            <div class="pay-step">
+              <div class="pay-step-num">1</div>
+              <div class="pay-step-text">Scan the QR code using GPay, PhonePe, or any UPI app</div>
+            </div>
+            <div class="pay-step">
+              <div class="pay-step-num">2</div>
+              <div class="pay-step-text">Complete the payment — take note of the transaction ID</div>
+            </div>
+            <div class="pay-step">
+              <div class="pay-step-num">3</div>
+              <div class="pay-step-text">Take a screenshot of the payment success screen</div>
+            </div>
+            <div class="pay-step">
+              <div class="pay-step-num">4</div>
+              <div class="pay-step-text">Upload the screenshot below to complete your registration</div>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label">Payment Screenshot</label>
+            <div class="upload-zone" id="upload-zone" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)" onclick="document.getElementById('file-input').click()">
+              <span class="upload-icon">⬆</span>
+              <p class="upload-text">Drag & drop or click to upload</p>
+              <p class="upload-sub">JPG, PNG, WEBP · Max 5MB</p>
+            </div>
+            <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp" style="display: none" onchange="handleFileSelect(event)" />
+            <div id="file-preview" class="show" style="display: none">
+              <div class="preview-info">
+                <span class="preview-check">✓</span>
+                <span class="preview-name" id="preview-name"></span>
+              </div>
+              <button class="preview-remove" onclick="removeFile()">✕</button>
+            </div>
+            <div class="field-error" id="e-file">Please upload your payment screenshot</div>
+          </div>
+
+          <div class="field-group" style="margin-top: 16px;">
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; color: var(--muted); font-size: 14px;">
+              <input type="checkbox" id="f-terms" style="width: 18px; height: 18px;" />
+              I agree to the Terms & Conditions and understand the registration fee is non-refundable.
+            </label>
+            <div class="field-error" id="e-terms">You must agree to the terms to proceed</div>
+          </div>
+
+          <div class="form-btns">
+            <button class="btn-back" onclick="goStep(3)">← BACK</button>
+          </div>
+          <button class="btn-submit" id="submit-btn" onclick="submitForm()">SUBMIT REGISTRATION</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand-name">TECHNO <span>KINGS</span> 2K26</div>
+          <div class="footer-brand-sub">ECE Department Symposium</div>
+          <p class="footer-tagline">
+            "Where Engineers Swing Into the Future"<br />[Your College Name]
+          </p>
+        </div>
+        <div>
+          <div class="footer-heading">Quick Links</div>
+          <ul class="footer-links">
+            <li><a href="index.html#hero">Home</a></li>
+            <li><a href="index.html#about">About</a></li>
+            <li><a href="events.html">Events</a></li>
+            <li><a href="index.html#countdown">Schedule</a></li>
+            <li><a href="register.html">Register</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-heading">Connect With Us</div>
+          <div class="footer-contact">
+            <div class="footer-contact-item">
+              <span>📧</span>events@college.edu
+            </div>
+            <div class="footer-contact-item">
+              <span>📱</span>+91 XXXXXXXXXX
+            </div>
+            <div class="footer-contact-item">
+              <span>📸</span>@technoKings2k26
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="footer-divider"></div>
+      <div class="footer-bottom">
+        <p class="footer-copy">© 2026 TechnoKings · ECE Department · [College Name]</p>
+        <p class="footer-copy">Designed with <span class="footer-heart">♥</span> by ECE Dept</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

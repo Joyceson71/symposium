@@ -38,11 +38,11 @@ document
 /* ===================== LOADER ===================== */
 window.addEventListener("load", () => {
     setTimeout(() => {
-        document.getElementById("loader").style.opacity = "0";
-        setTimeout(
-            () => (document.getElementById("loader").style.display = "none"),
-            800,
-        );
+        const loader = document.getElementById("loader");
+        if(loader) {
+            loader.style.opacity = "0";
+            setTimeout(() => (loader.style.display = "none"), 800);
+        }
     }, 2800);
 });
 
@@ -53,7 +53,7 @@ window.addEventListener("scroll", () => {
         .classList.toggle("scrolled", window.scrollY > 80);
 });
 function scrollToReg() {
-    document.getElementById("register").scrollIntoView({ behavior: "smooth" });
+    window.location.href = "register.html";
 }
 function toggleMenu() {
     const m = document.getElementById("mobile-menu");
@@ -63,6 +63,7 @@ function toggleMenu() {
 /* ===================== HERO 3D CANVAS ===================== */
 (function initHero() {
     const canvas = document.getElementById("hero-canvas");
+    if(!canvas) return;
     const renderer = new THREE.WebGLRenderer({
         canvas,
         antialias: true,
@@ -218,6 +219,7 @@ function toggleMenu() {
 /* ===================== ABOUT MINI-SCENE ===================== */
 (function initAbout() {
     const canvas = document.getElementById("about-canvas");
+    if(!canvas) return;
     if (!canvas) return;
     const renderer = new THREE.WebGLRenderer({
         canvas,
@@ -287,7 +289,9 @@ function updateCountdown() {
     const h = Math.floor((diff % 86400000) / 3600000);
     const m = Math.floor((diff % 3600000) / 60000);
     const s = Math.floor((diff % 60000) / 1000);
-    document.getElementById("cd-days").textContent = String(d).padStart(2, "0");
+    const cdDays = document.getElementById("cd-days");
+    if (!cdDays) return;
+    cdDays.textContent = String(d).padStart(2, "0");
     document.getElementById("cd-hours").textContent = String(h).padStart(2, "0");
     document.getElementById("cd-mins").textContent = String(m).padStart(2, "0");
     document.getElementById("cd-secs").textContent = String(s).padStart(2, "0");
@@ -298,6 +302,7 @@ updateCountdown();
 /* ===================== PRIZE PARTICLE RAIN ===================== */
 (function initPrize() {
     const canvas = document.getElementById("prize-canvas");
+    if(!canvas) return;
     const ctx = canvas.getContext("2d");
     let W,
         H,
@@ -399,7 +404,7 @@ const prizeObs = new IntersectionObserver(
     },
     { threshold: 0.3 },
 );
-prizeObs.observe(prizeSection);
+if (prizeSection) prizeObs.observe(prizeSection);
 
 /* ===================== MULTI-STEP FORM ===================== */
 let currentStep = 1;
@@ -416,13 +421,13 @@ function goStep(n) {
     document.getElementById("form-step-" + n).classList.add("active");
     document.getElementById("step-ind-" + n).classList.add("active");
     document.getElementById("step-ind-" + n).classList.remove("done");
-    if (n < 3) {
-        ["step-ind-" + 3, "step-ind-" + 2].slice(3 - n - 1).forEach((id) => {
-            const el = document.getElementById(id);
+    if (n < 4) {
+        for (let i = n + 1; i <= 4; i++) {
+            const el = document.getElementById("step-ind-" + i);
             if (el) {
                 el.classList.remove("active", "done");
             }
-        });
+        }
     }
     document
         .querySelector(".register-wrap")
@@ -439,80 +444,654 @@ function setFieldErr(id, err) {
 }
 
 function validateStep(step) {
+    let ok = true;
+    const check = (id, condition) => {
+        showErr("e-" + id, !condition);
+        setFieldErr("f-" + id, !condition);
+        if (!condition) ok = false;
+    };
+
     if (step === 1) {
-        let ok = true;
         const name = document.getElementById("f-name").value.trim();
-        const dept = document.getElementById("f-dept").value.trim();
-        const col = document.getElementById("f-college").value.trim();
+        const dob = document.getElementById("f-dob").value;
+        const gender = document.getElementById("f-gender").value;
         const email = document.getElementById("f-email").value.trim();
         const phone = document.getElementById("f-phone").value.trim();
-        if (name.length < 3) {
-            showErr("e-name", true);
-            setFieldErr("f-name", true);
-            ok = false;
-        } else {
-            showErr("e-name", false);
-            setFieldErr("f-name", false);
-        }
-        if (dept.length < 2) {
-            showErr("e-dept", true);
-            setFieldErr("f-dept", true);
-            ok = false;
-        } else {
-            showErr("e-dept", false);
-            setFieldErr("f-dept", false);
-        }
-        if (col.length < 3) {
-            showErr("e-college", true);
-            setFieldErr("f-college", true);
-            ok = false;
-        } else {
-            showErr("e-college", false);
-            setFieldErr("f-college", false);
-        }
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            showErr("e-email", true);
-            setFieldErr("f-email", true);
-            ok = false;
-        } else {
-            showErr("e-email", false);
-            setFieldErr("f-email", false);
-        }
-        if (!/^[6-9]\d{9}$/.test(phone)) {
-            showErr("e-phone", true);
-            setFieldErr("f-phone", true);
-            ok = false;
-        } else {
-            showErr("e-phone", false);
-            setFieldErr("f-phone", false);
-        }
+        const emerg = document.getElementById("f-emergency").value.trim();
+        
+        check("name", name.length >= 3);
+        check("dob", !!dob);
+        check("gender", !!gender);
+        check("email", /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
+        check("phone", /^[6-9]\d{9}$/.test(phone));
+        check("emergency", /^[6-9]\d{9}$/.test(emerg));
+        
         return ok;
     }
     if (step === 2) {
-        let ok = true;
+        const col = document.getElementById("f-college").value.trim();
+        const dept = document.getElementById("f-dept").value.trim();
+        const year = document.getElementById("f-year").value;
+        const roll = document.getElementById("f-roll").value.trim();
+        
+        check("college", col.length >= 3);
+        check("dept", dept.length >= 2);
+        check("year", !!year);
+        check("roll", roll.length >= 3);
+        return ok;
+    }
+    if (step === 3) {
         const evt = document.getElementById("f-event").value;
-        if (!evt) {
-            showErr("e-event", true);
-            setFieldErr("f-event", true);
-            ok = false;
-        } else {
-            showErr("e-event", false);
-            setFieldErr("f-event", false);
-        }
-        const teamSize = document.querySelector(
-            'input[name="teamsize"]:checked',
-        ).value;
+        check("event", !!evt);
+        
+        const teamSize = document.querySelector('input[name="teamsize"]:checked').value;
         if (teamSize === "2") {
             const tm = document.getElementById("f-teammate").value.trim();
-            if (tm.length < 2) {
-                showErr("e-teammate", true);
-                setFieldErr("f-teammate", true);
-                ok = false;
-            } else {
-                showErr("e-teammate", false);
-                setFieldErr("f-teammate", false);
+            check("teammate", tm.length >= 2);
+        }
+        
+        const accom = document.getElementById("f-accom").value;
+        check("accom", !!accom);
+        
+        return ok;
+    }
+    return true;
+}
+
+function toggleTeammate(show) {
+    const w = document.getElementById("teammate-wrap");
+    w.classList.toggle("visible", show);
+}
+
+function handleFileSelect(e) {
+    const file = e.target.files[0];
+    processFile(file);
+}
+function handleDragOver(e) {
+    e.preventDefault();
+    document.getElementById("upload-zone").classList.add("dragover");
+}
+function handleDragLeave() {
+    document.getElementById("upload-zone").classList.remove("dragover");
+}
+function handleDrop(e) {
+    e.preventDefault();
+    document.getElementById("upload-zone").classList.remove("dragover");
+    const file = e.dataTransfer.files[0];
+    processFile(file);
+}
+function processFile(file) {
+    if (!file) return;
+    const validTypes = ["image/jpeg", "image/png", "image/webp"];
+    if (!validTypes.includes(file.type)) {
+        showErr("e-file", true);
+        document.getElementById("e-file").textContent =
+            "Please upload a JPG, PNG, or WEBP image";
+        return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+        showErr("e-file", true);
+        document.getElementById("e-file").textContent =
+            "File size must be under 5MB";
+        return;
+    }
+    uploadedFile = file;
+    showErr("e-file", false);
+    document.getElementById("preview-name").textContent =
+        file.name + " (" + Math.round(file.size / 1024) + "KB)";
+    document.getElementById("file-preview").style.display = "flex";
+}
+function removeFile() {
+    uploadedFile = null;
+    document.getElementById("file-input").value = "";
+    document.getElementById("file-preview").style.display = "none";
+}
+
+function submitForm() {
+    if (!validateStep(3)) {
+        goStep(3);
+        return;
+    }
+    const terms = document.getElementById("f-terms").checked;
+    showErr("e-terms", !terms);
+    
+    if (!uploadedFile) {
+        showErr("e-file", true);
+        return;
+    }
+    if (!terms) return;
+
+    const btn = document.getElementById("submit-btn");
+    btn.disabled = true;
+    btn.textContent = "PROCESSING...";
+
+    const data = {
+        name: document.getElementById("f-name").value.trim(),
+        dob: document.getElementById("f-dob").value,
+        gender: document.getElementById("f-gender").value,
+        email: document.getElementById("f-email").value.trim(),
+        phone: document.getElementById("f-phone").value.trim(),
+        emergency: document.getElementById("f-emergency").value.trim(),
+        college: document.getElementById("f-college").value.trim(),
+        department: document.getElementById("f-dept").value.trim(),
+        year: document.getElementById("f-year").value,
+        roll: document.getElementById("f-roll").value.trim(),
+        link: document.getElementById("f-link").value.trim() || "—",
+        event: document.getElementById("f-event").value,
+        teamSize: document.querySelector('input[name="teamsize"]:checked').value,
+        teammateName: document.getElementById("f-teammate").value.trim() || "—",
+        accommodation: document.getElementById("f-accom").value,
+        dietary: document.getElementById("f-diet").value,
+        paymentFile: uploadedFile.name,
+    };
+
+    setTimeout(() => {
+        btn.textContent = "REGISTRATION SUCCESSFUL!";
+        btn.style.background = "#28a745";
+        btn.style.borderColor = "#28a745";
+        btn.style.color = "#fff";
+        btn.style.boxShadow = "0 0 20px rgba(40,167,69,0.6)";
+        console.log("Registration Data:", data);
+        
+        setTimeout(() => {
+            window.location.href = "index.html";
+        }, 2000);
+    }, 2000);
+}======== */
+const cur = document.getElementById("cursor"),
+    ring = document.getElementById("cursor-ring");
+let mx = 0,
+    my = 0,
+    rx = 0,
+    ry = 0;
+document.addEventListener("mousemove", (e) => {
+    mx = e.clientX;
+    my = e.clientY;
+    cur.style.left = mx + "px";
+    cur.style.top = my + "px";
+});
+(function animRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + "px";
+    ring.style.top = ry + "px";
+    requestAnimationFrame(animRing);
+})();
+document
+    .querySelectorAll(
+        "a,button,.event-card,.stat-card,.nontech-card,.tier-card,.team-label-box,.upload-zone",
+    )
+    .forEach((el) => {
+        el.addEventListener("mouseenter", () => {
+            cur.style.width = "40px";
+            cur.style.height = "40px";
+            ring.style.opacity = "0";
+        });
+        el.addEventListener("mouseleave", () => {
+            cur.style.width = "10px";
+            cur.style.height = "10px";
+            ring.style.opacity = "1";
+        });
+    });
+
+/* ===================== LOADER ===================== */
+window.addEventListener("load", () => {
+    setTimeout(() => {
+        const loader = document.getElementById("loader");
+        if(loader) {
+            loader.style.opacity = "0";
+            setTimeout(() => (loader.style.display = "none"), 800);
+        }
+    }, 2800);
+});
+
+/* ===================== NAVBAR ===================== */
+window.addEventListener("scroll", () => {
+    document
+        .getElementById("navbar")
+        .classList.toggle("scrolled", window.scrollY > 80);
+});
+function scrollToReg() {
+    window.location.href = "register.html";
+}
+function toggleMenu() {
+    const m = document.getElementById("mobile-menu");
+    m.classList.toggle("open");
+}
+
+/* ===================== HERO 3D CANVAS ===================== */
+(function initHero() {
+    const canvas = document.getElementById("hero-canvas");
+    if(!canvas) return;
+    const renderer = new THREE.WebGLRenderer({
+        canvas,
+        antialias: true,
+        alpha: true,
+    });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1;
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.Fog(0x050505, 8, 22);
+    const cam = new THREE.PerspectiveCamera(
+        60,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        100,
+    );
+    cam.position.set(0, 0, 9);
+
+    /* LIGHTS */
+    scene.add(new THREE.AmbientLight(0x110000, 0.5));
+    const spot1 = new THREE.SpotLight(0xff1a1a, 80, 20, 0.3, 1);
+    spot1.position.set(5, 8, 5);
+    scene.add(spot1);
+    const spot2 = new THREE.SpotLight(0xcc0000, 30, 15);
+    spot2.position.set(-5, -4, 3);
+    scene.add(spot2);
+
+    /* SPIDER WEB */
+    const webGroup = new THREE.Group();
+    const radials = 12,
+        rings = 7,
+        radius = 6;
+    const mat = new THREE.LineBasicMaterial({
+        color: 0xcc0000,
+        transparent: true,
+        opacity: 0.6,
+    });
+    for (let i = 0; i < radials; i++) {
+        const a = ((Math.PI * 2) / radials) * i;
+        const geo = new THREE.BufferGeometry().setFromPoints([
+            new THREE.Vector3(0, 0, 0),
+            new THREE.Vector3(Math.cos(a) * radius, Math.sin(a) * radius, 0),
+        ]);
+        webGroup.add(new THREE.Line(geo, mat));
+    }
+    for (let r = 1; r <= rings; r++) {
+        const pts = [];
+        for (let i = 0; i <= radials; i++) {
+            const a = ((Math.PI * 2) / radials) * i;
+            const rr = (radius / rings) * r;
+            pts.push(new THREE.Vector3(Math.cos(a) * rr, Math.sin(a) * rr, 0));
+        }
+        const geo = new THREE.BufferGeometry().setFromPoints(pts);
+        webGroup.add(new THREE.Line(geo, mat));
+    }
+    webGroup.position.z = -3;
+    scene.add(webGroup);
+
+    /* CENTRAL ORB */
+    const orbGeo = new THREE.SphereGeometry(0.8, 32, 32);
+    const orbMat = new THREE.MeshStandardMaterial({
+        color: 0xcc0000,
+        emissive: 0xff1a1a,
+        emissiveIntensity: 1.2,
+        roughness: 0,
+        metalness: 0.9,
+    });
+    const orb = new THREE.Mesh(orbGeo, orbMat);
+    scene.add(orb);
+    const orbLight = new THREE.PointLight(0xff1a1a, 6, 8);
+    orb.add(orbLight);
+
+    /* PARTICLES */
+    const count = window.innerWidth < 768 ? 600 : 2500;
+    const pGeo = new THREE.BufferGeometry();
+    const pos = new Float32Array(count * 3);
+    for (let i = 0; i < count * 3; i += 3) {
+        const theta = Math.random() * Math.PI * 2,
+            phi = Math.acos(2 * Math.random() - 1),
+            r = 2 + Math.random() * 10;
+        pos[i] = r * Math.sin(phi) * Math.cos(theta);
+        pos[i + 1] = r * Math.sin(phi) * Math.sin(theta);
+        pos[i + 2] = r * Math.cos(phi);
+    }
+    pGeo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+    const pMat = new THREE.PointsMaterial({
+        color: 0xcc0000,
+        size: 0.04,
+        transparent: true,
+        opacity: 0.7,
+    });
+    const particles = new THREE.Points(pGeo, pMat);
+    scene.add(particles);
+
+    /* RINGS */
+    const r1Mat = new THREE.MeshStandardMaterial({
+        color: 0xcc0000,
+        emissive: 0xff0000,
+        emissiveIntensity: 0.5,
+        roughness: 0.3,
+        metalness: 0.8,
+    });
+    const ring1 = new THREE.Mesh(
+        new THREE.TorusGeometry(3.5, 0.012, 16, 100),
+        r1Mat,
+    );
+    const ring2 = new THREE.Mesh(
+        new THREE.TorusGeometry(4.8, 0.008, 16, 100),
+        r1Mat,
+    );
+    scene.add(ring1, ring2);
+
+    /* MOUSE */
+    let mouseX = 0,
+        mouseY = 0;
+    document.addEventListener("mousemove", (e) => {
+        mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+        mouseY = -(e.clientY / window.innerHeight - 0.5) * 2;
+    });
+
+    /* RESIZE */
+    window.addEventListener("resize", () => {
+        cam.aspect = window.innerWidth / window.innerHeight;
+        cam.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    /* ANIMATION */
+    const clock = new THREE.Clock();
+    (function anim() {
+        requestAnimationFrame(anim);
+        const t = clock.getElapsedTime();
+        webGroup.rotation.y = t * 0.05;
+        webGroup.rotation.z = t * 0.02;
+        orb.scale.setScalar(0.95 + 0.07 * Math.sin(t * 1.5));
+        orbMat.emissiveIntensity = 1.0 + 0.4 * Math.sin(t * 2);
+        r1Mat.emissiveIntensity = 0.4 + 0.3 * Math.sin(t * 1.2);
+        ring1.rotation.x = t * 0.3;
+        ring1.rotation.y = t * 0.2;
+        ring2.rotation.x = -t * 0.2;
+        ring2.rotation.z = t * 0.15;
+        particles.rotation.y += 0.0005;
+        particles.rotation.x = mouseY * 0.05;
+        particles.rotation.z = mouseX * 0.03;
+        cam.position.x += (mouseX * 0.5 - cam.position.x) * 0.03;
+        cam.position.y += (mouseY * 0.3 - cam.position.y) * 0.03;
+        cam.lookAt(scene.position);
+        renderer.render(scene, cam);
+    })();
+})();
+
+/* ===================== ABOUT MINI-SCENE ===================== */
+(function initAbout() {
+    const canvas = document.getElementById("about-canvas");
+    if(!canvas) return;
+    if (!canvas) return;
+    const renderer = new THREE.WebGLRenderer({
+        canvas,
+        antialias: true,
+        alpha: true,
+    });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    const w = canvas.parentElement.offsetWidth,
+        h = canvas.parentElement.offsetHeight || 400;
+    renderer.setSize(w, h);
+    const scene = new THREE.Scene();
+    const cam = new THREE.PerspectiveCamera(50, w / h, 0.1, 100);
+    cam.position.set(0, 0, 5);
+    scene.add(new THREE.AmbientLight(0x220000, 1));
+    const sl = new THREE.SpotLight(0xff1a1a, 40, 12, 0.4);
+    sl.position.set(3, 4, 4);
+    scene.add(sl);
+    const ico = new THREE.Mesh(
+        new THREE.IcosahedronGeometry(1.4, 0),
+        new THREE.MeshStandardMaterial({
+            color: 0xcc0000,
+            emissive: 0xff0000,
+            emissiveIntensity: 0.6,
+            roughness: 0.1,
+            metalness: 0.9,
+            wireframe: false,
+        }),
+    );
+    const icoWire = new THREE.Mesh(
+        new THREE.IcosahedronGeometry(1.42, 0),
+        new THREE.MeshBasicMaterial({
+            color: 0xff4444,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.3,
+        }),
+    );
+    scene.add(ico, icoWire);
+    const clock = new THREE.Clock();
+    let hovered = false;
+    canvas.addEventListener("mouseenter", () => (hovered = true));
+    canvas.addEventListener("mouseleave", () => (hovered = false));
+    (function a() {
+        requestAnimationFrame(a);
+        const t = clock.getElapsedTime();
+        ico.rotation.y = t * 0.4;
+        ico.rotation.x = t * 0.2;
+        icoWire.rotation.y = t * 0.4;
+        icoWire.rotation.x = t * 0.2;
+        ico.scale.setScalar(1 + 0.04 * Math.sin(t * 2));
+        renderer.render(scene, cam);
+    })();
+})();
+
+/* ===================== COUNTDOWN ===================== */
+function updateCountdown() {
+    const target = new Date("2026-09-18T09:00:00+05:30").getTime();
+    const now = Date.now();
+    const diff = target - now;
+    if (diff <= 0) {
+        document
+            .querySelectorAll(".count-num")
+            .forEach((e) => (e.textContent = "00"));
+        return;
+    }
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    const cdDays = document.getElementById("cd-days");
+    if (!cdDays) return;
+    cdDays.textContent = String(d).padStart(2, "0");
+    document.getElementById("cd-hours").textContent = String(h).padStart(2, "0");
+    document.getElementById("cd-mins").textContent = String(m).padStart(2, "0");
+    document.getElementById("cd-secs").textContent = String(s).padStart(2, "0");
+}
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+/* ===================== PRIZE PARTICLE RAIN ===================== */
+(function initPrize() {
+    const canvas = document.getElementById("prize-canvas");
+    if(!canvas) return;
+    const ctx = canvas.getContext("2d");
+    let W,
+        H,
+        particles = [];
+    function resize() {
+        W = canvas.width = canvas.parentElement.offsetWidth;
+        H = canvas.height = canvas.parentElement.offsetHeight;
+    }
+    resize();
+    window.addEventListener("resize", resize);
+    for (let i = 0; i < 80; i++)
+        particles.push({
+            x: Math.random() * 1400,
+            y: Math.random() * 800,
+            s: Math.random() * 2 + 0.5,
+            speed: Math.random() * 1.5 + 0.5,
+            o: Math.random() * 0.5 + 0.1,
+        });
+    (function a() {
+        requestAnimationFrame(a);
+        ctx.clearRect(0, 0, W, H);
+        particles.forEach((p) => {
+            ctx.fillStyle = `rgba(204,0,0,${p.o})`;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.s, 0, Math.PI * 2);
+            ctx.fill();
+            p.y += p.speed;
+            if (p.y > H) {
+                p.y = -5;
+                p.x = Math.random() * W;
+            }
+        });
+    })();
+})();
+
+/* ===================== COUNT-UP ===================== */
+function countUp(el, target, prefix) {
+    let start = 0;
+    const dur = 2000,
+        step = 16;
+    const inc = target / (dur / step);
+    const t = setInterval(() => {
+        start += inc;
+        if (start >= target) {
+            start = target;
+            clearInterval(t);
+        }
+        if (prefix === "₹") {
+            el.textContent =
+                prefix +
+                (start >= 1000 ? Math.floor(start / 1000) + "K" : Math.floor(start));
+        } else {
+            el.textContent = Math.floor(start);
+        }
+    }, step);
+}
+
+/* ===================== PRIZE COUNT-UP ===================== */
+let prizeTriggered = false;
+const prizeEl = document.getElementById("prize-count");
+
+/* ===================== SCROLL REVEAL ===================== */
+const reveals = document.querySelectorAll(".reveal,.reveal-left,.reveal-right");
+const observer = new IntersectionObserver(
+    (entries) => {
+        entries.forEach((e) => {
+            if (e.isIntersecting) {
+                e.target.classList.add("visible");
+                /* stats count-up */
+                e.target.querySelectorAll("[data-count]").forEach((el) => {
+                    const cnt = parseInt(el.dataset.count);
+                    const pre = el.dataset.prefix || "";
+                    countUp(el, cnt, pre);
+                });
+                /* prize count-up */
+                if (
+                    !prizeTriggered &&
+                    e.target.contains &&
+                    e.target.contains(prizeEl)
+                ) {
+                    prizeTriggered = true;
+                    countUp(prizeEl, 20000, "");
+                }
+            }
+        });
+    },
+    { threshold: 0.15 },
+);
+reveals.forEach((r) => observer.observe(r));
+
+/* Prize section separately */
+const prizeSection = document.getElementById("prize");
+const prizeObs = new IntersectionObserver(
+    (entries) => {
+        if (entries[0].isIntersecting && !prizeTriggered) {
+            prizeTriggered = true;
+            countUp(prizeEl, 20000, "");
+        }
+    },
+    { threshold: 0.3 },
+);
+if (prizeSection) prizeObs.observe(prizeSection);
+
+/* ===================== MULTI-STEP FORM ===================== */
+let currentStep = 1;
+let uploadedFile = null;
+
+function goStep(n) {
+    if (n > currentStep && !validateStep(currentStep)) return;
+    document
+        .getElementById("form-step-" + currentStep)
+        .classList.remove("active");
+    document.getElementById("step-ind-" + currentStep).classList.remove("active");
+    document.getElementById("step-ind-" + currentStep).classList.add("done");
+    currentStep = n;
+    document.getElementById("form-step-" + n).classList.add("active");
+    document.getElementById("step-ind-" + n).classList.add("active");
+    document.getElementById("step-ind-" + n).classList.remove("done");
+    if (n < 4) {
+        for (let i = n + 1; i <= 4; i++) {
+            const el = document.getElementById("step-ind-" + i);
+            if (el) {
+                el.classList.remove("active", "done");
             }
         }
+    }
+    document
+        .querySelector(".register-wrap")
+        .scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function showErr(id, show) {
+    const e = document.getElementById(id);
+    if (e) e.classList.toggle("show", show);
+}
+function setFieldErr(id, err) {
+    const f = document.getElementById(id);
+    if (f) f.classList.toggle("error", err);
+}
+
+function validateStep(step) {
+    let ok = true;
+    const check = (id, condition) => {
+        showErr("e-" + id, !condition);
+        setFieldErr("f-" + id, !condition);
+        if (!condition) ok = false;
+    };
+
+    if (step === 1) {
+        const name = document.getElementById("f-name").value.trim();
+        const dob = document.getElementById("f-dob").value;
+        const gender = document.getElementById("f-gender").value;
+        const email = document.getElementById("f-email").value.trim();
+        const phone = document.getElementById("f-phone").value.trim();
+        const emerg = document.getElementById("f-emergency").value.trim();
+        
+        check("name", name.length >= 3);
+        check("dob", !!dob);
+        check("gender", !!gender);
+        check("email", /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email));
+        check("phone", /^[6-9]\d{9}$/.test(phone));
+        check("emergency", /^[6-9]\d{9}$/.test(emerg));
+        
+        return ok;
+    }
+    if (step === 2) {
+        const col = document.getElementById("f-college").value.trim();
+        const dept = document.getElementById("f-dept").value.trim();
+        const year = document.getElementById("f-year").value;
+        const roll = document.getElementById("f-roll").value.trim();
+        
+        check("college", col.length >= 3);
+        check("dept", dept.length >= 2);
+        check("year", !!year);
+        check("roll", roll.length >= 3);
+        return ok;
+    }
+    if (step === 3) {
+        const evt = document.getElementById("f-event").value;
+        check("event", !!evt);
+        
+        const teamSize = document.querySelector('input[name="teamsize"]:checked').value;
+        if (teamSize === "2") {
+            const tm = document.getElementById("f-teammate").value.trim();
+            check("teammate", tm.length >= 2);
+        }
+        
+        const accom = document.getElementById("f-accom").value;
+        check("accom", !!accom);
+        
         return ok;
     }
     return true;
@@ -684,3 +1263,142 @@ window.goStep = function (n) {
             el.classList.remove("error");
         });
 });
+
+/* ===================== EVENTS UI ENHANCEMENTS ===================== */
+// Wire up "Register for this" buttons on event cards to pre-fill the form dropdown
+document.querySelectorAll(".event-register-btn").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+        const card = e.target.closest(".event-card") || e.target.closest(".nontech-card");
+        if (!card) return;
+        const title = card.querySelector(".event-title").textContent.trim();
+        const select = document.getElementById("f-event");
+        if (select) {
+            for (let opt of select.options) {
+                if (opt.text.toUpperCase() === title.toUpperCase()) {
+                    select.value = opt.value;
+                    break;
+                }
+            }
+        }
+    });
+});
+
+// Enable drag-to-scroll on the horizontal events track for better desktop UX
+const scrollTrack = document.querySelector(".events-scroll-track");
+if (scrollTrack) {
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    scrollTrack.addEventListener("mousedown", (e) => {
+        isDown = true;
+        scrollTrack.style.cursor = "grabbing";
+        startX = e.pageX - scrollTrack.offsetLeft;
+        scrollLeft = scrollTrack.scrollLeft;
+    });
+    scrollTrack.addEventListener("mouseleave", () => {
+        isDown = false;
+        scrollTrack.style.cursor = "";
+    });
+    scrollTrack.addEventListener("mouseup", () => {
+        isDown = false;
+        scrollTrack.style.cursor = "";
+    });
+    scrollTrack.addEventListener("mousemove", (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - scrollTrack.offsetLeft;
+        const walk = (x - startX) * 2; // scroll speed multiplier
+        scrollTrack.scrollLeft = scrollLeft - walk;
+    });
+}
+
+
+/* ===================== SPIDER EVENTS ===================== */
+const eventsData = [
+  {
+    title: "PAPER PRESENTATION",
+    logo: "📄",
+    tagline: "Ink Meets Innovation",
+    desc: "Showcase your research and innovative ideas before a panel of expert judges. Present a technical paper on any topic in Electronics, Communication, or Emerging Technologies. Defend your data, impress the jury.",
+    rules: ["Team size: 1–2 members", "IEEE-format report + PPT required", "10 min presentation + 5 min Q&A", "Plagiarism must be below 20%"]
+  },
+  {
+    title: "PROJECT EXPO",
+    logo: "⚙️",
+    tagline: "Build It. Show It. Own It.",
+    desc: "Bring your hardware or software masterpiece to the expo floor. Connect your circuits, boot your code, and let your prototype speak louder than any slide deck.",
+    rules: ["Team size: 1–2 members", "Working prototype strongly preferred", "Judged: Innovation, Execution, Impact", "Abstract submission 3 days prior"]
+  },
+  {
+    title: "CIRCUIT BREAKERS",
+    logo: "⚡",
+    tagline: "Fault Found. Victory Claimed.",
+    desc: "You have a broken circuit. A ticking clock. And your bare hands. Identify faults, rewire connections, and build working circuits from scratch under tournament pressure.",
+    rules: ["Team size: 1–2 members", "Components and tools provided on-spot", "3 rounds: Fault ID → Circuit Build → Speed", "No phones or external datasheets"]
+  },
+  {
+    title: "TECHNICAL QUIZ",
+    logo: "🧠",
+    tagline: "Fast Buzzers. Sharp Minds.",
+    desc: "From Maxwells equations to modern microcontrollers — how deep does your ECE knowledge run? A multi-round elimination battle covering core electronics and communication.",
+    rules: ["Team size: 1–2 members", "4 rounds: Written → Rapid fire → Visual → Buzzer", "Elimination after each round", "Topics: Analog, Digital, EDC, Signals"]
+  },
+  {
+    title: "MINUTE TO WIN IT",
+    logo: "⏱️",
+    tagline: "60 Seconds of Chaos",
+    desc: "Stack, balance, spin, and scramble — complete wild, prop-based challenges in under 60 seconds each. Simple rules. Impossible under pressure.",
+    rules: ["Team size: 1–2 members", "Multiple knockout rounds", "All props provided on-site"]
+  },
+  {
+    title: "DETECTIVE",
+    logo: "🔍",
+    tagline: "The Clues Dont Lie. Can You?",
+    desc: "A crime scene awaits. Evidence is scattered. Time is running out. Observe the scene, decode the clues, connect the dots, and name the culprit before other teams beat you to it.",
+    rules: ["Team size: 1–2 members", "Points for correct culprit + fastest solve", "Red herrings included — trust nothing"]
+  },
+  {
+    title: "BOX HUNT",
+    logo: "📦",
+    tagline: "Find the Box. Claim the Points.",
+    desc: "Numbered boxes are hidden across the campus. A full-campus scavenger race where your speed, observation, and navigation skills determine your destiny.",
+    rules: ["Team size: 1–2 members", "45-minute time limit", "Each box contains a code to submit"]
+  },
+  {
+    title: "START MUSIC",
+    logo: "🎵",
+    tagline: "Name It Before the Drop",
+    desc: "The song starts. You have 5 seconds. A buzzer-based rapid-fire showdown where your playlist knowledge becomes your competitive edge.",
+    rules: ["Team size: 1–2 members", "Buzzer system — first buzz answers", "Wrong answer = negative points"]
+  }
+];
+
+function showEvent(idx) {
+    const center = document.getElementById("spider-center");
+    if (!center) return;
+    
+    // Highlight active node
+    document.querySelectorAll(".spider-node").forEach((node, i) => {
+        if(i === idx) node.classList.add("active");
+        else node.classList.remove("active");
+    });
+    
+    const ev = eventsData[idx];
+    let rulesHtml = "<ul class=\"event-rules\" style=\"text-align: left; margin: 0 auto; display: inline-block;\">";
+    ev.rules.forEach(r => rulesHtml += "<li>" + r + "</li>");
+    rulesHtml += "</ul>";
+    
+    center.innerHTML = `
+        <div class="center-content">
+            <div class="center-logo">${ev.logo}</div>
+            <div class="center-title">${ev.title}</div>
+            <div class="event-tagline" style="margin-bottom: 12px; display:block;">${ev.tagline}</div>
+            <div class="center-desc">${ev.desc}</div>
+            ${rulesHtml}
+            <div style="margin-top: 24px;">
+                <button class="btn-primary" onclick="window.location.href='register.html'">REGISTER FOR THIS</button>
+            </div>
+        </div>
+    `;
+}
