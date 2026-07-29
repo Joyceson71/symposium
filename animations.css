@@ -340,10 +340,7 @@ nav {
 
 /* Hero section atmosphere */
 #hero {
-  background: radial-gradient(ellipse at 50% 30%,
-    rgba(100, 0, 0, 0.15) 0%,
-    rgba(5, 5, 5, 0.95) 70%
-  );
+  background: transparent;
 }
 
 /* Hero scan-line sweep */

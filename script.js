@@ -60,9 +60,9 @@ function toggleMenu() {
     m.classList.toggle("open");
 }
 
-/* ===================== HERO 3D CANVAS ===================== */
-(function initHero() {
-    const canvas = document.getElementById("hero-canvas");
+/* ===================== ADVANCED 3D CYBER-CITY BACKGROUND ===================== */
+(function initBackgroundCity() {
+    const canvas = document.getElementById("bg-canvas");
     if(!canvas) return;
     const renderer = new THREE.WebGLRenderer({
         canvas,
@@ -72,116 +72,96 @@ function toggleMenu() {
     renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1;
+    renderer.toneMappingExposure = 1.2;
     const scene = new THREE.Scene();
-    scene.fog = new THREE.Fog(0x050814, 8, 22);
+    
+    // Deep fog for the endless city effect
+    scene.fog = new THREE.FogExp2(0x0a1128, 0.015);
+    
     const cam = new THREE.PerspectiveCamera(
         60,
         window.innerWidth / window.innerHeight,
         0.1,
-        100,
+        300,
     );
+    // Camera starts at z=9, flies towards -Z
     cam.position.set(0, 0, 9);
 
     /* LIGHTS */
-    scene.add(new THREE.AmbientLight(0x001133, 0.5));
-    const spot1 = new THREE.SpotLight(0x4488ff, 80, 20, 0.3, 1);
+    scene.add(new THREE.AmbientLight(0x0a1128, 2.0));
+    const dirLight = new THREE.DirectionalLight(0x1976d2, 1.5);
+    dirLight.position.set(-10, 20, 10);
+    scene.add(dirLight);
+    
+    const spot1 = new THREE.SpotLight(0x4488ff, 80, 50, 0.5, 1);
     spot1.position.set(5, 8, 5);
     scene.add(spot1);
-    const spot2 = new THREE.SpotLight(0xffffff, 30, 15);
+    
+    const spot2 = new THREE.SpotLight(0xd32f2f, 40, 30);
     spot2.position.set(-5, -4, 3);
     scene.add(spot2);
 
-    /* SPIDER EMBLEM */
+    /* SPIDER EMBLEM (At z=0) */
     const spiderEmblem = new THREE.Group();
-    
     // Materials
     const bodyMat = new THREE.MeshStandardMaterial({
-        color: 0x111111,
-        roughness: 0.2,
-        metalness: 0.9,
+        color: 0x111111, roughness: 0.2, metalness: 0.9,
     });
     const glowMat = new THREE.MeshStandardMaterial({
-        color: 0xffffff,
-        emissive: 0x4488ff,
-        emissiveIntensity: 2.0,
-        roughness: 0.1,
-        metalness: 0.8,
+        color: 0xffffff, emissive: 0x4488ff, emissiveIntensity: 2.0, roughness: 0.1, metalness: 0.8,
     });
-
-    // 1. Abdomen (Main Body)
+    // Abdomen
     const abdomenGeo = new THREE.SphereGeometry(1.2, 32, 32);
     abdomenGeo.scale(1, 1.5, 0.8);
     const abdomen = new THREE.Mesh(abdomenGeo, bodyMat);
     abdomen.position.y = -0.5;
     spiderEmblem.add(abdomen);
-
-    // Glowing core on abdomen
+    // Core
     const coreGeo = new THREE.SphereGeometry(0.5, 16, 16);
     coreGeo.scale(1, 1.8, 0.4);
     const core = new THREE.Mesh(coreGeo, glowMat);
     core.position.set(0, -0.5, 0.7);
     spiderEmblem.add(core);
-
-    // 2. Cephalothorax (Head/Upper body)
+    // Head
     const headGeo = new THREE.SphereGeometry(0.7, 32, 32);
     headGeo.scale(1.2, 1, 0.8);
     const head = new THREE.Mesh(headGeo, bodyMat);
-    head.position.y = 1.2;
-    head.position.z = 0.2;
+    head.position.set(0, 1.2, 0.2);
     spiderEmblem.add(head);
-
-    // Glowing eyes
+    // Eyes
     const eyeGeo = new THREE.SphereGeometry(0.15, 16, 16);
-    
     const eyeR = new THREE.Mesh(eyeGeo, glowMat);
     eyeR.scale.set(1, 2.5, 1);
     eyeR.position.set(0.3, 1.4, 0.9);
-    eyeR.rotation.z = -Math.PI / 4;
-    eyeR.rotation.x = Math.PI / 6;
+    eyeR.rotation.set(Math.PI / 6, 0, -Math.PI / 4);
     spiderEmblem.add(eyeR);
-
     const eyeL = new THREE.Mesh(eyeGeo, glowMat);
     eyeL.scale.set(1, 2.5, 1);
     eyeL.position.set(-0.3, 1.4, 0.9);
-    eyeL.rotation.z = Math.PI / 4;
-    eyeL.rotation.x = Math.PI / 6;
+    eyeL.rotation.set(Math.PI / 6, 0, Math.PI / 4);
     spiderEmblem.add(eyeL);
-
-    // 3. Legs
+    // Legs
     const legGeo = new THREE.CylinderGeometry(0.12, 0.06, 3.5, 16);
     const jointGeo = new THREE.SphereGeometry(0.25, 16, 16);
-
     function createLeg(side, angleY, angleZ, posY, posZ) {
         const legGroup = new THREE.Group();
         legGroup.position.set(side * 0.6, posY, posZ);
-        legGroup.rotation.y = angleY;
-        legGroup.rotation.z = side * angleZ;
-
-        // Upper segment
+        legGroup.rotation.set(0, angleY, side * angleZ);
         const femur = new THREE.Mesh(legGeo, bodyMat);
         femur.position.y = 1.75;
         legGroup.add(femur);
-
-        // Joint
         const knee = new THREE.Mesh(jointGeo, glowMat);
         knee.position.y = 3.5;
         legGroup.add(knee);
-
-        // Lower segment
         const lowerLeg = new THREE.Group();
         lowerLeg.position.y = 3.5; 
         lowerLeg.rotation.z = side * (Math.PI / 1.5);
-        
-        const tibiaGeo = new THREE.CylinderGeometry(0.08, 0.02, 4, 16);
-        const tibiaMesh = new THREE.Mesh(tibiaGeo, bodyMat);
+        const tibiaMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.02, 4, 16), bodyMat);
         tibiaMesh.position.y = 2; 
         lowerLeg.add(tibiaMesh);
-
         legGroup.add(lowerLeg);
         return legGroup;
     }
-
     spiderEmblem.add(createLeg(1, -0.3, -0.8, 1.2, 0));
     spiderEmblem.add(createLeg(-1, 0.3, -0.8, 1.2, 0));
     spiderEmblem.add(createLeg(1, -0.1, -1.2, 1.0, 0));
@@ -190,40 +170,90 @@ function toggleMenu() {
     spiderEmblem.add(createLeg(-1, -0.2, -1.8, 0.5, 0));
     spiderEmblem.add(createLeg(1, 0.4, -2.2, -0.2, 0));
     spiderEmblem.add(createLeg(-1, -0.4, -2.2, -0.2, 0));
-
     spiderEmblem.scale.setScalar(0.85);
     scene.add(spiderEmblem);
 
+    /* CYBER CITY (INSTANCED MESH) */
+    const isMobile = window.innerWidth < 768;
+    const buildingCount = isMobile ? 400 : 2000;
+    
+    const buildingGeo = new THREE.BoxGeometry(1, 1, 1);
+    buildingGeo.translate(0, 0.5, 0); // Ground alignment
+    
+    const buildingMat = new THREE.MeshStandardMaterial({
+        color: 0x050a1f,
+        roughness: 0.6,
+        metalness: 0.5,
+    });
+    
+    const city = new THREE.InstancedMesh(buildingGeo, buildingMat, buildingCount);
+    const dummy = new THREE.Object3D();
+    const color = new THREE.Color();
+    
+    for (let i = 0; i < buildingCount; i++) {
+        let x = (Math.random() - 0.5) * 160;
+        if (x > -10 && x < 10) x = x > 0 ? x + 10 : x - 10;
+        
+        const z = (Math.random() * -200) + 10;
+        const distance = Math.abs(x);
+        const heightBase = 5 + (distance * 0.8);
+        const height = heightBase + Math.random() * 25;
+        
+        const w = 2 + Math.random() * 4;
+        const d = 2 + Math.random() * 4;
+        
+        dummy.position.set(x, -10, z);
+        dummy.scale.set(w, height, d);
+        dummy.rotation.y = (Math.random() > 0.5) ? 0 : Math.PI / 4;
+        dummy.updateMatrix();
+        
+        city.setMatrixAt(i, dummy.matrix);
+        
+        const shade = 0.4 + Math.random() * 0.6;
+        color.setRGB(0.02 * shade, 0.04 * shade, 0.12 * shade);
+        city.setColorAt(i, color);
+    }
+    scene.add(city);
+    
+    // Ground plane with grid
+    const gridHelper = new THREE.GridHelper(300, 60, 0x1976d2, 0x0a1128);
+    gridHelper.position.y = -9.9;
+    scene.add(gridHelper);
+
     /* PARTICLES */
-    const count = window.innerWidth < 768 ? 600 : 2500;
     const pGeo = new THREE.BufferGeometry();
-    const pos = new Float32Array(count * 3);
-    for (let i = 0; i < count * 3; i += 3) {
-        const theta = Math.random() * Math.PI * 2,
-            phi = Math.acos(2 * Math.random() - 1),
-            r = 2 + Math.random() * 10;
-        pos[i] = r * Math.sin(phi) * Math.cos(theta);
-        pos[i + 1] = r * Math.sin(phi) * Math.sin(theta);
-        pos[i + 2] = r * Math.cos(phi);
+    const pos = new Float32Array((isMobile ? 500 : 2000) * 3);
+    for (let i = 0; i < pos.length; i += 3) {
+        pos[i] = (Math.random() - 0.5) * 150;
+        pos[i + 1] = -10 + Math.random() * 60;
+        pos[i + 2] = (Math.random() - 0.5) * 250;
     }
     pGeo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
     const pMat = new THREE.PointsMaterial({
-        color: 0xffffff,
-        size: 0.04,
+        color: 0x4488ff,
+        size: 0.15,
         transparent: true,
-        opacity: 0.7,
+        opacity: 0.6,
     });
     const particles = new THREE.Points(pGeo, pMat);
     scene.add(particles);
 
-    // Rings removed to clear space for the spider emblem
-
-    /* MOUSE */
-    let mouseX = 0,
-        mouseY = 0;
+    /* MOUSE & SCROLL INTERACTIONS */
+    let mouseX = 0, mouseY = 0;
+    let targetCamZ = 9;
+    
     document.addEventListener("mousemove", (e) => {
         mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
         mouseY = -(e.clientY / window.innerHeight - 0.5) * 2;
+    });
+    
+    window.addEventListener("scroll", () => {
+        const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+        const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrollPercent = scrollTop / (scrollHeight || 1);
+        
+        // Fly through city: from z=9 to z=-150
+        targetCamZ = 9 - (scrollPercent * 159);
     });
 
     /* RESIZE */
@@ -239,29 +269,26 @@ function toggleMenu() {
         requestAnimationFrame(anim);
         const t = clock.getElapsedTime();
         
-        // Float and rotate spider emblem
         spiderEmblem.position.y = Math.sin(t * 1.5) * 0.2;
-        
-        // Mouse parallax for spider emblem
-        // Target rotations based on mouse position
         const targetRotX = mouseY * 0.3;
-        const targetRotY = mouseX * 0.5 + Math.sin(t * 0.5) * 0.1; // Add slow idle rotation
-        
-        // Smoothly interpolate rotation
+        const targetRotY = mouseX * 0.5 + Math.sin(t * 0.5) * 0.1;
         spiderEmblem.rotation.x += (targetRotX - spiderEmblem.rotation.x) * 0.1;
         spiderEmblem.rotation.y += (targetRotY - spiderEmblem.rotation.y) * 0.1;
         spiderEmblem.rotation.z += (mouseX * 0.1 - spiderEmblem.rotation.z) * 0.1;
-
-        // Pulse the emissive core
         glowMat.emissiveIntensity = 1.5 + 1.0 * Math.sin(t * 3);
         
-        particles.rotation.y += 0.0005;
-        particles.rotation.x = mouseY * 0.05;
-        particles.rotation.z = mouseX * 0.03;
+        particles.position.y = Math.sin(t * 0.5) * 2;
         
-        cam.position.x += (mouseX * 0.5 - cam.position.x) * 0.03;
-        cam.position.y += (mouseY * 0.3 - cam.position.y) * 0.03;
-        cam.lookAt(scene.position);
+        cam.position.z += (targetCamZ - cam.position.z) * 0.05;
+        
+        const targetCamX = mouseX * 2;
+        const targetCamY = mouseY * 1.5;
+        cam.position.x += (targetCamX - cam.position.x) * 0.05;
+        cam.position.y += (targetCamY - cam.position.y) * 0.05;
+        
+        // Dynamic lookAt logic to ensure we always look down the street
+        cam.lookAt(cam.position.x * 0.5, cam.position.y * 0.5, cam.position.z - 20);
+        
         renderer.render(scene, cam);
     })();
 })();
