@@ -75,8 +75,8 @@ function toggleMenu() {
     renderer.toneMappingExposure = 1.2;
     const scene = new THREE.Scene();
     
-    // Deep fog for the endless city effect
-    scene.fog = new THREE.FogExp2(0x0a1128, 0.015);
+    // Deep fog for the endless city effect (Dark Purple/Blue for Spidey vibe)
+    scene.fog = new THREE.FogExp2(0x0a0514, 0.015);
     
     const cam = new THREE.PerspectiveCamera(
         60,
@@ -88,7 +88,7 @@ function toggleMenu() {
     cam.position.set(0, 0, 9);
 
     /* LIGHTS */
-    scene.add(new THREE.AmbientLight(0x0a1128, 2.0));
+    scene.add(new THREE.AmbientLight(0x0a0514, 2.0));
     const dirLight = new THREE.DirectionalLight(0x1976d2, 1.5);
     dirLight.position.set(-10, 20, 10);
     scene.add(dirLight);
@@ -97,7 +97,7 @@ function toggleMenu() {
     spot1.position.set(5, 8, 5);
     scene.add(spot1);
     
-    const spot2 = new THREE.SpotLight(0xd32f2f, 40, 30);
+    const spot2 = new THREE.SpotLight(0xd32f2f, 80, 40);
     spot2.position.set(-5, -4, 3);
     scene.add(spot2);
 
@@ -210,13 +210,20 @@ function toggleMenu() {
         city.setMatrixAt(i, dummy.matrix);
         
         const shade = 0.4 + Math.random() * 0.6;
-        color.setRGB(0.02 * shade, 0.04 * shade, 0.12 * shade);
+        // Alternating Peter Parker Theme (Red & Blue Buildings)
+        if (Math.random() > 0.5) {
+            // Spidey Blue
+            color.setRGB(0.05 * shade, 0.2 * shade, 0.5 * shade);
+        } else {
+            // Spidey Red
+            color.setRGB(0.6 * shade, 0.05 * shade, 0.1 * shade);
+        }
         city.setColorAt(i, color);
     }
     scene.add(city);
     
-    // Ground plane with grid
-    const gridHelper = new THREE.GridHelper(300, 60, 0x1976d2, 0x0a1128);
+    // Ground plane with grid (Red and Blue)
+    const gridHelper = new THREE.GridHelper(300, 60, 0xd32f2f, 0x1976d2);
     gridHelper.position.y = -9.9;
     scene.add(gridHelper);
 
