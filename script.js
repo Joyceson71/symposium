@@ -74,7 +74,7 @@ function toggleMenu() {
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1;
     const scene = new THREE.Scene();
-    scene.fog = new THREE.Fog(0x050505, 8, 22);
+    scene.fog = new THREE.Fog(0x050814, 8, 22);
     const cam = new THREE.PerspectiveCamera(
         60,
         window.innerWidth / window.innerHeight,
@@ -84,11 +84,11 @@ function toggleMenu() {
     cam.position.set(0, 0, 9);
 
     /* LIGHTS */
-    scene.add(new THREE.AmbientLight(0x110000, 0.5));
-    const spot1 = new THREE.SpotLight(0xff1a1a, 80, 20, 0.3, 1);
+    scene.add(new THREE.AmbientLight(0x001133, 0.5));
+    const spot1 = new THREE.SpotLight(0x4488ff, 80, 20, 0.3, 1);
     spot1.position.set(5, 8, 5);
     scene.add(spot1);
-    const spot2 = new THREE.SpotLight(0xcc0000, 30, 15);
+    const spot2 = new THREE.SpotLight(0xffffff, 30, 15);
     spot2.position.set(-5, -4, 3);
     scene.add(spot2);
 
@@ -98,7 +98,7 @@ function toggleMenu() {
         rings = 7,
         radius = 6;
     const mat = new THREE.LineBasicMaterial({
-        color: 0xcc0000,
+        color: 0xffffff,
         transparent: true,
         opacity: 0.6,
     });
@@ -126,15 +126,15 @@ function toggleMenu() {
     /* CENTRAL ORB */
     const orbGeo = new THREE.SphereGeometry(0.8, 32, 32);
     const orbMat = new THREE.MeshStandardMaterial({
-        color: 0xcc0000,
-        emissive: 0xff1a1a,
+        color: 0xffffff,
+        emissive: 0x4488ff,
         emissiveIntensity: 1.2,
         roughness: 0,
         metalness: 0.9,
     });
     const orb = new THREE.Mesh(orbGeo, orbMat);
     scene.add(orb);
-    const orbLight = new THREE.PointLight(0xff1a1a, 6, 8);
+    const orbLight = new THREE.PointLight(0x4488ff, 6, 8);
     orb.add(orbLight);
 
     /* PARTICLES */
@@ -151,7 +151,7 @@ function toggleMenu() {
     }
     pGeo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
     const pMat = new THREE.PointsMaterial({
-        color: 0xcc0000,
+        color: 0xffffff,
         size: 0.04,
         transparent: true,
         opacity: 0.7,
@@ -161,8 +161,8 @@ function toggleMenu() {
 
     /* RINGS */
     const r1Mat = new THREE.MeshStandardMaterial({
-        color: 0xcc0000,
-        emissive: 0xff0000,
+        color: 0xffffff,
+        emissive: 0x2196f3,
         emissiveIntensity: 0.5,
         roughness: 0.3,
         metalness: 0.8,
@@ -233,15 +233,15 @@ function toggleMenu() {
     const scene = new THREE.Scene();
     const cam = new THREE.PerspectiveCamera(50, w / h, 0.1, 100);
     cam.position.set(0, 0, 5);
-    scene.add(new THREE.AmbientLight(0x220000, 1));
-    const sl = new THREE.SpotLight(0xff1a1a, 40, 12, 0.4);
+    scene.add(new THREE.AmbientLight(0x001133, 1));
+    const sl = new THREE.SpotLight(0x4488ff, 40, 12, 0.4);
     sl.position.set(3, 4, 4);
     scene.add(sl);
     const ico = new THREE.Mesh(
         new THREE.IcosahedronGeometry(1.4, 0),
         new THREE.MeshStandardMaterial({
-            color: 0xcc0000,
-            emissive: 0xff0000,
+            color: 0xffffff,
+            emissive: 0x2196f3,
             emissiveIntensity: 0.6,
             roughness: 0.1,
             metalness: 0.9,
@@ -251,7 +251,7 @@ function toggleMenu() {
     const icoWire = new THREE.Mesh(
         new THREE.IcosahedronGeometry(1.42, 0),
         new THREE.MeshBasicMaterial({
-            color: 0xff4444,
+            color: 0x90caf9,
             wireframe: true,
             transparent: true,
             opacity: 0.3,

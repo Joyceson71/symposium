@@ -5,14 +5,27 @@
 }
 
 :root {
-    --red: #cc0000;
-    --red-hot: #ff1a1a;
-    --black: #050505;
-    --panel: #111111;
-    --steel: #1e1e1e;
+    /* Primary Colors (Classic Red & Blue) */
+    --red: #d32f2f;
+    --red-hot: #f44336;
+    --blue: #1976d2;
+    --blue-bright: #2196f3;
+    
+    /* Dark Backgrounds with blue undertones */
+    --black: #0a1128;
+    --panel: #111832;
+    --steel: #1e293b;
     --white: #ffffff;
-    --muted: #a0a0a0;
+    --muted: #94a3b8;
     --gold: #ffd700;
+    
+    /* Cyberpunk / glassmorphism tokens */
+    --neon-red: #ff1744;
+    --neon-blue: #2979ff;
+    --neon-glow: rgba(25, 118, 210, 0.6);
+    --glass-bg: rgba(10, 17, 40, 0.45);
+    --glass-border: rgba(25, 118, 210, 0.25);
+    --grid-color: rgba(33, 150, 243, 0.05);
 }
 
 html {
@@ -47,7 +60,7 @@ body {
     position: fixed;
     width: 36px;
     height: 36px;
-    border: 1.5px solid rgba(204, 0, 0, 0.6);
+    border: 1.5px solid var(--blue);
     border-radius: 50%;
     pointer-events: none;
     z-index: 9998;
@@ -360,7 +373,6 @@ nav.scrolled {
 .hero-t3 {
     font-family: "Bebas Neue", sans-serif;
     font-size: clamp(40px, 7vw, 96px);
-    color: #fff;
     display: block;
     -webkit-text-stroke: 1px rgba(255, 255, 255, 0.5);
     color: transparent;
@@ -788,7 +800,7 @@ section {
 }
 
 .event-card:hover .event-ghost-num {
-    opacity: 3;
+    opacity: 0.08;
 }
 
 .event-badge {
@@ -849,7 +861,7 @@ section {
 }
 
 .event-rules li::before {
-    content: "▸";
+    content: "â–¸";
     position: absolute;
     left: 0;
     color: var(--red);
@@ -1495,8 +1507,11 @@ section {
 }
 
 .btn-next:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
+    opacity: 0.45;
+    cursor: not-allowed; /* Hidden by custom cursor; visual cue is opacity + border */
+    border: 1px solid rgba(255, 0, 60, 0.3);
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.4);
+    pointer-events: none; /* Block hover glow when disabled */
 }
 
 .btn-submit {
@@ -2106,31 +2121,18 @@ footer::before {
 /* ===================== MASSIVE AESTHETIC UPGRADE ===================== */
 /* CYBERPUNK / GLASSMORPHISM / NEON GLOW */
 
-:root {
-  --neon-red: #ff003c;
-  --neon-glow: rgba(255, 0, 60, 0.6);
-  --glass-bg: rgba(15, 0, 0, 0.45);
-  --glass-border: rgba(255, 0, 60, 0.25);
-  --grid-color: rgba(255, 0, 60, 0.05);
-}
+/* Duplicate :root removed — variables merged into the :root block at the top of this file */
+/* (was: --neon-red, --neon-glow, --glass-bg, --glass-border, --grid-color) */
 
-/* Background Cyber-Grid Overlay */
-body::after {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-  z-index: -1;
-  background-image: 
-    linear-gradient(var(--grid-color) 1px, transparent 1px),
-    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
-  background-size: 40px 40px;
-  background-position: center center;
-  opacity: 0.8;
-}
+/* Background Cyber-Grid Overlay — NOTE: overridden by the Comic-Book Halftone
+   block further below. Commented out to prevent dead CSS. Re-enable here if
+   you want the grid instead of dots.
+   body::after {
+     background-image: linear-gradient(var(--grid-color) 1px, transparent 1px),
+                       linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+     background-size: 40px 40px;
+   }
+*/
 
 /* Scanline Effect */
 body::before {
@@ -2202,14 +2204,16 @@ body::before {
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent; /* Fallback */
-  text-shadow: 0px 0px 20px rgba(255, 0, 60, 0.2);
+  /* text-shadow has no effect when -webkit-text-fill-color is transparent.
+     Use filter: drop-shadow() instead for glow on clip-text. */
+  filter: drop-shadow(0px 0px 20px rgba(255, 0, 60, 0.2));
 }
 
 .hero-t2 {
   background: linear-gradient(to right, var(--neon-red), #ff4d4d);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  text-shadow: 0px 0px 30px var(--neon-glow);
+  filter: drop-shadow(0px 0px 30px var(--neon-glow));
 }
 
 .red {
@@ -2507,7 +2511,7 @@ body::after {
 }
 
 .btn-primary::after {
-  content: "»";
+  content: "Â»";
   position: absolute;
   right: -20px;
   opacity: 0;
@@ -2566,8 +2570,11 @@ body::after {
   animation: none;
 }
 
-/* Graffiti / Urban Typography Touches (Miles Morales Style) */
-.section-eyebrow {
+/* Graffiti / Urban Typography Touches (Miles Morales Style)
+   Use .section-eyebrow--stamp for the rotated badge variant.
+   Do NOT apply to .section-eyebrow globally — that would rotate every
+   section eyebrow label on the page. */
+.section-eyebrow--stamp {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 24px;
   color: #fff;
@@ -2592,51 +2599,52 @@ body::after {
 
 /* --- 1. SPIDER-VERSE GLITCH KEYFRAMES --- */
 @keyframes sv-glitch-anim-1 {
-  0% { clip: rect(44px, 9999px, 83px, 0); transform: skew(0.71deg); }
-  5% { clip: rect(69px, 9999px, 12px, 0); transform: skew(0.55deg); }
-  10% { clip: rect(21px, 9999px, 98px, 0); transform: skew(0.48deg); }
-  15% { clip: rect(54px, 9999px, 34px, 0); transform: skew(0.85deg); }
-  20% { clip: rect(11px, 9999px, 20px, 0); transform: skew(0.25deg); }
-  25% { clip: rect(98px, 9999px, 5px, 0); transform: skew(0.12deg); }
-  30% { clip: rect(81px, 9999px, 45px, 0); transform: skew(0.99deg); }
-  35% { clip: rect(3px, 9999px, 78px, 0); transform: skew(0.35deg); }
-  40% { clip: rect(100px, 9999px, 60px, 0); transform: skew(0.67deg); }
-  45% { clip: rect(33px, 9999px, 99px, 0); transform: skew(0.77deg); }
-  50% { clip: rect(89px, 9999px, 40px, 0); transform: skew(0.88deg); }
-  55% { clip: rect(22px, 9999px, 77px, 0); transform: skew(0.44deg); }
-  60% { clip: rect(55px, 9999px, 22px, 0); transform: skew(0.11deg); }
-  65% { clip: rect(77px, 9999px, 88px, 0); transform: skew(0.22deg); }
-  70% { clip: rect(9px, 9999px, 15px, 0); transform: skew(0.33deg); }
-  75% { clip: rect(70px, 9999px, 50px, 0); transform: skew(0.55deg); }
-  80% { clip: rect(40px, 9999px, 90px, 0); transform: skew(0.66deg); }
-  85% { clip: rect(15px, 9999px, 25px, 0); transform: skew(0.77deg); }
-  90% { clip: rect(85px, 9999px, 65px, 0); transform: skew(0.88deg); }
-  95% { clip: rect(60px, 9999px, 35px, 0); transform: skew(0.99deg); }
-  100% { clip: rect(25px, 9999px, 10px, 0); transform: skew(0.11deg); }
+  /* clip-path: inset(top right bottom left) replaces deprecated clip: rect() */
+  0%   { clip-path: inset(44px 0 calc(100% - 83px) 0); transform: skew(0.71deg); }
+  5%   { clip-path: inset(12px 0 calc(100% - 69px) 0); transform: skew(0.55deg); }
+  10%  { clip-path: inset(21px 0 calc(100% - 98px) 0); transform: skew(0.48deg); }
+  15%  { clip-path: inset(34px 0 calc(100% - 54px) 0); transform: skew(0.85deg); }
+  20%  { clip-path: inset(11px 0 calc(100% - 20px) 0); transform: skew(0.25deg); }
+  25%  { clip-path: inset(5px  0 calc(100% - 98px) 0); transform: skew(0.12deg); }
+  30%  { clip-path: inset(45px 0 calc(100% - 81px) 0); transform: skew(0.99deg); }
+  35%  { clip-path: inset(3px  0 calc(100% - 78px) 0); transform: skew(0.35deg); }
+  40%  { clip-path: inset(60px 0 calc(100% - 100px) 0); transform: skew(0.67deg); }
+  45%  { clip-path: inset(33px 0 calc(100% - 99px) 0); transform: skew(0.77deg); }
+  50%  { clip-path: inset(40px 0 calc(100% - 89px) 0); transform: skew(0.88deg); }
+  55%  { clip-path: inset(22px 0 calc(100% - 77px) 0); transform: skew(0.44deg); }
+  60%  { clip-path: inset(22px 0 calc(100% - 55px) 0); transform: skew(0.11deg); }
+  65%  { clip-path: inset(77px 0 calc(100% - 88px) 0); transform: skew(0.22deg); }
+  70%  { clip-path: inset(9px  0 calc(100% - 15px) 0); transform: skew(0.33deg); }
+  75%  { clip-path: inset(50px 0 calc(100% - 70px) 0); transform: skew(0.55deg); }
+  80%  { clip-path: inset(40px 0 calc(100% - 90px) 0); transform: skew(0.66deg); }
+  85%  { clip-path: inset(15px 0 calc(100% - 25px) 0); transform: skew(0.77deg); }
+  90%  { clip-path: inset(65px 0 calc(100% - 85px) 0); transform: skew(0.88deg); }
+  95%  { clip-path: inset(35px 0 calc(100% - 60px) 0); transform: skew(0.99deg); }
+  100% { clip-path: inset(10px 0 calc(100% - 25px) 0); transform: skew(0.11deg); }
 }
 
 @keyframes sv-glitch-anim-2 {
-  0% { clip: rect(24px, 9999px, 43px, 0); transform: skew(0.21deg); }
-  5% { clip: rect(19px, 9999px, 52px, 0); transform: skew(0.35deg); }
-  10% { clip: rect(81px, 9999px, 18px, 0); transform: skew(0.98deg); }
-  15% { clip: rect(4px, 9999px, 84px, 0); transform: skew(0.75deg); }
-  20% { clip: rect(91px, 9999px, 70px, 0); transform: skew(0.65deg); }
-  25% { clip: rect(58px, 9999px, 15px, 0); transform: skew(0.42deg); }
-  30% { clip: rect(31px, 9999px, 95px, 0); transform: skew(0.89deg); }
-  35% { clip: rect(73px, 9999px, 28px, 0); transform: skew(0.15deg); }
-  40% { clip: rect(10px, 9999px, 40px, 0); transform: skew(0.27deg); }
-  45% { clip: rect(63px, 9999px, 89px, 0); transform: skew(0.47deg); }
-  50% { clip: rect(49px, 9999px, 60px, 0); transform: skew(0.58deg); }
-  55% { clip: rect(92px, 9999px, 37px, 0); transform: skew(0.64deg); }
-  60% { clip: rect(15px, 9999px, 52px, 0); transform: skew(0.81deg); }
-  65% { clip: rect(37px, 9999px, 18px, 0); transform: skew(0.92deg); }
-  70% { clip: rect(89px, 9999px, 75px, 0); transform: skew(0.13deg); }
-  75% { clip: rect(20px, 9999px, 30px, 0); transform: skew(0.25deg); }
-  80% { clip: rect(80px, 9999px, 10px, 0); transform: skew(0.36deg); }
-  85% { clip: rect(45px, 9999px, 85px, 0); transform: skew(0.47deg); }
-  90% { clip: rect(15px, 9999px, 95px, 0); transform: skew(0.58deg); }
-  95% { clip: rect(50px, 9999px, 25px, 0); transform: skew(0.69deg); }
-  100% { clip: rect(75px, 9999px, 5px, 0); transform: skew(0.81deg); }
+  0%   { clip-path: inset(24px 0 calc(100% - 43px) 0); transform: skew(0.21deg); }
+  5%   { clip-path: inset(19px 0 calc(100% - 52px) 0); transform: skew(0.35deg); }
+  10%  { clip-path: inset(18px 0 calc(100% - 81px) 0); transform: skew(0.98deg); }
+  15%  { clip-path: inset(4px  0 calc(100% - 84px) 0); transform: skew(0.75deg); }
+  20%  { clip-path: inset(70px 0 calc(100% - 91px) 0); transform: skew(0.65deg); }
+  25%  { clip-path: inset(15px 0 calc(100% - 58px) 0); transform: skew(0.42deg); }
+  30%  { clip-path: inset(31px 0 calc(100% - 95px) 0); transform: skew(0.89deg); }
+  35%  { clip-path: inset(28px 0 calc(100% - 73px) 0); transform: skew(0.15deg); }
+  40%  { clip-path: inset(10px 0 calc(100% - 40px) 0); transform: skew(0.27deg); }
+  45%  { clip-path: inset(63px 0 calc(100% - 89px) 0); transform: skew(0.47deg); }
+  50%  { clip-path: inset(49px 0 calc(100% - 60px) 0); transform: skew(0.58deg); }
+  55%  { clip-path: inset(37px 0 calc(100% - 92px) 0); transform: skew(0.64deg); }
+  60%  { clip-path: inset(15px 0 calc(100% - 52px) 0); transform: skew(0.81deg); }
+  65%  { clip-path: inset(18px 0 calc(100% - 37px) 0); transform: skew(0.92deg); }
+  70%  { clip-path: inset(75px 0 calc(100% - 89px) 0); transform: skew(0.13deg); }
+  75%  { clip-path: inset(20px 0 calc(100% - 30px) 0); transform: skew(0.25deg); }
+  80%  { clip-path: inset(10px 0 calc(100% - 80px) 0); transform: skew(0.36deg); }
+  85%  { clip-path: inset(45px 0 calc(100% - 85px) 0); transform: skew(0.47deg); }
+  90%  { clip-path: inset(15px 0 calc(100% - 95px) 0); transform: skew(0.58deg); }
+  95%  { clip-path: inset(25px 0 calc(100% - 50px) 0); transform: skew(0.69deg); }
+  100% { clip-path: inset(5px  0 calc(100% - 75px) 0); transform: skew(0.81deg); }
 }
 
 @keyframes sv-chromatic-shift {
@@ -3014,7 +3022,7 @@ body::after {
   box-shadow: 8px 8px 0 var(--black);
   transition: all 0.1s ease;
   position: relative;
-  cursor: pointer;
+  cursor: none; /* Consistent with global custom cursor */
   z-index: 1;
 }
 
@@ -3147,802 +3155,15 @@ body::after {
   .comic-burst { padding: 5px 10px; font-size: 0.9rem; }
 }
 
-/* Spider Sequence Frame 1 */
-@keyframes spider-sequence-1 {
-  0% { transform: translate(1px, -1px) rotate(1deg) scale(1.01); opacity: 0.995; }
-  50% { transform: translate(-1px, 1px) rotate(-1deg) scale(0.99); opacity: 0.505; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-1 { animation: spider-sequence-1 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 2 */
-@keyframes spider-sequence-2 {
-  0% { transform: translate(2px, -2px) rotate(2deg) scale(1.02); opacity: 0.99; }
-  50% { transform: translate(-2px, 2px) rotate(-2deg) scale(0.98); opacity: 0.51; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-2 { animation: spider-sequence-2 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 3 */
-@keyframes spider-sequence-3 {
-  0% { transform: translate(3px, -3px) rotate(3deg) scale(1.03); opacity: 0.985; }
-  50% { transform: translate(-3px, 3px) rotate(-3deg) scale(0.97); opacity: 0.515; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-3 { animation: spider-sequence-3 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 4 */
-@keyframes spider-sequence-4 {
-  0% { transform: translate(4px, -4px) rotate(4deg) scale(1.04); opacity: 0.98; }
-  50% { transform: translate(-4px, 4px) rotate(-4deg) scale(0.96); opacity: 0.52; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-4 { animation: spider-sequence-4 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 5 */
-@keyframes spider-sequence-5 {
-  0% { transform: translate(5px, -5px) rotate(5deg) scale(1.05); opacity: 0.975; }
-  50% { transform: translate(-5px, 5px) rotate(-5deg) scale(0.95); opacity: 0.525; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-5 { animation: spider-sequence-5 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 6 */
-@keyframes spider-sequence-6 {
-  0% { transform: translate(6px, -6px) rotate(6deg) scale(1.06); opacity: 0.97; }
-  50% { transform: translate(-6px, 6px) rotate(-6deg) scale(0.94); opacity: 0.53; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-6 { animation: spider-sequence-6 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 7 */
-@keyframes spider-sequence-7 {
-  0% { transform: translate(7px, -7px) rotate(7deg) scale(1.07); opacity: 0.965; }
-  50% { transform: translate(-7px, 7px) rotate(-7deg) scale(0.9299999999999999); opacity: 0.535; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-7 { animation: spider-sequence-7 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 8 */
-@keyframes spider-sequence-8 {
-  0% { transform: translate(8px, -8px) rotate(8deg) scale(1.08); opacity: 0.96; }
-  50% { transform: translate(-8px, 8px) rotate(-8deg) scale(0.92); opacity: 0.54; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-8 { animation: spider-sequence-8 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 9 */
-@keyframes spider-sequence-9 {
-  0% { transform: translate(9px, -9px) rotate(9deg) scale(1.09); opacity: 0.955; }
-  50% { transform: translate(-9px, 9px) rotate(-9deg) scale(0.91); opacity: 0.545; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-9 { animation: spider-sequence-9 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 10 */
-@keyframes spider-sequence-10 {
-  0% { transform: translate(10px, -10px) rotate(10deg) scale(1.1); opacity: 0.95; }
-  50% { transform: translate(-10px, 10px) rotate(-10deg) scale(0.9); opacity: 0.55; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-10 { animation: spider-sequence-10 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 11 */
-@keyframes spider-sequence-11 {
-  0% { transform: translate(11px, -11px) rotate(11deg) scale(1.11); opacity: 0.945; }
-  50% { transform: translate(-11px, 11px) rotate(-11deg) scale(0.89); opacity: 0.555; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-11 { animation: spider-sequence-11 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 12 */
-@keyframes spider-sequence-12 {
-  0% { transform: translate(12px, -12px) rotate(12deg) scale(1.12); opacity: 0.94; }
-  50% { transform: translate(-12px, 12px) rotate(-12deg) scale(0.88); opacity: 0.56; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-12 { animation: spider-sequence-12 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 13 */
-@keyframes spider-sequence-13 {
-  0% { transform: translate(13px, -13px) rotate(13deg) scale(1.13); opacity: 0.935; }
-  50% { transform: translate(-13px, 13px) rotate(-13deg) scale(0.87); opacity: 0.565; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-13 { animation: spider-sequence-13 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 14 */
-@keyframes spider-sequence-14 {
-  0% { transform: translate(14px, -14px) rotate(14deg) scale(1.1400000000000001); opacity: 0.9299999999999999; }
-  50% { transform: translate(-14px, 14px) rotate(-14deg) scale(0.86); opacity: 0.5700000000000001; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-14 { animation: spider-sequence-14 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 15 */
-@keyframes spider-sequence-15 {
-  0% { transform: translate(15px, -15px) rotate(15deg) scale(1.15); opacity: 0.925; }
-  50% { transform: translate(-15px, 15px) rotate(-15deg) scale(0.85); opacity: 0.575; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-15 { animation: spider-sequence-15 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 16 */
-@keyframes spider-sequence-16 {
-  0% { transform: translate(16px, -16px) rotate(16deg) scale(1.16); opacity: 0.92; }
-  50% { transform: translate(-16px, 16px) rotate(-16deg) scale(0.84); opacity: 0.58; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-16 { animation: spider-sequence-16 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 17 */
-@keyframes spider-sequence-17 {
-  0% { transform: translate(17px, -17px) rotate(17deg) scale(1.17); opacity: 0.915; }
-  50% { transform: translate(-17px, 17px) rotate(-17deg) scale(0.83); opacity: 0.585; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-17 { animation: spider-sequence-17 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 18 */
-@keyframes spider-sequence-18 {
-  0% { transform: translate(18px, -18px) rotate(18deg) scale(1.18); opacity: 0.91; }
-  50% { transform: translate(-18px, 18px) rotate(-18deg) scale(0.8200000000000001); opacity: 0.59; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-18 { animation: spider-sequence-18 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 19 */
-@keyframes spider-sequence-19 {
-  0% { transform: translate(19px, -19px) rotate(19deg) scale(1.19); opacity: 0.905; }
-  50% { transform: translate(-19px, 19px) rotate(-19deg) scale(0.81); opacity: 0.595; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-19 { animation: spider-sequence-19 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 20 */
-@keyframes spider-sequence-20 {
-  0% { transform: translate(20px, -20px) rotate(20deg) scale(1.2); opacity: 0.9; }
-  50% { transform: translate(-20px, 20px) rotate(-20deg) scale(0.8); opacity: 0.6; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-20 { animation: spider-sequence-20 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 21 */
-@keyframes spider-sequence-21 {
-  0% { transform: translate(21px, -21px) rotate(21deg) scale(1.21); opacity: 0.895; }
-  50% { transform: translate(-21px, 21px) rotate(-21deg) scale(0.79); opacity: 0.605; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-21 { animation: spider-sequence-21 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 22 */
-@keyframes spider-sequence-22 {
-  0% { transform: translate(22px, -22px) rotate(22deg) scale(1.22); opacity: 0.89; }
-  50% { transform: translate(-22px, 22px) rotate(-22deg) scale(0.78); opacity: 0.61; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-22 { animation: spider-sequence-22 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 23 */
-@keyframes spider-sequence-23 {
-  0% { transform: translate(23px, -23px) rotate(23deg) scale(1.23); opacity: 0.885; }
-  50% { transform: translate(-23px, 23px) rotate(-23deg) scale(0.77); opacity: 0.615; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-23 { animation: spider-sequence-23 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 24 */
-@keyframes spider-sequence-24 {
-  0% { transform: translate(24px, -24px) rotate(24deg) scale(1.24); opacity: 0.88; }
-  50% { transform: translate(-24px, 24px) rotate(-24deg) scale(0.76); opacity: 0.62; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-24 { animation: spider-sequence-24 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 25 */
-@keyframes spider-sequence-25 {
-  0% { transform: translate(25px, -25px) rotate(25deg) scale(1.25); opacity: 0.875; }
-  50% { transform: translate(-25px, 25px) rotate(-25deg) scale(0.75); opacity: 0.625; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-25 { animation: spider-sequence-25 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 26 */
-@keyframes spider-sequence-26 {
-  0% { transform: translate(26px, -26px) rotate(26deg) scale(1.26); opacity: 0.87; }
-  50% { transform: translate(-26px, 26px) rotate(-26deg) scale(0.74); opacity: 0.63; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-26 { animation: spider-sequence-26 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 27 */
-@keyframes spider-sequence-27 {
-  0% { transform: translate(27px, -27px) rotate(27deg) scale(1.27); opacity: 0.865; }
-  50% { transform: translate(-27px, 27px) rotate(-27deg) scale(0.73); opacity: 0.635; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-27 { animation: spider-sequence-27 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 28 */
-@keyframes spider-sequence-28 {
-  0% { transform: translate(28px, -28px) rotate(28deg) scale(1.28); opacity: 0.86; }
-  50% { transform: translate(-28px, 28px) rotate(-28deg) scale(0.72); opacity: 0.64; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-28 { animation: spider-sequence-28 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 29 */
-@keyframes spider-sequence-29 {
-  0% { transform: translate(29px, -29px) rotate(29deg) scale(1.29); opacity: 0.855; }
-  50% { transform: translate(-29px, 29px) rotate(-29deg) scale(0.71); opacity: 0.645; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-29 { animation: spider-sequence-29 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 30 */
-@keyframes spider-sequence-30 {
-  0% { transform: translate(30px, -30px) rotate(30deg) scale(1.3); opacity: 0.85; }
-  50% { transform: translate(-30px, 30px) rotate(-30deg) scale(0.7); opacity: 0.65; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-30 { animation: spider-sequence-30 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 31 */
-@keyframes spider-sequence-31 {
-  0% { transform: translate(31px, -31px) rotate(31deg) scale(1.31); opacity: 0.845; }
-  50% { transform: translate(-31px, 31px) rotate(-31deg) scale(0.69); opacity: 0.655; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-31 { animation: spider-sequence-31 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 32 */
-@keyframes spider-sequence-32 {
-  0% { transform: translate(32px, -32px) rotate(32deg) scale(1.32); opacity: 0.84; }
-  50% { transform: translate(-32px, 32px) rotate(-32deg) scale(0.6799999999999999); opacity: 0.66; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-32 { animation: spider-sequence-32 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 33 */
-@keyframes spider-sequence-33 {
-  0% { transform: translate(33px, -33px) rotate(33deg) scale(1.33); opacity: 0.835; }
-  50% { transform: translate(-33px, 33px) rotate(-33deg) scale(0.6699999999999999); opacity: 0.665; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-33 { animation: spider-sequence-33 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 34 */
-@keyframes spider-sequence-34 {
-  0% { transform: translate(34px, -34px) rotate(34deg) scale(1.34); opacity: 0.83; }
-  50% { transform: translate(-34px, 34px) rotate(-34deg) scale(0.6599999999999999); opacity: 0.67; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-34 { animation: spider-sequence-34 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 35 */
-@keyframes spider-sequence-35 {
-  0% { transform: translate(35px, -35px) rotate(35deg) scale(1.35); opacity: 0.825; }
-  50% { transform: translate(-35px, 35px) rotate(-35deg) scale(0.65); opacity: 0.675; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-35 { animation: spider-sequence-35 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 36 */
-@keyframes spider-sequence-36 {
-  0% { transform: translate(36px, -36px) rotate(36deg) scale(1.3599999999999999); opacity: 0.8200000000000001; }
-  50% { transform: translate(-36px, 36px) rotate(-36deg) scale(0.64); opacity: 0.6799999999999999; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-36 { animation: spider-sequence-36 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 37 */
-@keyframes spider-sequence-37 {
-  0% { transform: translate(37px, -37px) rotate(37deg) scale(1.37); opacity: 0.815; }
-  50% { transform: translate(-37px, 37px) rotate(-37deg) scale(0.63); opacity: 0.685; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-37 { animation: spider-sequence-37 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 38 */
-@keyframes spider-sequence-38 {
-  0% { transform: translate(38px, -38px) rotate(38deg) scale(1.38); opacity: 0.81; }
-  50% { transform: translate(-38px, 38px) rotate(-38deg) scale(0.62); opacity: 0.69; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-38 { animation: spider-sequence-38 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 39 */
-@keyframes spider-sequence-39 {
-  0% { transform: translate(39px, -39px) rotate(39deg) scale(1.3900000000000001); opacity: 0.8049999999999999; }
-  50% { transform: translate(-39px, 39px) rotate(-39deg) scale(0.61); opacity: 0.6950000000000001; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-39 { animation: spider-sequence-39 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 40 */
-@keyframes spider-sequence-40 {
-  0% { transform: translate(40px, -40px) rotate(40deg) scale(1.4); opacity: 0.8; }
-  50% { transform: translate(-40px, 40px) rotate(-40deg) scale(0.6); opacity: 0.7; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-40 { animation: spider-sequence-40 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 41 */
-@keyframes spider-sequence-41 {
-  0% { transform: translate(41px, -41px) rotate(41deg) scale(1.41); opacity: 0.795; }
-  50% { transform: translate(-41px, 41px) rotate(-41deg) scale(0.5900000000000001); opacity: 0.705; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-41 { animation: spider-sequence-41 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 42 */
-@keyframes spider-sequence-42 {
-  0% { transform: translate(42px, -42px) rotate(42deg) scale(1.42); opacity: 0.79; }
-  50% { transform: translate(-42px, 42px) rotate(-42deg) scale(0.5800000000000001); opacity: 0.71; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-42 { animation: spider-sequence-42 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 43 */
-@keyframes spider-sequence-43 {
-  0% { transform: translate(43px, -43px) rotate(43deg) scale(1.43); opacity: 0.785; }
-  50% { transform: translate(-43px, 43px) rotate(-43deg) scale(0.5700000000000001); opacity: 0.715; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-43 { animation: spider-sequence-43 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 44 */
-@keyframes spider-sequence-44 {
-  0% { transform: translate(44px, -44px) rotate(44deg) scale(1.44); opacity: 0.78; }
-  50% { transform: translate(-44px, 44px) rotate(-44deg) scale(0.56); opacity: 0.72; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-44 { animation: spider-sequence-44 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 45 */
-@keyframes spider-sequence-45 {
-  0% { transform: translate(45px, -45px) rotate(45deg) scale(1.45); opacity: 0.775; }
-  50% { transform: translate(-45px, 45px) rotate(-45deg) scale(0.55); opacity: 0.725; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-45 { animation: spider-sequence-45 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 46 */
-@keyframes spider-sequence-46 {
-  0% { transform: translate(46px, -46px) rotate(46deg) scale(1.46); opacity: 0.77; }
-  50% { transform: translate(-46px, 46px) rotate(-46deg) scale(0.54); opacity: 0.73; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-46 { animation: spider-sequence-46 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 47 */
-@keyframes spider-sequence-47 {
-  0% { transform: translate(47px, -47px) rotate(47deg) scale(1.47); opacity: 0.765; }
-  50% { transform: translate(-47px, 47px) rotate(-47deg) scale(0.53); opacity: 0.735; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-47 { animation: spider-sequence-47 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 48 */
-@keyframes spider-sequence-48 {
-  0% { transform: translate(48px, -48px) rotate(48deg) scale(1.48); opacity: 0.76; }
-  50% { transform: translate(-48px, 48px) rotate(-48deg) scale(0.52); opacity: 0.74; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-48 { animation: spider-sequence-48 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 49 */
-@keyframes spider-sequence-49 {
-  0% { transform: translate(49px, -49px) rotate(49deg) scale(1.49); opacity: 0.755; }
-  50% { transform: translate(-49px, 49px) rotate(-49deg) scale(0.51); opacity: 0.745; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-49 { animation: spider-sequence-49 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 50 */
-@keyframes spider-sequence-50 {
-  0% { transform: translate(50px, -50px) rotate(50deg) scale(1.5); opacity: 0.75; }
-  50% { transform: translate(-50px, 50px) rotate(-50deg) scale(0.5); opacity: 0.75; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-50 { animation: spider-sequence-50 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 51 */
-@keyframes spider-sequence-51 {
-  0% { transform: translate(51px, -51px) rotate(51deg) scale(1.51); opacity: 0.745; }
-  50% { transform: translate(-51px, 51px) rotate(-51deg) scale(0.49); opacity: 0.755; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-51 { animation: spider-sequence-51 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 52 */
-@keyframes spider-sequence-52 {
-  0% { transform: translate(52px, -52px) rotate(52deg) scale(1.52); opacity: 0.74; }
-  50% { transform: translate(-52px, 52px) rotate(-52deg) scale(0.48); opacity: 0.76; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-52 { animation: spider-sequence-52 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 53 */
-@keyframes spider-sequence-53 {
-  0% { transform: translate(53px, -53px) rotate(53deg) scale(1.53); opacity: 0.735; }
-  50% { transform: translate(-53px, 53px) rotate(-53deg) scale(0.47); opacity: 0.765; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-53 { animation: spider-sequence-53 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 54 */
-@keyframes spider-sequence-54 {
-  0% { transform: translate(54px, -54px) rotate(54deg) scale(1.54); opacity: 0.73; }
-  50% { transform: translate(-54px, 54px) rotate(-54deg) scale(0.45999999999999996); opacity: 0.77; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-54 { animation: spider-sequence-54 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 55 */
-@keyframes spider-sequence-55 {
-  0% { transform: translate(55px, -55px) rotate(55deg) scale(1.55); opacity: 0.725; }
-  50% { transform: translate(-55px, 55px) rotate(-55deg) scale(0.44999999999999996); opacity: 0.775; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-55 { animation: spider-sequence-55 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 56 */
-@keyframes spider-sequence-56 {
-  0% { transform: translate(56px, -56px) rotate(56deg) scale(1.56); opacity: 0.72; }
-  50% { transform: translate(-56px, 56px) rotate(-56deg) scale(0.43999999999999995); opacity: 0.78; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-56 { animation: spider-sequence-56 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 57 */
-@keyframes spider-sequence-57 {
-  0% { transform: translate(57px, -57px) rotate(57deg) scale(1.5699999999999998); opacity: 0.7150000000000001; }
-  50% { transform: translate(-57px, 57px) rotate(-57deg) scale(0.43000000000000005); opacity: 0.7849999999999999; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-57 { animation: spider-sequence-57 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 58 */
-@keyframes spider-sequence-58 {
-  0% { transform: translate(58px, -58px) rotate(58deg) scale(1.58); opacity: 0.71; }
-  50% { transform: translate(-58px, 58px) rotate(-58deg) scale(0.42000000000000004); opacity: 0.79; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-58 { animation: spider-sequence-58 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 59 */
-@keyframes spider-sequence-59 {
-  0% { transform: translate(59px, -59px) rotate(59deg) scale(1.5899999999999999); opacity: 0.7050000000000001; }
-  50% { transform: translate(-59px, 59px) rotate(-59deg) scale(0.41000000000000003); opacity: 0.7949999999999999; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-59 { animation: spider-sequence-59 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 60 */
-@keyframes spider-sequence-60 {
-  0% { transform: translate(60px, -60px) rotate(60deg) scale(1.6); opacity: 0.7; }
-  50% { transform: translate(-60px, 60px) rotate(-60deg) scale(0.4); opacity: 0.8; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-60 { animation: spider-sequence-60 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 61 */
-@keyframes spider-sequence-61 {
-  0% { transform: translate(61px, -61px) rotate(61deg) scale(1.6099999999999999); opacity: 0.6950000000000001; }
-  50% { transform: translate(-61px, 61px) rotate(-61deg) scale(0.39); opacity: 0.8049999999999999; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-61 { animation: spider-sequence-61 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 62 */
-@keyframes spider-sequence-62 {
-  0% { transform: translate(62px, -62px) rotate(62deg) scale(1.62); opacity: 0.69; }
-  50% { transform: translate(-62px, 62px) rotate(-62deg) scale(0.38); opacity: 0.81; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-62 { animation: spider-sequence-62 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 63 */
-@keyframes spider-sequence-63 {
-  0% { transform: translate(63px, -63px) rotate(63deg) scale(1.63); opacity: 0.685; }
-  50% { transform: translate(-63px, 63px) rotate(-63deg) scale(0.37); opacity: 0.815; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-63 { animation: spider-sequence-63 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 64 */
-@keyframes spider-sequence-64 {
-  0% { transform: translate(64px, -64px) rotate(64deg) scale(1.6400000000000001); opacity: 0.6799999999999999; }
-  50% { transform: translate(-64px, 64px) rotate(-64deg) scale(0.36); opacity: 0.8200000000000001; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-64 { animation: spider-sequence-64 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 65 */
-@keyframes spider-sequence-65 {
-  0% { transform: translate(65px, -65px) rotate(65deg) scale(1.65); opacity: 0.675; }
-  50% { transform: translate(-65px, 65px) rotate(-65deg) scale(0.35); opacity: 0.825; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-65 { animation: spider-sequence-65 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 66 */
-@keyframes spider-sequence-66 {
-  0% { transform: translate(66px, -66px) rotate(66deg) scale(1.6600000000000001); opacity: 0.6699999999999999; }
-  50% { transform: translate(-66px, 66px) rotate(-66deg) scale(0.33999999999999997); opacity: 0.8300000000000001; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-66 { animation: spider-sequence-66 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 67 */
-@keyframes spider-sequence-67 {
-  0% { transform: translate(67px, -67px) rotate(67deg) scale(1.67); opacity: 0.665; }
-  50% { transform: translate(-67px, 67px) rotate(-67deg) scale(0.32999999999999996); opacity: 0.835; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-67 { animation: spider-sequence-67 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 68 */
-@keyframes spider-sequence-68 {
-  0% { transform: translate(68px, -68px) rotate(68deg) scale(1.6800000000000002); opacity: 0.6599999999999999; }
-  50% { transform: translate(-68px, 68px) rotate(-68deg) scale(0.31999999999999995); opacity: 0.8400000000000001; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-68 { animation: spider-sequence-68 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 69 */
-@keyframes spider-sequence-69 {
-  0% { transform: translate(69px, -69px) rotate(69deg) scale(1.69); opacity: 0.655; }
-  50% { transform: translate(-69px, 69px) rotate(-69deg) scale(0.31000000000000005); opacity: 0.845; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-69 { animation: spider-sequence-69 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 70 */
-@keyframes spider-sequence-70 {
-  0% { transform: translate(70px, -70px) rotate(70deg) scale(1.7); opacity: 0.65; }
-  50% { transform: translate(-70px, 70px) rotate(-70deg) scale(0.30000000000000004); opacity: 0.85; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-70 { animation: spider-sequence-70 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 71 */
-@keyframes spider-sequence-71 {
-  0% { transform: translate(71px, -71px) rotate(71deg) scale(1.71); opacity: 0.645; }
-  50% { transform: translate(-71px, 71px) rotate(-71deg) scale(0.29000000000000004); opacity: 0.855; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-71 { animation: spider-sequence-71 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 72 */
-@keyframes spider-sequence-72 {
-  0% { transform: translate(72px, -72px) rotate(72deg) scale(1.72); opacity: 0.64; }
-  50% { transform: translate(-72px, 72px) rotate(-72deg) scale(0.28); opacity: 0.86; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-72 { animation: spider-sequence-72 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 73 */
-@keyframes spider-sequence-73 {
-  0% { transform: translate(73px, -73px) rotate(73deg) scale(1.73); opacity: 0.635; }
-  50% { transform: translate(-73px, 73px) rotate(-73deg) scale(0.27); opacity: 0.865; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-73 { animation: spider-sequence-73 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 74 */
-@keyframes spider-sequence-74 {
-  0% { transform: translate(74px, -74px) rotate(74deg) scale(1.74); opacity: 0.63; }
-  50% { transform: translate(-74px, 74px) rotate(-74deg) scale(0.26); opacity: 0.87; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-74 { animation: spider-sequence-74 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 75 */
-@keyframes spider-sequence-75 {
-  0% { transform: translate(75px, -75px) rotate(75deg) scale(1.75); opacity: 0.625; }
-  50% { transform: translate(-75px, 75px) rotate(-75deg) scale(0.25); opacity: 0.875; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-75 { animation: spider-sequence-75 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 76 */
-@keyframes spider-sequence-76 {
-  0% { transform: translate(76px, -76px) rotate(76deg) scale(1.76); opacity: 0.62; }
-  50% { transform: translate(-76px, 76px) rotate(-76deg) scale(0.24); opacity: 0.88; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-76 { animation: spider-sequence-76 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 77 */
-@keyframes spider-sequence-77 {
-  0% { transform: translate(77px, -77px) rotate(77deg) scale(1.77); opacity: 0.615; }
-  50% { transform: translate(-77px, 77px) rotate(-77deg) scale(0.22999999999999998); opacity: 0.885; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-77 { animation: spider-sequence-77 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 78 */
-@keyframes spider-sequence-78 {
-  0% { transform: translate(78px, -78px) rotate(78deg) scale(1.78); opacity: 0.61; }
-  50% { transform: translate(-78px, 78px) rotate(-78deg) scale(0.21999999999999997); opacity: 0.89; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-78 { animation: spider-sequence-78 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 79 */
-@keyframes spider-sequence-79 {
-  0% { transform: translate(79px, -79px) rotate(79deg) scale(1.79); opacity: 0.605; }
-  50% { transform: translate(-79px, 79px) rotate(-79deg) scale(0.20999999999999996); opacity: 0.895; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-79 { animation: spider-sequence-79 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 80 */
-@keyframes spider-sequence-80 {
-  0% { transform: translate(80px, -80px) rotate(80deg) scale(1.8); opacity: 0.6; }
-  50% { transform: translate(-80px, 80px) rotate(-80deg) scale(0.19999999999999996); opacity: 0.9; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-80 { animation: spider-sequence-80 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 81 */
-@keyframes spider-sequence-81 {
-  0% { transform: translate(81px, -81px) rotate(81deg) scale(1.81); opacity: 0.595; }
-  50% { transform: translate(-81px, 81px) rotate(-81deg) scale(0.18999999999999995); opacity: 0.905; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-81 { animation: spider-sequence-81 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 82 */
-@keyframes spider-sequence-82 {
-  0% { transform: translate(82px, -82px) rotate(82deg) scale(1.8199999999999998); opacity: 0.5900000000000001; }
-  50% { transform: translate(-82px, 82px) rotate(-82deg) scale(0.18000000000000005); opacity: 0.9099999999999999; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-82 { animation: spider-sequence-82 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 83 */
-@keyframes spider-sequence-83 {
-  0% { transform: translate(83px, -83px) rotate(83deg) scale(1.83); opacity: 0.585; }
-  50% { transform: translate(-83px, 83px) rotate(-83deg) scale(0.17000000000000004); opacity: 0.915; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-83 { animation: spider-sequence-83 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 84 */
-@keyframes spider-sequence-84 {
-  0% { transform: translate(84px, -84px) rotate(84deg) scale(1.8399999999999999); opacity: 0.5800000000000001; }
-  50% { transform: translate(-84px, 84px) rotate(-84deg) scale(0.16000000000000003); opacity: 0.9199999999999999; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-84 { animation: spider-sequence-84 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 85 */
-@keyframes spider-sequence-85 {
-  0% { transform: translate(85px, -85px) rotate(85deg) scale(1.85); opacity: 0.575; }
-  50% { transform: translate(-85px, 85px) rotate(-85deg) scale(0.15000000000000002); opacity: 0.925; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-85 { animation: spider-sequence-85 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 86 */
-@keyframes spider-sequence-86 {
-  0% { transform: translate(86px, -86px) rotate(86deg) scale(1.8599999999999999); opacity: 0.5700000000000001; }
-  50% { transform: translate(-86px, 86px) rotate(-86deg) scale(0.14); opacity: 0.9299999999999999; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-86 { animation: spider-sequence-86 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 87 */
-@keyframes spider-sequence-87 {
-  0% { transform: translate(87px, -87px) rotate(87deg) scale(1.87); opacity: 0.565; }
-  50% { transform: translate(-87px, 87px) rotate(-87deg) scale(0.13); opacity: 0.935; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-87 { animation: spider-sequence-87 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 88 */
-@keyframes spider-sequence-88 {
-  0% { transform: translate(88px, -88px) rotate(88deg) scale(1.88); opacity: 0.56; }
-  50% { transform: translate(-88px, 88px) rotate(-88deg) scale(0.12); opacity: 0.94; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-88 { animation: spider-sequence-88 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 89 */
-@keyframes spider-sequence-89 {
-  0% { transform: translate(89px, -89px) rotate(89deg) scale(1.8900000000000001); opacity: 0.5549999999999999; }
-  50% { transform: translate(-89px, 89px) rotate(-89deg) scale(0.10999999999999999); opacity: 0.9450000000000001; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-89 { animation: spider-sequence-89 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 90 */
-@keyframes spider-sequence-90 {
-  0% { transform: translate(90px, -90px) rotate(90deg) scale(1.9); opacity: 0.55; }
-  50% { transform: translate(-90px, 90px) rotate(-90deg) scale(0.09999999999999998); opacity: 0.95; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-90 { animation: spider-sequence-90 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 91 */
-@keyframes spider-sequence-91 {
-  0% { transform: translate(91px, -91px) rotate(91deg) scale(1.9100000000000001); opacity: 0.5449999999999999; }
-  50% { transform: translate(-91px, 91px) rotate(-91deg) scale(0.08999999999999997); opacity: 0.9550000000000001; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-91 { animation: spider-sequence-91 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 92 */
-@keyframes spider-sequence-92 {
-  0% { transform: translate(92px, -92px) rotate(92deg) scale(1.92); opacity: 0.54; }
-  50% { transform: translate(-92px, 92px) rotate(-92deg) scale(0.07999999999999996); opacity: 0.96; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-92 { animation: spider-sequence-92 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 93 */
-@keyframes spider-sequence-93 {
-  0% { transform: translate(93px, -93px) rotate(93deg) scale(1.9300000000000002); opacity: 0.5349999999999999; }
-  50% { transform: translate(-93px, 93px) rotate(-93deg) scale(0.06999999999999995); opacity: 0.9650000000000001; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-93 { animation: spider-sequence-93 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 94 */
-@keyframes spider-sequence-94 {
-  0% { transform: translate(94px, -94px) rotate(94deg) scale(1.94); opacity: 0.53; }
-  50% { transform: translate(-94px, 94px) rotate(-94deg) scale(0.06000000000000005); opacity: 0.97; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-94 { animation: spider-sequence-94 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 95 */
-@keyframes spider-sequence-95 {
-  0% { transform: translate(95px, -95px) rotate(95deg) scale(1.95); opacity: 0.525; }
-  50% { transform: translate(-95px, 95px) rotate(-95deg) scale(0.050000000000000044); opacity: 0.975; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-95 { animation: spider-sequence-95 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 96 */
-@keyframes spider-sequence-96 {
-  0% { transform: translate(96px, -96px) rotate(96deg) scale(1.96); opacity: 0.52; }
-  50% { transform: translate(-96px, 96px) rotate(-96deg) scale(0.040000000000000036); opacity: 0.98; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-96 { animation: spider-sequence-96 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 97 */
-@keyframes spider-sequence-97 {
-  0% { transform: translate(97px, -97px) rotate(97deg) scale(1.97); opacity: 0.515; }
-  50% { transform: translate(-97px, 97px) rotate(-97deg) scale(0.030000000000000027); opacity: 0.985; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-97 { animation: spider-sequence-97 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 98 */
-@keyframes spider-sequence-98 {
-  0% { transform: translate(98px, -98px) rotate(98deg) scale(1.98); opacity: 0.51; }
-  50% { transform: translate(-98px, 98px) rotate(-98deg) scale(0.020000000000000018); opacity: 0.99; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-98 { animation: spider-sequence-98 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 99 */
-@keyframes spider-sequence-99 {
-  0% { transform: translate(99px, -99px) rotate(99deg) scale(1.99); opacity: 0.505; }
-  50% { transform: translate(-99px, 99px) rotate(-99deg) scale(0.010000000000000009); opacity: 0.995; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-99 { animation: spider-sequence-99 5s infinite alternate ease-in-out; }
-
-/* Spider Sequence Frame 100 */
-@keyframes spider-sequence-100 {
-  0% { transform: translate(100px, -100px) rotate(100deg) scale(2.0); opacity: 0.5; }
-  50% { transform: translate(-100px, 100px) rotate(-100deg) scale(0.0); opacity: 1.0; }
-  100% { transform: translate(0, 0) rotate(0) scale(1); opacity: 1; }
-}
-.spider-seq-100 { animation: spider-sequence-100 5s infinite alternate ease-in-out; }
+/* ============================================================
+   Spider-Sequence utility keyframes removed (frames 1-100).
+   These 100 programmatically-generated @keyframes added ~800 lines
+   of dead CSS and are not referenced in any HTML file.
+   Re-add only frames you actually use, following this pattern:
+     @keyframes spider-sequence-N {
+       0%   { transform: translate(Npx, -Npx) rotate(Ndeg) scale(1 + N*0.01); }
+       50%  { transform: translate(-Npx, Npx) rotate(-Ndeg) scale(1 - N*0.01); }
+       100% { transform: translate(0, 0) rotate(0) scale(1); }
+     }
+     .spider-seq-N { animation: spider-sequence-N 5s infinite alternate ease-in-out; }
+   ============================================================ */
