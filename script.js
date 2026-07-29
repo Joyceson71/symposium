@@ -92,50 +92,104 @@ function toggleMenu() {
     spot2.position.set(-5, -4, 3);
     scene.add(spot2);
 
-    /* SPIDER WEB */
-    const webGroup = new THREE.Group();
-    const radials = 12,
-        rings = 7,
-        radius = 6;
-    const mat = new THREE.LineBasicMaterial({
-        color: 0xffffff,
-        transparent: true,
-        opacity: 0.6,
-    });
-    for (let i = 0; i < radials; i++) {
-        const a = ((Math.PI * 2) / radials) * i;
-        const geo = new THREE.BufferGeometry().setFromPoints([
-            new THREE.Vector3(0, 0, 0),
-            new THREE.Vector3(Math.cos(a) * radius, Math.sin(a) * radius, 0),
-        ]);
-        webGroup.add(new THREE.Line(geo, mat));
-    }
-    for (let r = 1; r <= rings; r++) {
-        const pts = [];
-        for (let i = 0; i <= radials; i++) {
-            const a = ((Math.PI * 2) / radials) * i;
-            const rr = (radius / rings) * r;
-            pts.push(new THREE.Vector3(Math.cos(a) * rr, Math.sin(a) * rr, 0));
-        }
-        const geo = new THREE.BufferGeometry().setFromPoints(pts);
-        webGroup.add(new THREE.Line(geo, mat));
-    }
-    webGroup.position.z = -3;
-    scene.add(webGroup);
-
-    /* CENTRAL ORB */
-    const orbGeo = new THREE.SphereGeometry(0.8, 32, 32);
-    const orbMat = new THREE.MeshStandardMaterial({
-        color: 0xffffff,
-        emissive: 0x4488ff,
-        emissiveIntensity: 1.2,
-        roughness: 0,
+    /* SPIDER EMBLEM */
+    const spiderEmblem = new THREE.Group();
+    
+    // Materials
+    const bodyMat = new THREE.MeshStandardMaterial({
+        color: 0x111111,
+        roughness: 0.2,
         metalness: 0.9,
     });
-    const orb = new THREE.Mesh(orbGeo, orbMat);
-    scene.add(orb);
-    const orbLight = new THREE.PointLight(0x4488ff, 6, 8);
-    orb.add(orbLight);
+    const glowMat = new THREE.MeshStandardMaterial({
+        color: 0xffffff,
+        emissive: 0x4488ff,
+        emissiveIntensity: 2.0,
+        roughness: 0.1,
+        metalness: 0.8,
+    });
+
+    // 1. Abdomen (Main Body)
+    const abdomenGeo = new THREE.SphereGeometry(1.2, 32, 32);
+    abdomenGeo.scale(1, 1.5, 0.8);
+    const abdomen = new THREE.Mesh(abdomenGeo, bodyMat);
+    abdomen.position.y = -0.5;
+    spiderEmblem.add(abdomen);
+
+    // Glowing core on abdomen
+    const coreGeo = new THREE.SphereGeometry(0.5, 16, 16);
+    coreGeo.scale(1, 1.8, 0.4);
+    const core = new THREE.Mesh(coreGeo, glowMat);
+    core.position.set(0, -0.5, 0.7);
+    spiderEmblem.add(core);
+
+    // 2. Cephalothorax (Head/Upper body)
+    const headGeo = new THREE.SphereGeometry(0.7, 32, 32);
+    headGeo.scale(1.2, 1, 0.8);
+    const head = new THREE.Mesh(headGeo, bodyMat);
+    head.position.y = 1.2;
+    head.position.z = 0.2;
+    spiderEmblem.add(head);
+
+    // Glowing eyes
+    const eyeGeo = new THREE.CapsuleGeometry(0.15, 0.4, 8, 16);
+    const eyeR = new THREE.Mesh(eyeGeo, glowMat);
+    eyeR.position.set(0.3, 1.4, 0.9);
+    eyeR.rotation.z = -Math.PI / 4;
+    eyeR.rotation.x = Math.PI / 6;
+    spiderEmblem.add(eyeR);
+
+    const eyeL = new THREE.Mesh(eyeGeo, glowMat);
+    eyeL.position.set(-0.3, 1.4, 0.9);
+    eyeL.rotation.z = Math.PI / 4;
+    eyeL.rotation.x = Math.PI / 6;
+    spiderEmblem.add(eyeL);
+
+    // 3. Legs
+    const legGeo = new THREE.CylinderGeometry(0.12, 0.06, 3.5, 16);
+    const jointGeo = new THREE.SphereGeometry(0.25, 16, 16);
+
+    function createLeg(side, angleY, angleZ, posY, posZ) {
+        const legGroup = new THREE.Group();
+        legGroup.position.set(side * 0.6, posY, posZ);
+        legGroup.rotation.y = angleY;
+        legGroup.rotation.z = side * angleZ;
+
+        // Upper segment
+        const femur = new THREE.Mesh(legGeo, bodyMat);
+        femur.position.y = 1.75;
+        legGroup.add(femur);
+
+        // Joint
+        const knee = new THREE.Mesh(jointGeo, glowMat);
+        knee.position.y = 3.5;
+        legGroup.add(knee);
+
+        // Lower segment
+        const lowerLeg = new THREE.Group();
+        lowerLeg.position.y = 3.5; 
+        lowerLeg.rotation.z = side * (Math.PI / 1.5);
+        
+        const tibiaGeo = new THREE.CylinderGeometry(0.08, 0.02, 4, 16);
+        const tibiaMesh = new THREE.Mesh(tibiaGeo, bodyMat);
+        tibiaMesh.position.y = 2; 
+        lowerLeg.add(tibiaMesh);
+
+        legGroup.add(lowerLeg);
+        return legGroup;
+    }
+
+    spiderEmblem.add(createLeg(1, -0.3, -0.8, 1.2, 0));
+    spiderEmblem.add(createLeg(-1, 0.3, -0.8, 1.2, 0));
+    spiderEmblem.add(createLeg(1, -0.1, -1.2, 1.0, 0));
+    spiderEmblem.add(createLeg(-1, 0.1, -1.2, 1.0, 0));
+    spiderEmblem.add(createLeg(1, 0.2, -1.8, 0.5, 0));
+    spiderEmblem.add(createLeg(-1, -0.2, -1.8, 0.5, 0));
+    spiderEmblem.add(createLeg(1, 0.4, -2.2, -0.2, 0));
+    spiderEmblem.add(createLeg(-1, -0.4, -2.2, -0.2, 0));
+
+    spiderEmblem.scale.setScalar(0.85);
+    scene.add(spiderEmblem);
 
     /* PARTICLES */
     const count = window.innerWidth < 768 ? 600 : 2500;
@@ -159,23 +213,7 @@ function toggleMenu() {
     const particles = new THREE.Points(pGeo, pMat);
     scene.add(particles);
 
-    /* RINGS */
-    const r1Mat = new THREE.MeshStandardMaterial({
-        color: 0xffffff,
-        emissive: 0x2196f3,
-        emissiveIntensity: 0.5,
-        roughness: 0.3,
-        metalness: 0.8,
-    });
-    const ring1 = new THREE.Mesh(
-        new THREE.TorusGeometry(3.5, 0.012, 16, 100),
-        r1Mat,
-    );
-    const ring2 = new THREE.Mesh(
-        new THREE.TorusGeometry(4.8, 0.008, 16, 100),
-        r1Mat,
-    );
-    scene.add(ring1, ring2);
+    // Rings removed to clear space for the spider emblem
 
     /* MOUSE */
     let mouseX = 0,
@@ -197,18 +235,27 @@ function toggleMenu() {
     (function anim() {
         requestAnimationFrame(anim);
         const t = clock.getElapsedTime();
-        webGroup.rotation.y = t * 0.05;
-        webGroup.rotation.z = t * 0.02;
-        orb.scale.setScalar(0.95 + 0.07 * Math.sin(t * 1.5));
-        orbMat.emissiveIntensity = 1.0 + 0.4 * Math.sin(t * 2);
-        r1Mat.emissiveIntensity = 0.4 + 0.3 * Math.sin(t * 1.2);
-        ring1.rotation.x = t * 0.3;
-        ring1.rotation.y = t * 0.2;
-        ring2.rotation.x = -t * 0.2;
-        ring2.rotation.z = t * 0.15;
+        
+        // Float and rotate spider emblem
+        spiderEmblem.position.y = Math.sin(t * 1.5) * 0.2;
+        
+        // Mouse parallax for spider emblem
+        // Target rotations based on mouse position
+        const targetRotX = mouseY * 0.3;
+        const targetRotY = mouseX * 0.5 + Math.sin(t * 0.5) * 0.1; // Add slow idle rotation
+        
+        // Smoothly interpolate rotation
+        spiderEmblem.rotation.x += (targetRotX - spiderEmblem.rotation.x) * 0.1;
+        spiderEmblem.rotation.y += (targetRotY - spiderEmblem.rotation.y) * 0.1;
+        spiderEmblem.rotation.z += (mouseX * 0.1 - spiderEmblem.rotation.z) * 0.1;
+
+        // Pulse the emissive core
+        glowMat.emissiveIntensity = 1.5 + 1.0 * Math.sin(t * 3);
+        
         particles.rotation.y += 0.0005;
         particles.rotation.x = mouseY * 0.05;
         particles.rotation.z = mouseX * 0.03;
+        
         cam.position.x += (mouseX * 0.5 - cam.position.x) * 0.03;
         cam.position.y += (mouseY * 0.3 - cam.position.y) * 0.03;
         cam.lookAt(scene.position);
