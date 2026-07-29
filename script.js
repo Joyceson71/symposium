@@ -132,14 +132,17 @@ function toggleMenu() {
     spiderEmblem.add(head);
 
     // Glowing eyes
-    const eyeGeo = new THREE.CapsuleGeometry(0.15, 0.4, 8, 16);
+    const eyeGeo = new THREE.SphereGeometry(0.15, 16, 16);
+    
     const eyeR = new THREE.Mesh(eyeGeo, glowMat);
+    eyeR.scale.set(1, 2.5, 1);
     eyeR.position.set(0.3, 1.4, 0.9);
     eyeR.rotation.z = -Math.PI / 4;
     eyeR.rotation.x = Math.PI / 6;
     spiderEmblem.add(eyeR);
 
     const eyeL = new THREE.Mesh(eyeGeo, glowMat);
+    eyeL.scale.set(1, 2.5, 1);
     eyeL.position.set(-0.3, 1.4, 0.9);
     eyeL.rotation.z = Math.PI / 4;
     eyeL.rotation.x = Math.PI / 6;
