@@ -331,6 +331,17 @@ nav.scrolled {
     pointer-events: none;
 }
 
+#fluid-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -5; /* Above background city, below text */
+    pointer-events: none;
+    mix-blend-mode: screen; /* Makes particles glow vibrantly */
+}
+
 .hero-content {
     position: relative;
     z-index: 10;
