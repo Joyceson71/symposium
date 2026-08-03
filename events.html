@@ -47,80 +47,85 @@
     <a href="register.html" onclick="toggleMenu()">REGISTER</a>
   </div>
 
-  <section id="spider-events-section">
+  
+  <section id="comic-events-section" style="padding: 100px 20px; max-width: 1200px; margin: 0 auto;">
     <div class="events-header reveal">
-      <p class="section-eyebrow">BATTLE GROUNDS</p>
-      <h2 class="section-title graffiti-text">CHOOSE YOUR<br /><span class="red">ARENA</span></h2>
+      <p class="section-eyebrow">CHOOSE YOUR PATH</p>
+      <h2 class="section-title graffiti-text" style="font-size: 4rem; margin-bottom: 40px;">TECHNICAL <span class="red">ARENA</span></h2>
     </div>
-
-    <div class="spider-container reveal">
-      <!-- SVG Spider Web Background -->
-      <svg class="spider-web-bg" viewBox="0 0 800 800" preserveAspectRatio="xMidYMid meet">
-        <g stroke="#CC0000" stroke-width="1" opacity="0.3">
-          <!-- Radial lines -->
-          <line x1="400" y1="400" x2="400" y2="50" />
-          <line x1="400" y1="400" x2="647" y2="153" />
-          <line x1="400" y1="400" x2="750" y2="400" />
-          <line x1="400" y1="400" x2="647" y2="647" />
-          <line x1="400" y1="400" x2="400" y2="750" />
-          <line x1="400" y1="400" x2="153" y2="647" />
-          <line x1="400" y1="400" x2="50" y2="400" />
-          <line x1="400" y1="400" x2="153" y2="153" />
-          
-          <!-- Concentric octagons -->
-          <polygon points="400,300 470,330 500,400 470,470 400,500 330,470 300,400 330,330" fill="none" />
-          <polygon points="400,200 541,259 600,400 541,541 400,600 259,541 200,400 259,259" fill="none" />
-          <polygon points="400,100 612,188 700,400 612,612 400,700 188,612 100,400 188,188" fill="none" />
-        </g>
-      </svg>
-
-      <!-- Center Display -->
-      <div class="spider-center" id="spider-center">
-        <div class="center-content">
-          <div class="center-logo">🕷️</div>
-          <div class="center-title">SELECT AN EVENT</div>
-          <div class="center-desc">Hover over a node in the web to view the event details, rules, and to register.</div>
-        </div>
+    <div class="comic-panel-container">
+      <div class="comic-panel">
+        <div class="comic-bubble" style="top: -15px; right: -15px;">THWIP!</div>
+        <div class="comic-panel-title">📄 PAPER PRESENTATION</div>
+        <h4 style="font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: #e81123; margin-bottom: 10px;">Ink Meets Innovation</h4>
+        <p class="comic-panel-desc" style="margin-bottom: 15px;">Showcase your research and innovative ideas before a panel of expert judges. Present a technical paper on any topic in Electronics, Communication, or Emerging Technologies. Defend your data, impress the jury.</p>
+        <ul style="list-style-type: square; margin-left: 20px; font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #444; margin-bottom: 15px;"><li>Team size: 1–2 members</li><li>IEEE-format report + PPT required</li><li>10 min presentation + 5 min Q&A</li><li>Plagiarism must be below 20%</li></ul>
+        <button class="btn-primary" onclick="window.location.href='register.html'" style="width: 100%; transform: rotate(1deg);">REGISTER NOW</button>
       </div>
-
-      <!-- Event Nodes -->
-      <!-- Technical Events -->
-      <div class="spider-node node-1" onmouseenter="showEvent(0)">
-        <div class="node-icon">📄</div>
-        <div class="node-label">PAPER PRESENTATION</div>
+      <div class="comic-panel">
+        <div class="comic-bubble" style="top: -15px; right: -15px;">BAM!</div>
+        <div class="comic-panel-title">⚙️ PROJECT EXPO</div>
+        <h4 style="font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: #e81123; margin-bottom: 10px;">Build It. Show It. Own It.</h4>
+        <p class="comic-panel-desc" style="margin-bottom: 15px;">Bring your hardware or software masterpiece to the expo floor. Connect your circuits, boot your code, and let your prototype speak louder than any slide deck.</p>
+        <ul style="list-style-type: square; margin-left: 20px; font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #444; margin-bottom: 15px;"><li>Team size: 1–2 members</li><li>Working prototype strongly preferred</li><li>Judged: Innovation, Execution, Impact</li><li>Abstract submission 3 days prior</li></ul>
+        <button class="btn-primary" onclick="window.location.href='register.html'" style="width: 100%; transform: rotate(1deg);">REGISTER NOW</button>
       </div>
-      <div class="spider-node node-2" onmouseenter="showEvent(1)">
-        <div class="node-icon">⚙️</div>
-        <div class="node-label">PROJECT EXPO</div>
+      <div class="comic-panel">
+        <div class="comic-bubble" style="top: -15px; right: -15px;">POW!</div>
+        <div class="comic-panel-title">⚡ CIRCUIT BREAKERS</div>
+        <h4 style="font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: #e81123; margin-bottom: 10px;">Fault Found. Victory Claimed.</h4>
+        <p class="comic-panel-desc" style="margin-bottom: 15px;">You have a broken circuit. A ticking clock. And your bare hands. Identify faults, rewire connections, and build working circuits from scratch under tournament pressure.</p>
+        <ul style="list-style-type: square; margin-left: 20px; font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #444; margin-bottom: 15px;"><li>Team size: 1–2 members</li><li>Components and tools provided on-spot</li><li>3 rounds: Fault ID → Circuit Build → Speed</li><li>No phones or external datasheets</li></ul>
+        <button class="btn-primary" onclick="window.location.href='register.html'" style="width: 100%; transform: rotate(1deg);">REGISTER NOW</button>
       </div>
-      <div class="spider-node node-3" onmouseenter="showEvent(2)">
-        <div class="node-icon">⚡</div>
-        <div class="node-label">CIRCUIT BREAKERS</div>
-      </div>
-      <div class="spider-node node-4" onmouseenter="showEvent(3)">
-        <div class="node-icon">🧠</div>
-        <div class="node-label">TECHNICAL QUIZ</div>
-      </div>
-
-      <!-- Non-Technical Events -->
-      <div class="spider-node node-5" onmouseenter="showEvent(4)">
-        <div class="node-icon">⏱️</div>
-        <div class="node-label">MINUTE TO WIN IT</div>
-      </div>
-      <div class="spider-node node-6" onmouseenter="showEvent(5)">
-        <div class="node-icon">🔍</div>
-        <div class="node-label">DETECTIVE</div>
-      </div>
-      <div class="spider-node node-7" onmouseenter="showEvent(6)">
-        <div class="node-icon">📦</div>
-        <div class="node-label">BOX HUNT</div>
-      </div>
-      <div class="spider-node node-8" onmouseenter="showEvent(7)">
-        <div class="node-icon">🎵</div>
-        <div class="node-label">START MUSIC</div>
-      </div>
+      <div class="comic-panel">
+        <div class="comic-bubble" style="top: -15px; right: -15px;">ZAP!</div>
+        <div class="comic-panel-title">🧠 TECHNICAL QUIZ</div>
+        <h4 style="font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: #e81123; margin-bottom: 10px;">Fast Buzzers. Sharp Minds.</h4>
+        <p class="comic-panel-desc" style="margin-bottom: 15px;">From Maxwells equations to modern microcontrollers — how deep does your ECE knowledge run? A multi-round elimination battle covering core electronics and communication.</p>
+        <ul style="list-style-type: square; margin-left: 20px; font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #444; margin-bottom: 15px;"><li>Team size: 1–2 members</li><li>4 rounds: Written → Rapid fire → Visual → Buzzer</li><li>Elimination after each round</li><li>Topics: Analog, Digital, EDC, Signals</li></ul>
+        <button class="btn-primary" onclick="window.location.href='register.html'" style="width: 100%; transform: rotate(1deg);">REGISTER NOW</button>
+      </div></div>
+    
+    <div class="events-header reveal" style="margin-top: 80px;">
+      <p class="section-eyebrow">TAKE A BREAK</p>
+      <h2 class="section-title graffiti-text" style="font-size: 4rem; margin-bottom: 40px;">NON-TECHNICAL <span class="red">ARENA</span></h2>
     </div>
+    <div class="comic-panel-container">
+      <div class="comic-panel">
+        <div class="comic-bubble" style="top: -15px; right: -15px;">WHOOSH!</div>
+        <div class="comic-panel-title">⏱️ MINUTE TO WIN IT</div>
+        <h4 style="font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: #e81123; margin-bottom: 10px;">60 Seconds of Chaos</h4>
+        <p class="comic-panel-desc" style="margin-bottom: 15px;">Stack, balance, spin, and scramble — complete wild, prop-based challenges in under 60 seconds each. Simple rules. Impossible under pressure.</p>
+        <ul style="list-style-type: square; margin-left: 20px; font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #444; margin-bottom: 15px;"><li>Team size: 1–2 members</li><li>Multiple knockout rounds</li><li>All props provided on-site</li></ul>
+        <button class="btn-primary" onclick="window.location.href='register.html'" style="width: 100%; transform: rotate(1deg);">REGISTER NOW</button>
+      </div>
+      <div class="comic-panel">
+        <div class="comic-bubble" style="top: -15px; right: -15px;">CRASH!</div>
+        <div class="comic-panel-title">🔍 DETECTIVE</div>
+        <h4 style="font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: #e81123; margin-bottom: 10px;">The Clues Dont Lie. Can You?</h4>
+        <p class="comic-panel-desc" style="margin-bottom: 15px;">A crime scene awaits. Evidence is scattered. Time is running out. Observe the scene, decode the clues, connect the dots, and name the culprit before other teams beat you to it.</p>
+        <ul style="list-style-type: square; margin-left: 20px; font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #444; margin-bottom: 15px;"><li>Team size: 1–2 members</li><li>Points for correct culprit + fastest solve</li><li>Red herrings included — trust nothing</li></ul>
+        <button class="btn-primary" onclick="window.location.href='register.html'" style="width: 100%; transform: rotate(1deg);">REGISTER NOW</button>
+      </div>
+      <div class="comic-panel">
+        <div class="comic-bubble" style="top: -15px; right: -15px;">BOOM!</div>
+        <div class="comic-panel-title">📦 BOX HUNT</div>
+        <h4 style="font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: #e81123; margin-bottom: 10px;">Find the Box. Claim the Points.</h4>
+        <p class="comic-panel-desc" style="margin-bottom: 15px;">Numbered boxes are hidden across the campus. A full-campus scavenger race where your speed, observation, and navigation skills determine your destiny.</p>
+        <ul style="list-style-type: square; margin-left: 20px; font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #444; margin-bottom: 15px;"><li>Team size: 1–2 members</li><li>45-minute time limit</li><li>Each box contains a code to submit</li></ul>
+        <button class="btn-primary" onclick="window.location.href='register.html'" style="width: 100%; transform: rotate(1deg);">REGISTER NOW</button>
+      </div>
+      <div class="comic-panel">
+        <div class="comic-bubble" style="top: -15px; right: -15px;">SMASH!</div>
+        <div class="comic-panel-title">🎵 START MUSIC</div>
+        <h4 style="font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: #e81123; margin-bottom: 10px;">Name It Before the Drop</h4>
+        <p class="comic-panel-desc" style="margin-bottom: 15px;">The song starts. You have 5 seconds. A buzzer-based rapid-fire showdown where your playlist knowledge becomes your competitive edge.</p>
+        <ul style="list-style-type: square; margin-left: 20px; font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #444; margin-bottom: 15px;"><li>Team size: 1–2 members</li><li>Buzzer system — first buzz answers</li><li>Wrong answer = negative points</li></ul>
+        <button class="btn-primary" onclick="window.location.href='register.html'" style="width: 100%; transform: rotate(1deg);">REGISTER NOW</button>
+      </div></div>
   </section>
+
 
   <!-- FOOTER -->
   <footer>

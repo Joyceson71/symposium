@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const tiltScript = document.createElement("script");
     tiltScript.src = "https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js";
     tiltScript.onload = () => {
-        VanillaTilt.init(document.querySelectorAll(".event-card, .stat-card, .register-wrap, .skewed-container"), {
+        VanillaTilt.init(document.querySelectorAll(".event-card, .stat-card, .register-wrap, .skewed-container, .comic-panel"), {
             max: 15,
             speed: 400,
             glare: true,
