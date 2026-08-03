@@ -36,7 +36,7 @@ document
     });
 
 /* ===================== LOADER ===================== */
-window.addEventListener("load", () => {
+window.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
         const loader = document.getElementById("loader");
         if(loader) {
