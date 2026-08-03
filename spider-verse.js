@@ -18,7 +18,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // 2. Spidey-Sense Radar Trail
     let lastX = 0;
     let lastY = 0;
-    document.addEventListener("DOMContentLoaded", () => {
     // 1. Spidey-Sense Trail Logic
     document.addEventListener("mousemove", (e) => {
         if (document.body.classList.contains("spidey-sense-active")) {
@@ -46,7 +45,6 @@ document.addEventListener("DOMContentLoaded", () => {
             textElements.forEach(el => el.classList.remove("scroll-glitch-active"));
         }, 150);
     });
-});
 
 /* ===================== THE WALKMAN: AUDIO VISUALIZER ===================== */
 let audioCtx;
