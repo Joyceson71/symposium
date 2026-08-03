@@ -291,9 +291,9 @@ function toggleMenu() {
     scene.add(cyberBrain);
 
     // 2. Dimensional Portal
-    const portalGeo = new THREE.TorusKnotGeometry(4, 1.5, 128, 32);
-    const portalMat = new THREE.MeshStandardMaterial({color: 0x2979ff, emissive: 0xff00ff, emissiveIntensity: 1.2, wireframe: true});
-    const dimPortal = new THREE.Mesh(portalGeo, portalMat);
+    const dimPortalGeo = new THREE.TorusKnotGeometry(4, 1.5, 128, 32);
+    const dimPortalMat = new THREE.MeshStandardMaterial({color: 0x2979ff, emissive: 0xff00ff, emissiveIntensity: 1.2, wireframe: true});
+    const dimPortal = new THREE.Mesh(dimPortalGeo, dimPortalMat);
     dimPortal.position.set(0, -500, 0);
     scene.add(dimPortal);
 
