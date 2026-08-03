@@ -86,20 +86,37 @@ class WebNode {
     draw(ctx, mx, my) {
         if (!this.attached) return; // Only draw when active
         
+        const dist = Math.sqrt(Math.pow(mx - this.anchor.x, 2) + Math.pow(my - this.anchor.y, 2));
+        
+        // Simulated Z-depth: Create a gradient for the stroke to simulate fading into the distance
+        const grad = ctx.createLinearGradient(mx, my, this.anchor.x, this.anchor.y);
+        grad.addColorStop(0, "rgba(255, 255, 255, 0.9)");
+        grad.addColorStop(0.5, "rgba(200, 200, 255, 0.5)");
+        grad.addColorStop(1, "rgba(50, 50, 100, 0.1)");
+        
         ctx.beginPath();
         ctx.moveTo(this.anchor.x, this.anchor.y);
-        // Draw chaotic web strands
         ctx.quadraticCurveTo(this.pos.x, this.pos.y, mx, my);
-        ctx.strokeStyle = "rgba(255, 255, 255, 0.4)";
-        ctx.lineWidth = 1.5;
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = 3; 
+        ctx.lineCap = "round";
         ctx.stroke();
         
-        // Minor connecting threads
+        // Add a secondary glow line for Spider-Verse effect
+        ctx.beginPath();
+        ctx.moveTo(this.anchor.x, this.anchor.y);
+        ctx.quadraticCurveTo(this.pos.x, this.pos.y, mx, my);
+        ctx.strokeStyle = "rgba(0, 255, 255, 0.2)";
+        ctx.lineWidth = 8;
+        ctx.stroke();
+        
+        // Minor connecting threads floating with perspective scaling
         ctx.beginPath();
         ctx.moveTo(this.pos.x, this.pos.y);
-        ctx.lineTo(mx + (Math.random() - 0.5) * 50, my + (Math.random() - 0.5) * 50);
-        ctx.strokeStyle = "rgba(255, 0, 60, 0.2)";
-        ctx.lineWidth = 0.5;
+        const scale = Math.max(0.1, 1 - (dist / 1500));
+        ctx.lineTo(mx + (Math.random() - 0.5) * 150 * scale, my + (Math.random() - 0.5) * 150 * scale);
+        ctx.strokeStyle = "rgba(255, 0, 60, 0.4)";
+        ctx.lineWidth = 1;
         ctx.stroke();
     }
 }

@@ -84,20 +84,27 @@ function toggleMenu() {
         0.1,
         300,
     );
-    // Camera starts at z=9, flies towards -Z
-    cam.position.set(0, 0, 9);
+    
+    const isMobile = window.innerWidth < 768;
+    
+    // Camera starts based on device
+    if (isMobile) {
+        cam.position.set(0, 40, 30); // Wall-crawling perspective
+    } else {
+        cam.position.set(0, 0, 9); // Street level
+    }
 
     /* LIGHTS */
-    scene.add(new THREE.AmbientLight(0x0a0514, 2.0));
-    const dirLight = new THREE.DirectionalLight(0x1976d2, 1.5);
+    scene.add(new THREE.AmbientLight(0x0a0514, 2.5));
+    const dirLight = new THREE.DirectionalLight(0x1976d2, 2.0);
     dirLight.position.set(-10, 20, 10);
     scene.add(dirLight);
     
-    const spot1 = new THREE.SpotLight(0x4488ff, 80, 50, 0.5, 1);
+    const spot1 = new THREE.SpotLight(0x4488ff, 100, 50, 0.5, 1);
     spot1.position.set(5, 8, 5);
     scene.add(spot1);
     
-    const spot2 = new THREE.SpotLight(0xd32f2f, 80, 40);
+    const spot2 = new THREE.SpotLight(0xd32f2f, 100, 40);
     spot2.position.set(-5, -4, 3);
     scene.add(spot2);
 
@@ -170,12 +177,13 @@ function toggleMenu() {
     spiderEmblem.add(createLeg(-1, -0.2, -1.8, 0.5, 0));
     spiderEmblem.add(createLeg(1, 0.4, -2.2, -0.2, 0));
     spiderEmblem.add(createLeg(-1, -0.4, -2.2, -0.2, 0));
-    spiderEmblem.scale.setScalar(0.85);
+    
+    // Scale Emblem massive for Desktop Hero, hide for mobile (wall-crawling)
+    spiderEmblem.scale.setScalar(isMobile ? 0.01 : 1.5);
     scene.add(spiderEmblem);
 
     /* CYBER CITY (INSTANCED MESH) */
-    const isMobile = window.innerWidth < 768;
-    const buildingCount = isMobile ? 400 : 2000;
+    const buildingCount = isMobile ? 600 : 2000;
     
     const buildingGeo = new THREE.BoxGeometry(1, 1, 1);
     buildingGeo.translate(0, 0.5, 0); // Ground alignment
@@ -190,6 +198,8 @@ function toggleMenu() {
     const dummy = new THREE.Object3D();
     const color = new THREE.Color();
     
+    const buildingPositions = []; // To attach spiders later
+    
     for (let i = 0; i < buildingCount; i++) {
         let x = (Math.random() - 0.5) * 160;
         if (x > -10 && x < 10) x = x > 0 ? x + 10 : x - 10;
@@ -197,7 +207,7 @@ function toggleMenu() {
         const z = (Math.random() * -200) + 10;
         const distance = Math.abs(x);
         const heightBase = 5 + (distance * 0.8);
-        const height = heightBase + Math.random() * 25;
+        const height = heightBase + Math.random() * 35;
         
         const w = 2 + Math.random() * 4;
         const d = 2 + Math.random() * 4;
@@ -208,19 +218,56 @@ function toggleMenu() {
         dummy.updateMatrix();
         
         city.setMatrixAt(i, dummy.matrix);
+        buildingPositions.push({x, y: -10 + height, z, w, d});
         
         const shade = 0.4 + Math.random() * 0.6;
-        // Alternating Peter Parker Theme (Red & Blue Buildings)
         if (Math.random() > 0.5) {
-            // Spidey Blue
             color.setRGB(0.05 * shade, 0.2 * shade, 0.5 * shade);
         } else {
-            // Spidey Red
             color.setRGB(0.6 * shade, 0.05 * shade, 0.1 * shade);
         }
         city.setColorAt(i, color);
     }
     scene.add(city);
+    
+    /* PROCEDURAL SPIDERS CRAWLING ON BUILDINGS */
+    const swarmGroup = new THREE.Group();
+    function createMiniSpider() {
+        const mini = new THREE.Group();
+        const abd = new THREE.Mesh(new THREE.SphereGeometry(0.4, 8, 8), bodyMat);
+        abd.position.y = -0.2;
+        mini.add(abd);
+        const hd = new THREE.Mesh(new THREE.SphereGeometry(0.25, 8, 8), bodyMat);
+        hd.position.set(0, 0.3, 0);
+        mini.add(hd);
+        const ce = new THREE.Mesh(new THREE.SphereGeometry(0.15, 8, 8), glowMat);
+        ce.position.set(0, -0.1, 0.3);
+        mini.add(ce);
+        for(let i=0; i<8; i++) {
+            const side = i % 2 === 0 ? 1 : -1;
+            const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.01, 1.2), bodyMat);
+            leg.position.set(side * 0.3, -0.2, (i/2 - 2)*0.2);
+            leg.rotation.z = side * Math.PI/3;
+            leg.rotation.x = (Math.random() - 0.5) * 0.5;
+            mini.add(leg);
+        }
+        return mini;
+    }
+    
+    const swarmCount = isMobile ? 15 : 50;
+    const swarmSpiders = [];
+    for(let i=0; i<swarmCount; i++) {
+        const sp = createMiniSpider();
+        const b = buildingPositions[Math.floor(Math.random() * buildingPositions.length)];
+        // Place on roof or side
+        sp.position.set(b.x, b.y, b.z);
+        sp.rotation.y = Math.random() * Math.PI * 2;
+        sp.scale.setScalar(0.8 + Math.random() * 1.5);
+        // speed and offset
+        swarmSpiders.push({mesh: sp, speed: 0.02 + Math.random()*0.05, offset: Math.random()*100, b: b});
+        swarmGroup.add(sp);
+    }
+    scene.add(swarmGroup);
     
     // Ground plane with grid (Red and Blue)
     const gridHelper = new THREE.GridHelper(300, 60, 0xd32f2f, 0x1976d2);
@@ -229,10 +276,10 @@ function toggleMenu() {
 
     /* PARTICLES */
     const pGeo = new THREE.BufferGeometry();
-    const pos = new Float32Array((isMobile ? 500 : 2000) * 3);
+    const pos = new Float32Array((isMobile ? 800 : 3000) * 3);
     for (let i = 0; i < pos.length; i += 3) {
         pos[i] = (Math.random() - 0.5) * 150;
-        pos[i + 1] = -10 + Math.random() * 60;
+        pos[i + 1] = -10 + Math.random() * 80;
         pos[i + 2] = (Math.random() - 0.5) * 250;
     }
     pGeo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
@@ -247,7 +294,9 @@ function toggleMenu() {
 
     /* MOUSE & SCROLL INTERACTIONS */
     let mouseX = 0, mouseY = 0;
-    let targetCamZ = 9;
+    let targetCamZ = isMobile ? 30 : 9;
+    let targetCamY = isMobile ? 40 : 0;
+    let targetCamX = 0;
     
     document.addEventListener("mousemove", (e) => {
         mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
@@ -259,8 +308,14 @@ function toggleMenu() {
         const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
         const scrollPercent = scrollTop / (scrollHeight || 1);
         
-        // Fly through city: from z=9 to z=-150
-        targetCamZ = 9 - (scrollPercent * 159);
+        if (isMobile) {
+            // Wall-crawling: start high, move down
+            targetCamY = 40 - (scrollPercent * 60);
+            targetCamZ = 30 - (scrollPercent * 15);
+        } else {
+            // Fly through city: from z=9 to z=-150
+            targetCamZ = 9 - (scrollPercent * 159);
+        }
     });
 
     /* RESIZE */
@@ -282,19 +337,32 @@ function toggleMenu() {
         spiderEmblem.rotation.x += (targetRotX - spiderEmblem.rotation.x) * 0.1;
         spiderEmblem.rotation.y += (targetRotY - spiderEmblem.rotation.y) * 0.1;
         spiderEmblem.rotation.z += (mouseX * 0.1 - spiderEmblem.rotation.z) * 0.1;
-        glowMat.emissiveIntensity = 1.5 + 1.0 * Math.sin(t * 3);
+        glowMat.emissiveIntensity = 2.0 + 1.5 * Math.sin(t * 3);
         
         particles.position.y = Math.sin(t * 0.5) * 2;
         
+        // Swarm Spiders animation
+        swarmSpiders.forEach(sp => {
+            sp.mesh.position.y = sp.b.y + Math.sin(t * sp.speed * 10 + sp.offset) * 0.5;
+            sp.mesh.rotation.x = Math.sin(t * sp.speed * 15) * 0.2;
+        });
+        
         cam.position.z += (targetCamZ - cam.position.z) * 0.05;
         
-        const targetCamX = mouseX * 2;
-        const targetCamY = mouseY * 1.5;
-        cam.position.x += (targetCamX - cam.position.x) * 0.05;
-        cam.position.y += (targetCamY - cam.position.y) * 0.05;
-        
-        // Dynamic lookAt logic to ensure we always look down the street
-        cam.lookAt(cam.position.x * 0.5, cam.position.y * 0.5, cam.position.z - 20);
+        if (isMobile) {
+            targetCamX = Math.sin(t * 0.5) * 2;
+            cam.position.x += (targetCamX - cam.position.x) * 0.05;
+            cam.position.y += (targetCamY - cam.position.y) * 0.05;
+            // Look down the wall
+            cam.lookAt(cam.position.x, cam.position.y - 20, cam.position.z - 5);
+        } else {
+            targetCamX = mouseX * 2;
+            const tcY = mouseY * 1.5;
+            cam.position.x += (targetCamX - cam.position.x) * 0.05;
+            cam.position.y += (tcY - cam.position.y) * 0.05;
+            // Dynamic lookAt logic to ensure we always look down the street
+            cam.lookAt(cam.position.x * 0.5, cam.position.y * 0.5, cam.position.z - 20);
+        }
         
         renderer.render(scene, cam);
     })();
@@ -304,7 +372,6 @@ function toggleMenu() {
 (function initAbout() {
     const canvas = document.getElementById("about-canvas");
     if(!canvas) return;
-    if (!canvas) return;
     const renderer = new THREE.WebGLRenderer({
         canvas,
         antialias: true,
@@ -318,42 +385,77 @@ function toggleMenu() {
     const cam = new THREE.PerspectiveCamera(50, w / h, 0.1, 100);
     cam.position.set(0, 0, 5);
     scene.add(new THREE.AmbientLight(0x001133, 1));
-    const sl = new THREE.SpotLight(0x4488ff, 40, 12, 0.4);
+    const sl = new THREE.SpotLight(0x4488ff, 60, 12, 0.4);
     sl.position.set(3, 4, 4);
     scene.add(sl);
-    const ico = new THREE.Mesh(
-        new THREE.IcosahedronGeometry(1.4, 0),
-        new THREE.MeshStandardMaterial({
-            color: 0xffffff,
-            emissive: 0x2196f3,
-            emissiveIntensity: 0.6,
-            roughness: 0.1,
-            metalness: 0.9,
-            wireframe: false,
-        }),
-    );
-    const icoWire = new THREE.Mesh(
-        new THREE.IcosahedronGeometry(1.42, 0),
-        new THREE.MeshBasicMaterial({
-            color: 0x90caf9,
-            wireframe: true,
-            transparent: true,
-            opacity: 0.3,
-        }),
-    );
-    scene.add(ico, icoWire);
+    
+    // Create Hologram Spider-bot
+    const spiderBot = new THREE.Group();
+    const holoMat = new THREE.MeshStandardMaterial({
+        color: 0x2196f3,
+        emissive: 0x4488ff,
+        emissiveIntensity: 0.8,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.8
+    });
+    
+    // Body
+    const body = new THREE.Mesh(new THREE.OctahedronGeometry(1.0, 1), holoMat);
+    body.scale.set(1, 0.8, 1.2);
+    spiderBot.add(body);
+    
+    // Legs
+    for (let i = 0; i < 8; i++) {
+        const side = i % 2 === 0 ? 1 : -1;
+        const legGroup = new THREE.Group();
+        legGroup.position.set(side * 0.5, 0, (Math.floor(i / 2) - 1.5) * 0.5);
+        legGroup.rotation.y = (Math.floor(i / 2) - 1.5) * 0.2;
+        
+        const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.02, 1.5, 4), holoMat);
+        leg.position.set(side * 0.7, -0.5, 0);
+        leg.rotation.z = side * Math.PI / 4;
+        legGroup.add(leg);
+        
+        spiderBot.add(legGroup);
+    }
+    
+    scene.add(spiderBot);
+    
     const clock = new THREE.Clock();
     let hovered = false;
+    let targetRotationX = 0;
+    let targetRotationY = 0;
+    
     canvas.addEventListener("mouseenter", () => (hovered = true));
-    canvas.addEventListener("mouseleave", () => (hovered = false));
+    canvas.addEventListener("mouseleave", () => {
+        hovered = false;
+        targetRotationX = 0;
+        targetRotationY = 0;
+    });
+    canvas.addEventListener("mousemove", (e) => {
+        if(hovered) {
+            const rect = canvas.getBoundingClientRect();
+            targetRotationY = ((e.clientX - rect.left) / rect.width - 0.5) * Math.PI;
+            targetRotationX = ((e.clientY - rect.top) / rect.height - 0.5) * Math.PI;
+        }
+    });
+    
     (function a() {
         requestAnimationFrame(a);
         const t = clock.getElapsedTime();
-        ico.rotation.y = t * 0.4;
-        ico.rotation.x = t * 0.2;
-        icoWire.rotation.y = t * 0.4;
-        icoWire.rotation.x = t * 0.2;
-        ico.scale.setScalar(1 + 0.04 * Math.sin(t * 2));
+        
+        if (!hovered) {
+            spiderBot.rotation.y += 0.01;
+            spiderBot.position.y = Math.sin(t * 2) * 0.1;
+        } else {
+            spiderBot.rotation.y += (targetRotationY - spiderBot.rotation.y) * 0.1;
+            spiderBot.rotation.x += (targetRotationX - spiderBot.rotation.x) * 0.1;
+        }
+        
+        // Hologram pulse effect
+        holoMat.emissiveIntensity = 0.5 + Math.sin(t * 5) * 0.3;
+        
         renderer.render(scene, cam);
     })();
 })();

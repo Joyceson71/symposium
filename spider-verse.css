@@ -1,4 +1,3 @@
-
 /* =========================================================
    MILES MORALES / SPIDER-VERSE MEGA UI (COOLER THAN PETER)
    ========================================================= */
@@ -98,4 +97,50 @@
     opacity: 0.6;
     z-index: -1;
     pointer-events: none;
+}
+
+/* =========================================================
+   3D UI ACCENTS
+   ========================================================= */
+
+/* Use a safe wrapper for perspective instead of body to prevent scroll breaking */
+#hero, #about, #countdown, #prize {
+    perspective: 1000px;
+}
+
+/* Floating Elements with Safe Hover Transforms */
+.hero-content, .about-grid, .countdown-grid, .prize-content {
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.hero-content:hover {
+    transform: scale(1.05) translateZ(20px);
+}
+
+.event-card, .stat-card, .tier-card {
+    transition: transform 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 15px rgba(0,255,255,0.1);
+}
+
+.event-card:hover, .stat-card:hover, .tier-card:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 25px rgba(0,255,255,0.4);
+}
+
+/* 6. Mobile Refinements */
+@media (max-width: 767px) {
+    /* Mobile: Glassmorphism for better visibility over dense 3D background */
+    section {
+        background: rgba(10, 5, 20, 0.6);
+        border: 1px solid rgba(25, 118, 210, 0.3);
+        border-radius: 20px;
+        backdrop-filter: blur(8px);
+        margin: 10px;
+        padding: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    
+    .hero-title.graffiti-text {
+        font-size: 3.5rem;
+    }
 }
