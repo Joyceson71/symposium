@@ -360,3 +360,186 @@
     z-index: 10;
 }
 
+/* =========================================================
+   NEW: 3D HOLOGRAPHIC CAROUSEL (EVENTS)
+   ========================================================= */
+#hologram-events-section {
+    padding: 100px 0;
+    width: 100vw;
+    min-height: 100vh;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: radial-gradient(circle at center, #110522 0%, #050505 70%);
+}
+
+.carousel-3d-scene {
+    width: 300px;
+    height: 450px;
+    position: relative;
+    perspective: 1200px;
+    margin: 50px auto;
+}
+
+.carousel-3d-ring {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.holo-card {
+    position: absolute;
+    width: 280px;
+    height: 420px;
+    left: 10px;
+    top: 15px;
+    background: rgba(10, 15, 30, 0.6);
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.1), inset 0 0 15px rgba(255, 0, 100, 0.1);
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    color: #fff;
+    /* CSS transform will be applied by JS */
+    opacity: 0.9;
+    transition: box-shadow 0.3s, transform 0.3s, opacity 0.5s;
+}
+
+.holo-card:hover {
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.5), inset 0 0 20px rgba(255, 0, 100, 0.4);
+    opacity: 1;
+}
+
+.holo-card-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.holo-icon {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    text-shadow: 0 0 15px rgba(0, 255, 255, 0.8);
+}
+
+.holo-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.5rem;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.holo-tagline {
+    font-family: 'Inter', sans-serif;
+    color: #0ff;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.holo-desc {
+    font-size: 0.85rem;
+    text-align: justify;
+    line-height: 1.4;
+    flex-grow: 1;
+    color: #ccc;
+    font-family: 'Inter', sans-serif;
+}
+
+.holo-rules {
+    font-size: 0.75rem;
+    color: #aaa;
+    margin-bottom: 15px;
+    padding-left: 20px;
+    list-style-type: square;
+    font-family: 'Inter', sans-serif;
+}
+
+.holo-btn {
+    width: 100%;
+    background: transparent;
+    border: 1px solid #f03;
+    color: #f03;
+    padding: 10px;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-shadow: 0 0 5px #f03;
+    box-shadow: inset 0 0 5px rgba(255,0,50,0.3);
+}
+
+.holo-btn:hover {
+    background: #f03;
+    color: #fff;
+    box-shadow: 0 0 15px #f03;
+}
+
+.holo-scanline {
+    position: absolute;
+    width: 100%;
+    height: 4px;
+    background: rgba(0, 255, 255, 0.5);
+    opacity: 0.4;
+    animation: scanline 4s linear infinite;
+    pointer-events: none;
+    z-index: 10;
+}
+
+@keyframes scanline {
+    0% { top: 0%; }
+    100% { top: 100%; }
+}
+
+.carousel-controls {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    z-index: 10;
+}
+
+/* 📱 Mobile Fallback: 3D Staggered Deck */
+@media (max-width: 768px) {
+    .carousel-3d-scene {
+        perspective: none;
+        height: auto;
+        margin: 20px auto;
+    }
+    .carousel-3d-ring {
+        position: relative;
+        transform-style: flat;
+        transition: none;
+        transform: none !important;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+    }
+    .holo-card {
+        position: relative;
+        left: 0;
+        top: 0;
+        transform: none !important;
+        width: 90vw;
+        height: auto;
+        min-height: 400px;
+    }
+    .carousel-controls {
+        display: none;
+    }
+}

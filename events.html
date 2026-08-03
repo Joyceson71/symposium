@@ -10,7 +10,7 @@
     rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="spider-verse.css?v=3">
+  <link rel="stylesheet" href="spider-verse.css?v=4">
   <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
 </head>
 
@@ -48,83 +48,113 @@
   </div>
 
   
-  <section id="comic-events-section" style="padding: 100px 20px; max-width: 1200px; margin: 0 auto;">
-    <div class="events-header reveal">
-      <p class="section-eyebrow">CHOOSE YOUR PATH</p>
-      <h2 class="section-title graffiti-text" style="font-size: 4rem; margin-bottom: 40px;">TECHNICAL <span class="red">ARENA</span></h2>
+  
+  <section id="hologram-events-section">
+    <div class="events-header reveal" style="text-align: center; margin-bottom: 2rem;">
+      <p class="section-eyebrow" style="color: #0ff; letter-spacing: 4px;">MULTIVERSE ARCHIVES</p>
+      <h2 class="section-title graffiti-text" style="font-size: 4rem;">EVENT <span class="red">DATABASE</span></h2>
     </div>
-    <div class="comic-panel-container">
-      <div class="comic-panel">
-        <div class="comic-bubble" style="top: -15px; right: -15px;">THWIP!</div>
-        <div class="comic-panel-title">📄 PAPER PRESENTATION</div>
-        <h4 style="font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: #e81123; margin-bottom: 10px;">Ink Meets Innovation</h4>
-        <p class="comic-panel-desc" style="margin-bottom: 15px;">Showcase your research and innovative ideas before a panel of expert judges. Present a technical paper on any topic in Electronics, Communication, or Emerging Technologies. Defend your data, impress the jury.</p>
-        <ul style="list-style-type: square; margin-left: 20px; font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #444; margin-bottom: 15px;"><li>Team size: 1–2 members</li><li>IEEE-format report + PPT required</li><li>10 min presentation + 5 min Q&A</li><li>Plagiarism must be below 20%</li></ul>
-        <button class="btn-primary" onclick="window.location.href='register.html'" style="width: 100%; transform: rotate(1deg);">REGISTER NOW</button>
-      </div>
-      <div class="comic-panel">
-        <div class="comic-bubble" style="top: -15px; right: -15px;">BAM!</div>
-        <div class="comic-panel-title">⚙️ PROJECT EXPO</div>
-        <h4 style="font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: #e81123; margin-bottom: 10px;">Build It. Show It. Own It.</h4>
-        <p class="comic-panel-desc" style="margin-bottom: 15px;">Bring your hardware or software masterpiece to the expo floor. Connect your circuits, boot your code, and let your prototype speak louder than any slide deck.</p>
-        <ul style="list-style-type: square; margin-left: 20px; font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #444; margin-bottom: 15px;"><li>Team size: 1–2 members</li><li>Working prototype strongly preferred</li><li>Judged: Innovation, Execution, Impact</li><li>Abstract submission 3 days prior</li></ul>
-        <button class="btn-primary" onclick="window.location.href='register.html'" style="width: 100%; transform: rotate(1deg);">REGISTER NOW</button>
-      </div>
-      <div class="comic-panel">
-        <div class="comic-bubble" style="top: -15px; right: -15px;">POW!</div>
-        <div class="comic-panel-title">⚡ CIRCUIT BREAKERS</div>
-        <h4 style="font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: #e81123; margin-bottom: 10px;">Fault Found. Victory Claimed.</h4>
-        <p class="comic-panel-desc" style="margin-bottom: 15px;">You have a broken circuit. A ticking clock. And your bare hands. Identify faults, rewire connections, and build working circuits from scratch under tournament pressure.</p>
-        <ul style="list-style-type: square; margin-left: 20px; font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #444; margin-bottom: 15px;"><li>Team size: 1–2 members</li><li>Components and tools provided on-spot</li><li>3 rounds: Fault ID → Circuit Build → Speed</li><li>No phones or external datasheets</li></ul>
-        <button class="btn-primary" onclick="window.location.href='register.html'" style="width: 100%; transform: rotate(1deg);">REGISTER NOW</button>
-      </div>
-      <div class="comic-panel">
-        <div class="comic-bubble" style="top: -15px; right: -15px;">ZAP!</div>
-        <div class="comic-panel-title">🧠 TECHNICAL QUIZ</div>
-        <h4 style="font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: #e81123; margin-bottom: 10px;">Fast Buzzers. Sharp Minds.</h4>
-        <p class="comic-panel-desc" style="margin-bottom: 15px;">From Maxwells equations to modern microcontrollers — how deep does your ECE knowledge run? A multi-round elimination battle covering core electronics and communication.</p>
-        <ul style="list-style-type: square; margin-left: 20px; font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #444; margin-bottom: 15px;"><li>Team size: 1–2 members</li><li>4 rounds: Written → Rapid fire → Visual → Buzzer</li><li>Elimination after each round</li><li>Topics: Analog, Digital, EDC, Signals</li></ul>
-        <button class="btn-primary" onclick="window.location.href='register.html'" style="width: 100%; transform: rotate(1deg);">REGISTER NOW</button>
-      </div></div>
     
-    <div class="events-header reveal" style="margin-top: 80px;">
-      <p class="section-eyebrow">TAKE A BREAK</p>
-      <h2 class="section-title graffiti-text" style="font-size: 4rem; margin-bottom: 40px;">NON-TECHNICAL <span class="red">ARENA</span></h2>
+    <div class="carousel-3d-scene">
+      <div class="carousel-3d-ring" id="event-carousel">
+        
+      <div class="holo-card" data-index="0">
+        <div class="holo-card-inner">
+            <div class="holo-icon">📄</div>
+            <h3 class="holo-title glitch-text" data-text="PAPER PRESENTATION">PAPER PRESENTATION</h3>
+            <h4 class="holo-tagline">Ink Meets Innovation</h4>
+            <div class="holo-scanline"></div>
+            <p class="holo-desc">Showcase your research and innovative ideas before a panel of expert judges. Present a technical paper on any topic in Electronics, Communication, or Emerging Technologies. Defend your data, impress the jury.</p>
+            <ul class="holo-rules"><li>Team size: 1–2 members</li><li>IEEE-format report + PPT required</li><li>10 min presentation + 5 min Q&A</li><li>Plagiarism must be below 20%</li></ul>
+            <button class="holo-btn" onclick="window.location.href='register.html'">REGISTER SEQUENCE</button>
+        </div>
+      </div>
+      <div class="holo-card" data-index="1">
+        <div class="holo-card-inner">
+            <div class="holo-icon">⚙️</div>
+            <h3 class="holo-title glitch-text" data-text="PROJECT EXPO">PROJECT EXPO</h3>
+            <h4 class="holo-tagline">Build It. Show It. Own It.</h4>
+            <div class="holo-scanline"></div>
+            <p class="holo-desc">Bring your hardware or software masterpiece to the expo floor. Connect your circuits, boot your code, and let your prototype speak louder than any slide deck.</p>
+            <ul class="holo-rules"><li>Team size: 1–2 members</li><li>Working prototype strongly preferred</li><li>Judged: Innovation, Execution, Impact</li><li>Abstract submission 3 days prior</li></ul>
+            <button class="holo-btn" onclick="window.location.href='register.html'">REGISTER SEQUENCE</button>
+        </div>
+      </div>
+      <div class="holo-card" data-index="2">
+        <div class="holo-card-inner">
+            <div class="holo-icon">⚡</div>
+            <h3 class="holo-title glitch-text" data-text="CIRCUIT BREAKERS">CIRCUIT BREAKERS</h3>
+            <h4 class="holo-tagline">Fault Found. Victory Claimed.</h4>
+            <div class="holo-scanline"></div>
+            <p class="holo-desc">You have a broken circuit. A ticking clock. And your bare hands. Identify faults, rewire connections, and build working circuits from scratch under tournament pressure.</p>
+            <ul class="holo-rules"><li>Team size: 1–2 members</li><li>Components and tools provided on-spot</li><li>3 rounds: Fault ID → Circuit Build → Speed</li><li>No phones or external datasheets</li></ul>
+            <button class="holo-btn" onclick="window.location.href='register.html'">REGISTER SEQUENCE</button>
+        </div>
+      </div>
+      <div class="holo-card" data-index="3">
+        <div class="holo-card-inner">
+            <div class="holo-icon">🧠</div>
+            <h3 class="holo-title glitch-text" data-text="TECHNICAL QUIZ">TECHNICAL QUIZ</h3>
+            <h4 class="holo-tagline">Fast Buzzers. Sharp Minds.</h4>
+            <div class="holo-scanline"></div>
+            <p class="holo-desc">From Maxwells equations to modern microcontrollers — how deep does your ECE knowledge run? A multi-round elimination battle covering core electronics and communication.</p>
+            <ul class="holo-rules"><li>Team size: 1–2 members</li><li>4 rounds: Written → Rapid fire → Visual → Buzzer</li><li>Elimination after each round</li><li>Topics: Analog, Digital, EDC, Signals</li></ul>
+            <button class="holo-btn" onclick="window.location.href='register.html'">REGISTER SEQUENCE</button>
+        </div>
+      </div>
+      <div class="holo-card" data-index="4">
+        <div class="holo-card-inner">
+            <div class="holo-icon">⏱️</div>
+            <h3 class="holo-title glitch-text" data-text="MINUTE TO WIN IT">MINUTE TO WIN IT</h3>
+            <h4 class="holo-tagline">60 Seconds of Chaos</h4>
+            <div class="holo-scanline"></div>
+            <p class="holo-desc">Stack, balance, spin, and scramble — complete wild, prop-based challenges in under 60 seconds each. Simple rules. Impossible under pressure.</p>
+            <ul class="holo-rules"><li>Team size: 1–2 members</li><li>Multiple knockout rounds</li><li>All props provided on-site</li></ul>
+            <button class="holo-btn" onclick="window.location.href='register.html'">REGISTER SEQUENCE</button>
+        </div>
+      </div>
+      <div class="holo-card" data-index="5">
+        <div class="holo-card-inner">
+            <div class="holo-icon">🔍</div>
+            <h3 class="holo-title glitch-text" data-text="DETECTIVE">DETECTIVE</h3>
+            <h4 class="holo-tagline">The Clues Dont Lie. Can You?</h4>
+            <div class="holo-scanline"></div>
+            <p class="holo-desc">A crime scene awaits. Evidence is scattered. Time is running out. Observe the scene, decode the clues, connect the dots, and name the culprit before other teams beat you to it.</p>
+            <ul class="holo-rules"><li>Team size: 1–2 members</li><li>Points for correct culprit + fastest solve</li><li>Red herrings included — trust nothing</li></ul>
+            <button class="holo-btn" onclick="window.location.href='register.html'">REGISTER SEQUENCE</button>
+        </div>
+      </div>
+      <div class="holo-card" data-index="6">
+        <div class="holo-card-inner">
+            <div class="holo-icon">📦</div>
+            <h3 class="holo-title glitch-text" data-text="BOX HUNT">BOX HUNT</h3>
+            <h4 class="holo-tagline">Find the Box. Claim the Points.</h4>
+            <div class="holo-scanline"></div>
+            <p class="holo-desc">Numbered boxes are hidden across the campus. A full-campus scavenger race where your speed, observation, and navigation skills determine your destiny.</p>
+            <ul class="holo-rules"><li>Team size: 1–2 members</li><li>45-minute time limit</li><li>Each box contains a code to submit</li></ul>
+            <button class="holo-btn" onclick="window.location.href='register.html'">REGISTER SEQUENCE</button>
+        </div>
+      </div>
+      <div class="holo-card" data-index="7">
+        <div class="holo-card-inner">
+            <div class="holo-icon">🎵</div>
+            <h3 class="holo-title glitch-text" data-text="START MUSIC">START MUSIC</h3>
+            <h4 class="holo-tagline">Name It Before the Drop</h4>
+            <div class="holo-scanline"></div>
+            <p class="holo-desc">The song starts. You have 5 seconds. A buzzer-based rapid-fire showdown where your playlist knowledge becomes your competitive edge.</p>
+            <ul class="holo-rules"><li>Team size: 1–2 members</li><li>Buzzer system — first buzz answers</li><li>Wrong answer = negative points</li></ul>
+            <button class="holo-btn" onclick="window.location.href='register.html'">REGISTER SEQUENCE</button>
+        </div>
+      </div>
+      </div>
     </div>
-    <div class="comic-panel-container">
-      <div class="comic-panel">
-        <div class="comic-bubble" style="top: -15px; right: -15px;">WHOOSH!</div>
-        <div class="comic-panel-title">⏱️ MINUTE TO WIN IT</div>
-        <h4 style="font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: #e81123; margin-bottom: 10px;">60 Seconds of Chaos</h4>
-        <p class="comic-panel-desc" style="margin-bottom: 15px;">Stack, balance, spin, and scramble — complete wild, prop-based challenges in under 60 seconds each. Simple rules. Impossible under pressure.</p>
-        <ul style="list-style-type: square; margin-left: 20px; font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #444; margin-bottom: 15px;"><li>Team size: 1–2 members</li><li>Multiple knockout rounds</li><li>All props provided on-site</li></ul>
-        <button class="btn-primary" onclick="window.location.href='register.html'" style="width: 100%; transform: rotate(1deg);">REGISTER NOW</button>
-      </div>
-      <div class="comic-panel">
-        <div class="comic-bubble" style="top: -15px; right: -15px;">CRASH!</div>
-        <div class="comic-panel-title">🔍 DETECTIVE</div>
-        <h4 style="font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: #e81123; margin-bottom: 10px;">The Clues Dont Lie. Can You?</h4>
-        <p class="comic-panel-desc" style="margin-bottom: 15px;">A crime scene awaits. Evidence is scattered. Time is running out. Observe the scene, decode the clues, connect the dots, and name the culprit before other teams beat you to it.</p>
-        <ul style="list-style-type: square; margin-left: 20px; font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #444; margin-bottom: 15px;"><li>Team size: 1–2 members</li><li>Points for correct culprit + fastest solve</li><li>Red herrings included — trust nothing</li></ul>
-        <button class="btn-primary" onclick="window.location.href='register.html'" style="width: 100%; transform: rotate(1deg);">REGISTER NOW</button>
-      </div>
-      <div class="comic-panel">
-        <div class="comic-bubble" style="top: -15px; right: -15px;">BOOM!</div>
-        <div class="comic-panel-title">📦 BOX HUNT</div>
-        <h4 style="font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: #e81123; margin-bottom: 10px;">Find the Box. Claim the Points.</h4>
-        <p class="comic-panel-desc" style="margin-bottom: 15px;">Numbered boxes are hidden across the campus. A full-campus scavenger race where your speed, observation, and navigation skills determine your destiny.</p>
-        <ul style="list-style-type: square; margin-left: 20px; font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #444; margin-bottom: 15px;"><li>Team size: 1–2 members</li><li>45-minute time limit</li><li>Each box contains a code to submit</li></ul>
-        <button class="btn-primary" onclick="window.location.href='register.html'" style="width: 100%; transform: rotate(1deg);">REGISTER NOW</button>
-      </div>
-      <div class="comic-panel">
-        <div class="comic-bubble" style="top: -15px; right: -15px;">SMASH!</div>
-        <div class="comic-panel-title">🎵 START MUSIC</div>
-        <h4 style="font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: #e81123; margin-bottom: 10px;">Name It Before the Drop</h4>
-        <p class="comic-panel-desc" style="margin-bottom: 15px;">The song starts. You have 5 seconds. A buzzer-based rapid-fire showdown where your playlist knowledge becomes your competitive edge.</p>
-        <ul style="list-style-type: square; margin-left: 20px; font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #444; margin-bottom: 15px;"><li>Team size: 1–2 members</li><li>Buzzer system — first buzz answers</li><li>Wrong answer = negative points</li></ul>
-        <button class="btn-primary" onclick="window.location.href='register.html'" style="width: 100%; transform: rotate(1deg);">REGISTER NOW</button>
-      </div></div>
+    
+    <div class="carousel-controls">
+      <button id="carousel-prev" class="btn-primary" style="background: rgba(0,255,255,0.2); border-color: #0ff; color: #0ff; box-shadow: 0 0 10px #0ff; margin-right: 20px;">&lt; PREV</button>
+      <button id="carousel-next" class="btn-primary" style="background: rgba(255,0,60,0.2); border-color: #f03; color: #f03; box-shadow: 0 0 10px #f03;">NEXT &gt;</button>
+    </div>
   </section>
+
 
 
   <!-- FOOTER -->
@@ -173,5 +203,6 @@
 
   <script src="script.js?v=3"></script>
   <script src="spider-verse.js?v=3"></script>
+  <script src="spider-carousel.js?v=4"></script>
 </body>
 </html>
