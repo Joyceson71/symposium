@@ -317,6 +317,42 @@ function toggleMenu() {
             targetCamZ = 9 - (scrollPercent * 159);
         }
     });
+    });
+
+    /* MULTIVERSE PORTALS */
+    const portals = [];
+    const portalGeo = new THREE.TorusGeometry(1.5, 0.3, 16, 50);
+    const portalMat = new THREE.MeshBasicMaterial({ color: 0xff00ff, wireframe: true, transparent: true, opacity: 0.8 });
+    
+    for(let i=0; i<3; i++) {
+        const portal = new THREE.Mesh(portalGeo, portalMat);
+        portal.position.set(
+            (Math.random() - 0.5) * 40,
+            Math.random() * 20,
+            -20 - Math.random() * 80
+        );
+        portal.rotation.y = Math.random() * Math.PI;
+        scene.add(portal);
+        portals.push(portal);
+    }
+    
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    window.addEventListener('click', (e) => {
+        mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+        mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+        raycaster.setFromCamera(mouse, cam);
+        const intersects = raycaster.intersectObjects(portals);
+        if(intersects.length > 0) {
+            if(typeof showEasterEgg === 'function') showEasterEgg();
+        }
+    });
+
+    // Audio Visualizer sync
+    let beatPulse = 0;
+    window.addEventListener('beat-bump', () => {
+        beatPulse = 1.0;
+    });
 
     /* RESIZE */
     window.addEventListener("resize", () => {
@@ -337,7 +373,16 @@ function toggleMenu() {
         spiderEmblem.rotation.x += (targetRotX - spiderEmblem.rotation.x) * 0.1;
         spiderEmblem.rotation.y += (targetRotY - spiderEmblem.rotation.y) * 0.1;
         spiderEmblem.rotation.z += (mouseX * 0.1 - spiderEmblem.rotation.z) * 0.1;
-        glowMat.emissiveIntensity = 2.0 + 1.5 * Math.sin(t * 3);
+        
+        beatPulse = Math.max(0, beatPulse - 0.05);
+        glowMat.emissiveIntensity = 2.0 + 1.5 * Math.sin(t * 3) + beatPulse * 5.0;
+        pMat.size = 0.15 + beatPulse * 0.2;
+        
+        portals.forEach((p, i) => {
+            p.rotation.z += 0.05 + beatPulse * 0.1;
+            p.rotation.x += 0.01;
+            p.scale.setScalar(1 + Math.sin(t*2 + i)*0.1 + beatPulse*0.3);
+        });
         
         particles.position.y = Math.sin(t * 0.5) * 2;
         
@@ -988,14 +1033,17 @@ function showEvent(idx) {
     rulesHtml += "</ul>";
     
     center.innerHTML = `
-        <div class="center-content">
-            <div class="center-logo">${ev.logo}</div>
-            <div class="center-title">${ev.title}</div>
-            <div class="event-tagline" style="margin-bottom: 12px; display:block;">${ev.tagline}</div>
-            <div class="center-desc">${ev.desc}</div>
-            ${rulesHtml}
-            <div style="margin-top: 24px;">
-                <button class="btn-primary" onclick="window.location.href='register.html'">REGISTER FOR THIS</button>
+        <div class="comic-panel-container" style="animation: sv-chromatic-shift 0.3s forwards;">
+            <div class="comic-panel">
+                <div class="comic-bubble">THWIP!</div>
+                <div class="center-logo" style="font-size: 3rem; margin-bottom: 10px;">${ev.logo}</div>
+                <div class="comic-panel-title">${ev.title}</div>
+                <div class="event-tagline" style="font-family: 'Permanent Marker', cursive; color: #e81123; margin-bottom: 15px; font-size: 1.2rem; display:block;">${ev.tagline}</div>
+                <div class="comic-panel-desc" style="margin-bottom: 15px;">${ev.desc}</div>
+                ${rulesHtml}
+                <div style="margin-top: 24px; text-align: center;">
+                    <button class="btn-primary" onclick="window.location.href='register.html'" style="transform: rotate(2deg); box-shadow: 4px 4px 0 #0ff;">REGISTER NOW</button>
+                </div>
             </div>
         </div>
     `;

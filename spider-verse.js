@@ -18,40 +18,163 @@ document.addEventListener("DOMContentLoaded", () => {
     // 2. Spidey-Sense Radar Trail
     let lastX = 0;
     let lastY = 0;
+    document.addEventListener("DOMContentLoaded", () => {
+    // 1. Spidey-Sense Trail Logic
     document.addEventListener("mousemove", (e) => {
-        const dx = e.clientX - lastX;
-        const dy = e.clientY - lastY;
-        const dist = Math.sqrt(dx*dx + dy*dy);
-        
-        // Only spawn trail if moving fast enough
-        if (dist > 10) {
-            const dot = document.createElement("div");
-            dot.className = "spidey-sense-trail";
-            dot.style.left = e.clientX + "px";
-            dot.style.top = e.clientY + "px";
-            // Alternate colors between miles red and miles cyan
-            dot.style.color = Math.random() > 0.5 ? "#ff1a1a" : "#00ffff";
-            document.body.appendChild(dot);
-            
-            setTimeout(() => {
-                dot.remove();
-            }, 1000);
-            
-            lastX = e.clientX;
-            lastY = e.clientY;
+        if (document.body.classList.contains("spidey-sense-active")) {
+            if (Math.random() > 0.8) {
+                const trail = document.createElement("div");
+                trail.className = "spidey-sense-trail";
+                trail.style.left = e.clientX + "px";
+                trail.style.top = e.clientY + "px";
+                // Randomize colors between red and blue
+                trail.style.color = Math.random() > 0.5 ? "#cc0000" : "#00f0ff";
+                document.body.appendChild(trail);
+                setTimeout(() => trail.remove(), 1000);
+            }
         }
     });
 
-    // 3. Scroll Velocity Chromatic Aberration
+    // 2. Scroll Glitch Effect
     let scrollTimeout;
-    const glitchElements = document.querySelectorAll("h1, h2, .multiverse-glitch-text, .ultra-shadow-text");
     window.addEventListener("scroll", () => {
-        glitchElements.forEach(el => el.classList.add("scroll-glitch-active"));
+        const textElements = document.querySelectorAll(".graffiti-text");
+        textElements.forEach(el => el.classList.add("scroll-glitch-active"));
+        
         clearTimeout(scrollTimeout);
         scrollTimeout = setTimeout(() => {
-            glitchElements.forEach(el => el.classList.remove("scroll-glitch-active"));
+            textElements.forEach(el => el.classList.remove("scroll-glitch-active"));
         }, 150);
     });
+});
+
+/* ===================== THE WALKMAN: AUDIO VISUALIZER ===================== */
+let audioCtx;
+let analyzer;
+let audioSource;
+let isPlaying = false;
+
+const playBtn = document.getElementById('walkman-play');
+const pauseBtn = document.getElementById('walkman-pause');
+const audioCanvas = document.getElementById('audio-visualizer');
+const aCtx = audioCanvas ? audioCanvas.getContext('2d') : null;
+
+function resizeVisualizer() {
+    if(audioCanvas) {
+        audioCanvas.width = audioCanvas.parentElement.offsetWidth;
+        audioCanvas.height = audioCanvas.parentElement.offsetHeight;
+    }
+}
+window.addEventListener('resize', resizeVisualizer);
+resizeVisualizer();
+
+function startSynthBeat() {
+    if (!audioCtx) {
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        analyzer = audioCtx.createAnalyser();
+        analyzer.fftSize = 64;
+    }
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    
+    // Create a looping hip-hop beat using oscillators
+    const osc = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
+    
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(60, audioCtx.currentTime); // Kick drum freq
+    
+    gainNode.gain.setValueAtTime(1, audioCtx.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
+    
+    osc.connect(gainNode);
+    gainNode.connect(analyzer);
+    analyzer.connect(audioCtx.destination);
+    
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.5);
+    
+    // Repeat to simulate beat
+    audioSource = setInterval(() => {
+        if(!isPlaying) return;
+        const o = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
+        o.type = 'triangle';
+        o.frequency.setValueAtTime(50 + Math.random()*20, audioCtx.currentTime);
+        g.gain.setValueAtTime(1, audioCtx.currentTime);
+        g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4);
+        o.connect(g);
+        g.connect(analyzer);
+        o.start();
+        o.stop(audioCtx.currentTime + 0.4);
+        
+        // Dispatch custom event to sync 3D graphics to beat
+        window.dispatchEvent(new CustomEvent('beat-bump'));
+    }, 600); // ~100 BPM
+}
+
+function stopAudio() {
+    if(audioSource) clearInterval(audioSource);
+    isPlaying = false;
+}
+
+if(playBtn && pauseBtn) {
+    playBtn.addEventListener('click', () => {
+        isPlaying = true;
+        startSynthBeat();
+        visualize();
+        playBtn.style.color = '#0ff';
+        pauseBtn.style.color = '#fff';
+    });
+    
+    pauseBtn.addEventListener('click', () => {
+        stopAudio();
+        playBtn.style.color = '#fff';
+        pauseBtn.style.color = '#f00';
+    });
+}
+
+function visualize() {
+    if (!isPlaying || !aCtx || !analyzer) return;
+    requestAnimationFrame(visualize);
+    
+    const bufferLength = analyzer.frequencyBinCount;
+    const dataArray = new Uint8Array(bufferLength);
+    analyzer.getByteFrequencyData(dataArray);
+    
+    aCtx.fillStyle = '#000';
+    aCtx.fillRect(0, 0, audioCanvas.width, audioCanvas.height);
+    
+    const barWidth = (audioCanvas.width / bufferLength) * 2.5;
+    let barHeight;
+    let x = 0;
+    
+    for(let i = 0; i < bufferLength; i++) {
+        barHeight = dataArray[i] / 2;
+        
+        aCtx.fillStyle = `rgb(${barHeight + 100}, 0, 255)`;
+        aCtx.fillRect(x, audioCanvas.height - barHeight/2, barWidth, barHeight/2);
+        
+        x += barWidth + 1;
+    }
+}
+
+/* ===================== EASTER EGG UI LOGIC ===================== */
+function showEasterEgg() {
+    const modal = document.getElementById("easter-egg-modal");
+    if(modal) {
+        modal.classList.remove("hidden");
+        // Trigger glitch effect on body
+        document.body.classList.add("scroll-glitch-active");
+        setTimeout(() => document.body.classList.remove("scroll-glitch-active"), 1000);
+    }
+}
+
+function closeEasterEgg() {
+    const modal = document.getElementById("easter-egg-modal");
+    if(modal) {
+        modal.classList.add("hidden");
+    }
+}
 
     // 4. Web-Sling Page Transition Overlay
     const overlay = document.createElement("div");

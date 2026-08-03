@@ -50,6 +50,31 @@
     </div>
   </div>
   <canvas id="confetti-canvas"></canvas>
+
+  <!-- THE WALKMAN (Audio Visualizer UI) -->
+  <div id="walkman-container">
+    <div class="walkman-body">
+      <div class="walkman-screen">
+        <canvas id="audio-visualizer"></canvas>
+      </div>
+      <div class="walkman-controls">
+        <button id="walkman-play" class="wm-btn">▶</button>
+        <button id="walkman-pause" class="wm-btn">⏸</button>
+        <span class="wm-label">MILES MIX</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MULTIVERSE PORTAL EASTER EGG MODAL -->
+  <div id="easter-egg-modal" class="hidden">
+    <div class="easter-egg-content">
+      <h2 class="glitch-text" data-text="DIMENSION 42 FOUND">DIMENSION 42 FOUND</h2>
+      <p>You've discovered a hidden multiverse portal!</p>
+      <div class="secret-code">PROMO CODE: SPIDER2K26</div>
+      <button class="btn-primary" onclick="closeEasterEgg()">RETURN TO YOUR DIMENSION</button>
+    </div>
+  </div>
+
   <div id="success-modal">
     <div class="success-card">
       <div class="success-check">✓</div>
