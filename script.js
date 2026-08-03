@@ -36,7 +36,7 @@ document
     });
 
 /* ===================== LOADER ===================== */
-window.addEventListener("DOMContentLoaded", () => {
+function hideLoader() {
     setTimeout(() => {
         const loader = document.getElementById("loader");
         if(loader) {
@@ -44,7 +44,13 @@ window.addEventListener("DOMContentLoaded", () => {
             setTimeout(() => (loader.style.display = "none"), 800);
         }
     }, 2800);
-});
+}
+
+if (document.readyState === "loading") {
+    window.addEventListener("DOMContentLoaded", hideLoader);
+} else {
+    hideLoader();
+}
 
 /* ===================== NAVBAR ===================== */
 window.addEventListener("scroll", () => {
@@ -316,7 +322,6 @@ function toggleMenu() {
             // Fly through city: from z=9 to z=-150
             targetCamZ = 9 - (scrollPercent * 159);
         }
-    });
     });
 
     /* MULTIVERSE PORTALS */

@@ -1,7 +1,6 @@
 
-// SPIDER-VERSE MEGA UI - MILES MORALES UPGRADES
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. Inject Vanilla Tilt for Comic Book 3D Cards
+    
     const tiltScript = document.createElement("script");
     tiltScript.src = "https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js";
     tiltScript.onload = () => {
