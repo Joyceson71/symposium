@@ -48,7 +48,8 @@ document.addEventListener("DOMContentLoaded", () => {
 /* ===================== THE WALKMAN: AUDIO VISUALIZER ===================== */
 let audioCtx;
 let analyzer;
-let audioSource;
+let audioEl;
+let beatInterval;
 let isPlaying = false;
 
 const playBtn = document.getElementById('walkman-play');
@@ -70,47 +71,36 @@ function startSynthBeat() {
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         analyzer = audioCtx.createAnalyser();
         analyzer.fftSize = 64;
+        
+        // Load a cool lo-fi hip-hop track
+        audioEl = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-16.mp3');
+        audioEl.crossOrigin = "anonymous";
+        audioEl.loop = true;
+        
+        const source = audioCtx.createMediaElementSource(audioEl);
+        source.connect(analyzer);
+        analyzer.connect(audioCtx.destination);
     }
+    
     if (audioCtx.state === 'suspended') audioCtx.resume();
     
-    // Create a looping hip-hop beat using oscillators
-    const osc = audioCtx.createOscillator();
-    const gainNode = audioCtx.createGain();
+    audioEl.play();
+    isPlaying = true;
     
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(60, audioCtx.currentTime); // Kick drum freq
-    
-    gainNode.gain.setValueAtTime(1, audioCtx.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
-    
-    osc.connect(gainNode);
-    gainNode.connect(analyzer);
-    analyzer.connect(audioCtx.destination);
-    
-    osc.start();
-    osc.stop(audioCtx.currentTime + 0.5);
-    
-    // Repeat to simulate beat
-    audioSource = setInterval(() => {
-        if(!isPlaying) return;
-        const o = audioCtx.createOscillator();
-        const g = audioCtx.createGain();
-        o.type = 'triangle';
-        o.frequency.setValueAtTime(50 + Math.random()*20, audioCtx.currentTime);
-        g.gain.setValueAtTime(1, audioCtx.currentTime);
-        g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4);
-        o.connect(g);
-        g.connect(analyzer);
-        o.start();
-        o.stop(audioCtx.currentTime + 0.4);
-        
-        // Dispatch custom event to sync 3D graphics to beat
-        window.dispatchEvent(new CustomEvent('beat-bump'));
-    }, 600); // ~100 BPM
+    // Simulate beat bump event for 3D elements
+    if(!beatInterval) {
+        beatInterval = setInterval(() => {
+            if(isPlaying) {
+                window.dispatchEvent(new CustomEvent('beat-bump'));
+            }
+        }, 500); // 120 BPM
+    }
 }
 
 function stopAudio() {
-    if(audioSource) clearInterval(audioSource);
+    if(audioEl) {
+        audioEl.pause();
+    }
     isPlaying = false;
 }
 

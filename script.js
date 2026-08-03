@@ -114,78 +114,51 @@ function toggleMenu() {
     spot2.position.set(-5, -4, 3);
     scene.add(spot2);
 
-    /* SPIDER EMBLEM (At z=0) */
-    const spiderEmblem = new THREE.Group();
-    // Materials
-    const bodyMat = new THREE.MeshStandardMaterial({
-        color: 0x111111, roughness: 0.2, metalness: 0.9,
-    });
-    const glowMat = new THREE.MeshStandardMaterial({
-        color: 0xffffff, emissive: 0x4488ff, emissiveIntensity: 2.0, roughness: 0.1, metalness: 0.8,
-    });
-    // Abdomen
-    const abdomenGeo = new THREE.SphereGeometry(1.2, 32, 32);
-    abdomenGeo.scale(1, 1.5, 0.8);
-    const abdomen = new THREE.Mesh(abdomenGeo, bodyMat);
-    abdomen.position.y = -0.5;
-    spiderEmblem.add(abdomen);
-    // Core
-    const coreGeo = new THREE.SphereGeometry(0.5, 16, 16);
-    coreGeo.scale(1, 1.8, 0.4);
-    const core = new THREE.Mesh(coreGeo, glowMat);
-    core.position.set(0, -0.5, 0.7);
-    spiderEmblem.add(core);
-    // Head
-    const headGeo = new THREE.SphereGeometry(0.7, 32, 32);
-    headGeo.scale(1.2, 1, 0.8);
-    const head = new THREE.Mesh(headGeo, bodyMat);
-    head.position.set(0, 1.2, 0.2);
-    spiderEmblem.add(head);
-    // Eyes
-    const eyeGeo = new THREE.SphereGeometry(0.15, 16, 16);
-    const eyeR = new THREE.Mesh(eyeGeo, glowMat);
-    eyeR.scale.set(1, 2.5, 1);
-    eyeR.position.set(0.3, 1.4, 0.9);
-    eyeR.rotation.set(Math.PI / 6, 0, -Math.PI / 4);
-    spiderEmblem.add(eyeR);
-    const eyeL = new THREE.Mesh(eyeGeo, glowMat);
-    eyeL.scale.set(1, 2.5, 1);
-    eyeL.position.set(-0.3, 1.4, 0.9);
-    eyeL.rotation.set(Math.PI / 6, 0, Math.PI / 4);
-    spiderEmblem.add(eyeL);
-    // Legs
-    const legGeo = new THREE.CylinderGeometry(0.12, 0.06, 3.5, 16);
-    const jointGeo = new THREE.SphereGeometry(0.25, 16, 16);
-    function createLeg(side, angleY, angleZ, posY, posZ) {
-        const legGroup = new THREE.Group();
-        legGroup.position.set(side * 0.6, posY, posZ);
-        legGroup.rotation.set(0, angleY, side * angleZ);
-        const femur = new THREE.Mesh(legGeo, bodyMat);
-        femur.position.y = 1.75;
-        legGroup.add(femur);
-        const knee = new THREE.Mesh(jointGeo, glowMat);
-        knee.position.y = 3.5;
-        legGroup.add(knee);
-        const lowerLeg = new THREE.Group();
-        lowerLeg.position.y = 3.5; 
-        lowerLeg.rotation.z = side * (Math.PI / 1.5);
-        const tibiaMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.02, 4, 16), bodyMat);
-        tibiaMesh.position.y = 2; 
-        lowerLeg.add(tibiaMesh);
-        legGroup.add(lowerLeg);
-        return legGroup;
-    }
-    spiderEmblem.add(createLeg(1, -0.3, -0.8, 1.2, 0));
-    spiderEmblem.add(createLeg(-1, 0.3, -0.8, 1.2, 0));
-    spiderEmblem.add(createLeg(1, -0.1, -1.2, 1.0, 0));
-    spiderEmblem.add(createLeg(-1, 0.1, -1.2, 1.0, 0));
-    spiderEmblem.add(createLeg(1, 0.2, -1.8, 0.5, 0));
-    spiderEmblem.add(createLeg(-1, -0.2, -1.8, 0.5, 0));
-    spiderEmblem.add(createLeg(1, 0.4, -2.2, -0.2, 0));
-    spiderEmblem.add(createLeg(-1, -0.4, -2.2, -0.2, 0));
+    /* QUANTUM ENERGY CORE (Replaced Spider) */
+    const spiderEmblem = new THREE.Group(); 
     
-    // Scale Emblem massive for Desktop Hero, hide for mobile (wall-crawling)
-    spiderEmblem.scale.setScalar(isMobile ? 0.01 : 1.5);
+    const coreGeo = new THREE.SphereGeometry(1.2, 32, 32);
+    const coreMat = new THREE.MeshStandardMaterial({
+        color: 0x00ffff, emissive: 0x00aaff, emissiveIntensity: 2.0, wireframe: true
+    });
+    const coreMesh = new THREE.Mesh(coreGeo, coreMat);
+    spiderEmblem.add(coreMesh);
+    
+    const isoGeo = new THREE.IcosahedronGeometry(2.5, 0);
+    const isoMat = new THREE.MeshStandardMaterial({
+        color: 0xff0055, emissive: 0xaa0022, emissiveIntensity: 1.0, wireframe: true
+    });
+    const isoMesh = new THREE.Mesh(isoGeo, isoMat);
+    spiderEmblem.add(isoMesh);
+
+    spiderEmblem.userData.rings = [];
+    for (let i = 0; i < 3; i++) {
+        const ringGeo = new THREE.TorusGeometry(3.5 + i*0.5, 0.05, 16, 100);
+        const ringMat = new THREE.MeshStandardMaterial({
+            color: 0x00ffff, emissive: 0x00ffff, emissiveIntensity: 1.5, wireframe: false
+        });
+        const ringMesh = new THREE.Mesh(ringGeo, ringMat);
+        ringMesh.rotation.x = Math.random() * Math.PI;
+        ringMesh.rotation.y = Math.random() * Math.PI;
+        spiderEmblem.userData.rings.push(ringMesh);
+        spiderEmblem.add(ringMesh);
+    }
+    
+    const particlesGeo = new THREE.BufferGeometry();
+    const particleCount = 200;
+    const posArray = new Float32Array(particleCount * 3);
+    for(let i=0; i<particleCount*3; i++) {
+        posArray[i] = (Math.random() - 0.5) * 5;
+    }
+    particlesGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+    const particlesMat = new THREE.PointsMaterial({
+        size: 0.1, color: 0xffffff, transparent: true, opacity: 0.8
+    });
+    const particlesMesh = new THREE.Points(particlesGeo, particlesMat);
+    spiderEmblem.add(particlesMesh);
+
+    // Scale Emblem massive for Desktop Hero, hide for mobile
+    spiderEmblem.scale.setScalar(isMobile ? 0.01 : 1.2);
     scene.add(spiderEmblem);
 
     /* CYBER CITY (INSTANCED MESH) */
@@ -378,6 +351,15 @@ function toggleMenu() {
         spiderEmblem.rotation.x += (targetRotX - spiderEmblem.rotation.x) * 0.1;
         spiderEmblem.rotation.y += (targetRotY - spiderEmblem.rotation.y) * 0.1;
         spiderEmblem.rotation.z += (mouseX * 0.1 - spiderEmblem.rotation.z) * 0.1;
+        
+        if (spiderEmblem.userData.rings) {
+            spiderEmblem.userData.rings[0].rotation.x += 0.01;
+            spiderEmblem.userData.rings[0].rotation.y += 0.015;
+            spiderEmblem.userData.rings[1].rotation.x -= 0.012;
+            spiderEmblem.userData.rings[1].rotation.z += 0.01;
+            spiderEmblem.userData.rings[2].rotation.y -= 0.02;
+            spiderEmblem.userData.rings[2].rotation.z -= 0.015;
+        }
         
         beatPulse = Math.max(0, beatPulse - 0.05);
         glowMat.emissiveIntensity = 2.0 + 1.5 * Math.sin(t * 3) + beatPulse * 5.0;
