@@ -271,11 +271,58 @@ function toggleMenu() {
     const particles = new THREE.Points(pGeo, pMat);
     scene.add(particles);
 
+    /* ===================== NEW PROCEDURAL MODELS ===================== */
+    // 1. Cybernetic Brain
+    const cyberBrain = new THREE.Group();
+    const nodeGeo = new THREE.SphereGeometry(0.5, 16, 16);
+    const nodeMat = new THREE.MeshStandardMaterial({color: 0xff1744, emissive: 0xff0000, emissiveIntensity: 1.5, wireframe: true});
+    const nodes = [];
+    for(let i=0; i<25; i++) {
+        const mesh = new THREE.Mesh(nodeGeo, nodeMat);
+        mesh.position.set((Math.random()-0.5)*12, (Math.random()-0.5)*12, (Math.random()-0.5)*12);
+        cyberBrain.add(mesh);
+        nodes.push(mesh.position);
+    }
+    const lineGeo = new THREE.BufferGeometry().setFromPoints(nodes);
+    const lineMat = new THREE.LineBasicMaterial({ color: 0x00ffff, transparent: true, opacity: 0.5 });
+    const linesGroup = new THREE.LineSegments(lineGeo, lineMat);
+    cyberBrain.add(linesGroup);
+    cyberBrain.position.set(0, -500, 0); // Hide initially
+    scene.add(cyberBrain);
+
+    // 2. Dimensional Portal
+    const portalGeo = new THREE.TorusKnotGeometry(4, 1.5, 128, 32);
+    const portalMat = new THREE.MeshStandardMaterial({color: 0x2979ff, emissive: 0xff00ff, emissiveIntensity: 1.2, wireframe: true});
+    const dimPortal = new THREE.Mesh(portalGeo, portalMat);
+    dimPortal.position.set(0, -500, 0);
+    scene.add(dimPortal);
+
+    // 3. Holographic DNA
+    const dnaGroup = new THREE.Group();
+    const dnaMat = new THREE.MeshStandardMaterial({color: 0x00ffff, emissive: 0x00ffff, emissiveIntensity: 2.0});
+    for(let i=0; i<30; i++) {
+        const y = (i - 15) * 0.5;
+        const angle = i * 0.4;
+        const s1 = new THREE.Mesh(new THREE.SphereGeometry(0.3), dnaMat);
+        s1.position.set(Math.cos(angle)*2, y, Math.sin(angle)*2);
+        const s2 = new THREE.Mesh(new THREE.SphereGeometry(0.3), dnaMat);
+        s2.position.set(-Math.cos(angle)*2, y, -Math.sin(angle)*2);
+        const rodGeo = new THREE.CylinderGeometry(0.05, 0.05, 4);
+        const rod = new THREE.Mesh(rodGeo, new THREE.MeshBasicMaterial({color: 0x2979ff, transparent:true, opacity:0.5}));
+        rod.position.set(0, y, 0);
+        rod.rotation.x = Math.PI/2;
+        rod.rotation.z = angle;
+        dnaGroup.add(s1, s2, rod);
+    }
+    dnaGroup.position.set(0, -500, 0);
+    scene.add(dnaGroup);
+
     /* MOUSE & SCROLL INTERACTIONS */
     let mouseX = 0, mouseY = 0;
     let targetCamZ = isMobile ? 30 : 9;
     let targetCamY = isMobile ? 40 : 0;
     let targetCamX = 0;
+    let globalScrollPercent = 0;
     
     document.addEventListener("mousemove", (e) => {
         mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
@@ -286,14 +333,46 @@ function toggleMenu() {
         const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
         const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
         const scrollPercent = scrollTop / (scrollHeight || 1);
+        globalScrollPercent = scrollPercent;
         
         if (isMobile) {
-            // Wall-crawling: start high, move down
             targetCamY = 40 - (scrollPercent * 60);
             targetCamZ = 30 - (scrollPercent * 15);
         } else {
-            // Fly through city: from z=9 to z=-150
             targetCamZ = 9 - (scrollPercent * 159);
+        }
+        
+        // --- CINEMATIC SCROLL ANIMATIONS ---
+        if (spiderEmblem) {
+            spiderEmblem.position.y = scrollPercent * 20; 
+            spiderEmblem.scale.setScalar((isMobile ? 0.01 : 1.2) * Math.max(0, 1 - scrollPercent*2));
+        }
+
+        if (scrollPercent > 0.1 && scrollPercent < 0.4) {
+            const localP = (scrollPercent - 0.1) / 0.3;
+            cyberBrain.position.set(0, 0, targetCamZ - 15);
+            cyberBrain.scale.setScalar(localP * 2);
+            cyberBrain.rotation.y = localP * Math.PI * 2;
+        } else {
+            cyberBrain.position.set(0, -500, 0);
+        }
+
+        if (scrollPercent > 0.4 && scrollPercent < 0.7) {
+            const localP = (scrollPercent - 0.4) / 0.3;
+            dimPortal.position.set(0, 0, targetCamZ - 20);
+            dimPortal.scale.setScalar(localP * 1.5);
+            dimPortal.rotation.z = localP * Math.PI * 4;
+        } else {
+            dimPortal.position.set(0, -500, 0);
+        }
+
+        if (scrollPercent > 0.7) {
+            const localP = (scrollPercent - 0.7) / 0.3;
+            dnaGroup.position.set(5, -5, targetCamZ - 10);
+            dnaGroup.scale.setScalar(localP * 3);
+            dnaGroup.rotation.y = localP * Math.PI * 4;
+        } else {
+            dnaGroup.position.set(0, -500, 0);
         }
     });
 
@@ -359,6 +438,18 @@ function toggleMenu() {
             spiderEmblem.userData.rings[1].rotation.z += 0.01;
             spiderEmblem.userData.rings[2].rotation.y -= 0.02;
             spiderEmblem.userData.rings[2].rotation.z -= 0.015;
+        }
+
+        if (cyberBrain) {
+            cyberBrain.rotation.x += 0.005;
+            cyberBrain.rotation.z -= 0.002;
+        }
+        if (dimPortal) {
+            dimPortal.rotation.x += 0.01;
+            dimPortal.rotation.y += 0.005;
+        }
+        if (dnaGroup) {
+            dnaGroup.rotation.y -= 0.02;
         }
         
         beatPulse = Math.max(0, beatPulse - 0.05);
