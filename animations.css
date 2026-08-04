@@ -151,7 +151,7 @@ button:hover ~ #cursor {
     0 0 10px rgba(255,0,60,0.8),
     0 0 30px rgba(255,0,60,0.4);
   animation:
-    typing 1.8s steps(14) 0.5s forwards,
+    typing 1.8s steps(16) 0.5s forwards,
     blink 0.7s infinite,
     loader-text-glow 3s ease 2s infinite;
 }
