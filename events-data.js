@@ -1,16 +1,16 @@
-// events-data.js ó TechnoKings 2K26 centralised event data
+// events-data.js ‚Äî TechnoKings 2K26 centralised event data
 // Must be loaded BEFORE any script that calls showEvent() or references EVENTS
 
 const EVENTS = [
   {
     id: 'paper-presentation',
     name: 'PAPER PRESENTATION',
-    icon: '??',
+    icon: 'üìÑ',
     category: 'technical',
     desc: 'Present your research paper on cutting-edge ECE topics. Selected papers will be published in the symposium proceedings.',
-    teamSize: '1ñ2 members',
+    teamSize: '1-2 members',
     prize: 'Cash + Trophy',
-    venue: 'Seminar Hall ó Block A',
+    venue: 'Seminar Hall - Block A',
     rules: [
       'Abstract must be submitted 3 days prior',
       'Presentation: 10 min + 5 min Q&A',
@@ -25,16 +25,16 @@ const EVENTS = [
   {
     id: 'project-expo',
     name: 'PROJECT EXPO',
-    icon: '??',
+    icon: '‚öôÔ∏è',
     category: 'technical',
     desc: 'Showcase your hardware or software project. Live demo required. Judges evaluate innovation, implementation, and presentation.',
-    teamSize: '2ñ4 members',
+    teamSize: '2-4 members',
     prize: 'Cash + Certificate',
-    venue: 'Main Lab ó Block B',
+    venue: 'Main Lab - Block B',
     rules: [
       'Working prototype mandatory',
       'Project report to be submitted before demo',
-      'Power supply provided ó bring other components',
+      'Power supply provided - bring other components',
       'Judging criteria: Innovation 40%, Implementation 40%, Presentation 20%'
     ],
     coordinators: [
@@ -45,17 +45,17 @@ const EVENTS = [
   {
     id: 'circuit-breakers',
     name: 'CIRCUIT BREAKERS',
-    icon: '?',
+    icon: '‚ö°',
     category: 'technical',
     desc: 'Debug, build and race. Multi-round circuit challenge testing your hardware instincts under time pressure.',
     teamSize: '2 members',
     prize: 'Cash + Trophy',
-    venue: 'Electronics Lab ó Block B',
+    venue: 'Electronics Lab - Block B',
     rules: [
       'Round 1: Identify & fix faults in a given circuit (20 min)',
       'Round 2: Build a circuit from scratch using given components (30 min)',
       'No smartphones allowed in the lab',
-      'Components provided ó no personal equipment'
+      'Components provided - no personal equipment'
     ],
     coordinators: [
       { name: '[Name]', phone: '+91 XXXXXXXXXX' },
@@ -65,12 +65,12 @@ const EVENTS = [
   {
     id: 'technical-quiz',
     name: 'TECHNICAL QUIZ',
-    icon: '??',
+    icon: 'üß†',
     category: 'technical',
     desc: 'Battle of brains. 3 rounds covering electronics, communications, microprocessors, and current tech trends.',
     teamSize: '2 members',
     prize: 'Cash + Certificate',
-    venue: 'Lecture Hall ó Block A',
+    venue: 'Lecture Hall - Block A',
     rules: [
       'Round 1: Written MCQ (elimination)',
       'Round 2: Buzzer round for top 6 teams',
@@ -85,16 +85,16 @@ const EVENTS = [
   {
     id: 'minute-to-win-it',
     name: 'MINUTE TO WIN IT',
-    icon: '??',
+    icon: '‚è±Ô∏è',
     category: 'non-technical',
     desc: 'Series of hilarious one-minute challenges testing speed, skill, and nerve. Most completions wins.',
     teamSize: '1 member',
     prize: 'Cash + Certificate',
-    venue: 'Open Area ó Ground Floor',
+    venue: 'Open Area - Ground Floor',
     rules: [
       '5 challenges per participant',
       'Each challenge: exactly 60 seconds',
-      'Elimination format ó top 10 advance to finals',
+      'Elimination format - top 10 advance to finals',
       'Props provided by organizers'
     ],
     coordinators: [
@@ -105,7 +105,7 @@ const EVENTS = [
   {
     id: 'detective',
     name: 'DETECTIVE',
-    icon: '??',
+    icon: 'üîç',
     category: 'non-technical',
     desc: 'Crack the case using clues hidden across the venue. Fastest team to solve the mystery wins.',
     teamSize: '3 members',
@@ -125,17 +125,17 @@ const EVENTS = [
   {
     id: 'box-hunt',
     name: 'BOX HUNT',
-    icon: '??',
+    icon: 'üì¶',
     category: 'non-technical',
-    desc: 'Find the hidden box. Clue-based treasure hunt around the college ó the ultimate team puzzle.',
+    desc: 'Find the hidden box. Clue-based treasure hunt around the college - the ultimate team puzzle.',
     teamSize: '2 members',
     prize: 'Cash + Certificate',
     venue: 'Campus-wide',
     rules: [
       '10 clues per team, progressive unlock',
       'No running inside buildings',
-      'All clues solved in sequence ó skipping not allowed',
-      'Coordinate with your partner ó split to cover more ground'
+      'All clues solved in sequence - skipping not allowed',
+      'Coordinate with your partner - split to cover more ground'
     ],
     coordinators: [
       { name: '[Name]', phone: '+91 XXXXXXXXXX' },
@@ -145,9 +145,9 @@ const EVENTS = [
   {
     id: 'start-music',
     name: 'START MUSIC',
-    icon: '??',
+    icon: 'üéµ',
     category: 'non-technical',
-    desc: 'Musical elimination game ó but with a technical twist. Last one standing wins.',
+    desc: 'Musical elimination game - but with a technical twist. Last one standing wins.',
     teamSize: '1 member',
     prize: 'Cash + Certificate',
     venue: 'Open Auditorium',
@@ -205,7 +205,7 @@ document.addEventListener('DOMContentLoaded', function() {
       '<div class="mobile-event-body">' +
       '<p class="mobile-event-desc">' + e.desc + '</p>' +
       '<div class="mobile-event-meta">' +
-      '<span>?? ' + e.teamSize + '</span><span>?? ' + e.prize + '</span><span>?? ' + e.venue + '</span>' +
+      '<span>üë• ' + e.teamSize + '</span><span>üèÜ ' + e.prize + '</span><span>üìç ' + e.venue + '</span>' +
       '</div>' +
       '<ul class="mobile-event-rules">' +
       e.rules.map(function(r){ return '<li>' + r + '</li>'; }).join('') +
