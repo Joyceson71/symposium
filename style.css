@@ -3548,3 +3548,29 @@ body::after {
     .hero-t1 { font-size: clamp(32px, 10vw, 60px); }
 }
 
+/* =========================================================
+   JS REGISTRATION ENGINE STYLES
+   ========================================================= */
+.js-reg-engine { width: 100%; max-width: 700px; margin: 0 auto; position: relative; z-index: 10; }
+.reg-wrapper { background: rgba(10, 10, 10, 0.8); border: 2px solid rgba(204, 0, 0, 0.5); border-radius: 12px; padding: 40px; box-shadow: 0 0 30px rgba(204, 0, 0, 0.2); backdrop-filter: blur(10px); }
+.reg-header h2 { font-family: 'Orbitron', sans-serif; color: #fff; margin-bottom: 8px; font-size: 24px; }
+.reg-header p { color: #aaa; font-size: 14px; margin-bottom: 24px; }
+.reg-progress { display: flex; gap: 12px; margin-bottom: 30px; }
+.progress-dot { height: 6px; flex: 1; background: #333; border-radius: 3px; transition: background 0.3s; }
+.progress-dot.active { background: var(--red); box-shadow: 0 0 10px var(--red); }
+.form-group { margin-bottom: 24px; }
+.form-group label { display: block; font-family: 'Orbitron', monospace; font-size: 12px; color: var(--red); margin-bottom: 8px; }
+.form-group input { width: 100%; padding: 16px; background: rgba(20,20,20,0.8); border: 1px solid #333; color: white; font-family: 'Inter', sans-serif; border-radius: 6px; transition: all 0.3s; }
+.form-group input:focus { outline: none; border-color: var(--red); box-shadow: 0 0 10px rgba(204,0,0,0.3); }
+.error-msg { color: #ff3333; font-size: 12px; margin-top: 6px; display: block; min-height: 14px; }
+.event-select-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+.event-select-card { background: rgba(20,20,20,0.8); border: 1px solid #333; padding: 16px; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
+.event-select-card h3 { font-size: 16px; color: #fff; margin-bottom: 4px; }
+.event-select-card p { font-size: 12px; color: #aaa; margin: 0; }
+.event-select-card.selected { border-color: var(--red); background: rgba(204,0,0,0.1); box-shadow: 0 0 15px rgba(204,0,0,0.2); }
+.signature-container { background: rgba(20,20,20,0.8); border: 1px dashed var(--red); border-radius: 8px; text-align: center; padding: 20px; }
+#signature-pad { background: #000; cursor: crosshair; border: 1px solid #333; margin-bottom: 16px; }
+.reg-footer { display: flex; justify-content: space-between; margin-top: 30px; padding-top: 20px; border-top: 1px solid #333; }
+.success-screen { text-align: center; padding: 40px; }
+.spider-logo-spin { font-size: 64px; margin: 20px 0; animation: spin 4s linear infinite; }
+@keyframes spin { 100% { transform: rotate(360deg); } }
