@@ -366,27 +366,16 @@ nav.scrolled {
 
 .hero-t1 {
     font-family: "Permanent Marker", cursive;
-    font-size: clamp(60px, 12vw, 150px);
+    font-size: clamp(50px, 10vw, 130px);
     color: var(--red);
     display: block;
     opacity: 0;
-    transform: translateX(-80px) rotate(-4deg);
+    transform: translateX(-80px) rotate(-3deg);
     animation: slideInLeft 0.9s cubic-bezier(0.16, 1, 0.3, 1) 1.7s forwards;
     text-shadow: 4px 4px 0px #0a0a0a;
 }
 
-.hero-t2 {
-    font-family: "Bebas Neue", sans-serif;
-    font-size: clamp(100px, 20vw, 300px);
-    color: transparent;
-    -webkit-text-stroke: 3px #fff;
-    display: block;
-    opacity: 0;
-    margin-top: -20px;
-    transform: translateX(80px);
-    animation: slideInRight 0.9s cubic-bezier(0.16, 1, 0.3, 1) 1.9s forwards;
-    text-shadow: 0 0 40px rgba(204, 0, 0, 0.3);
-}
+/* hero-t2 removed */
 
 /* hero-t3 removed */
 
@@ -3556,7 +3545,6 @@ body::after {
    ========================================================= */
 @media (max-width: 375px) {
     section { padding-left: clamp(16px, 5vw, 40px); padding-right: clamp(16px, 5vw, 40px); }
-    .hero-t1 { font-size: clamp(40px, 12vw, 100px); }
-    .hero-t2 { font-size: clamp(70px, 18vw, 180px); }
+    .hero-t1 { font-size: clamp(32px, 10vw, 60px); }
 }
 
