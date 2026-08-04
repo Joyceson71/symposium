@@ -9,12 +9,14 @@
     href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap"
     rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="spider-verse-3d.js" defer></script>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="spider-verse.css?v=3">
   <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
 </head>
 
 <body>
+  <canvas id="bg-canvas"></canvas>
   <div id="cursor"></div>
   <div id="cursor-ring"></div>
   
@@ -31,6 +33,7 @@
       <li><a href="index.html#hero">Home</a></li>
       <li><a href="index.html#about">About</a></li>
       <li><a href="events.html">Events</a></li>
+      <li><a href="coordinators.html">Coordinators</a></li>
       <li><a href="register.html" class="active">Register</a></li>
     </ul>
     <button class="nav-cta" onclick="window.location.href='register.html'">REGISTER NOW</button>
@@ -44,6 +47,7 @@
     <a href="index.html#hero" onclick="toggleMenu()">HOME</a>
     <a href="index.html#about" onclick="toggleMenu()">ABOUT</a>
     <a href="events.html" onclick="toggleMenu()">EVENTS</a>
+    <a href="coordinators.html">COORDINATORS</a>
     <a href="register.html" onclick="toggleMenu()" class="active">REGISTER</a>
   </div>
 
@@ -332,6 +336,21 @@
     </div>
   </section>
 
+  <!-- WHAT HAPPENS NEXT -->
+  <section id="register-steps-section" style="padding: 60px 0 80px; position: relative; z-index: 1;">
+    <div class="container">
+      <div class="events-header reveal" style="text-align: center; margin-bottom: 40px;">
+        <p class="section-eyebrow">AFTER YOU SUBMIT</p>
+        <h2 class="section-title graffiti-text">WHAT HAPPENS <span class="red">NEXT?</span></h2>
+      </div>
+      <div class="register-steps reveal">
+        <div class="step"><span class="step-num">01</span><span class="step-text">Submit your registration form above</span></div>
+        <div class="step"><span class="step-num">02</span><span class="step-text">Receive confirmation on WhatsApp / Email within 24h</span></div>
+        <div class="step"><span class="step-num">03</span><span class="step-text">Report to Registration Desk at 8:30 AM on Sept 18</span></div>
+      </div>
+    </div>
+  </section>
+
   <!-- FOOTER -->
   <footer>
     <div class="container">
@@ -349,7 +368,7 @@
             <li><a href="index.html#hero">Home</a></li>
             <li><a href="index.html#about">About</a></li>
             <li><a href="events.html">Events</a></li>
-            <li><a href="index.html#countdown">Schedule</a></li>
+            <li><a href="coordinators.html">Coordinators</a></li>
             <li><a href="register.html">Register</a></li>
           </ul>
         </div>
@@ -376,7 +395,8 @@
     </div>
   </footer>
 
-  <script src="script.js?v=3"></script>
+  <script src="script.js?v=4"></script>
   <script src="spider-verse.js?v=3"></script>
+  <script src="cursor.js"></script>
 </body>
 </html>

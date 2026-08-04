@@ -8,6 +8,7 @@
     href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap"
     rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="spider-verse-3d.js" defer></script>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="animations.css">
   <link rel="stylesheet" href="spider-verse.css?v=3">
@@ -94,9 +95,9 @@
   <nav id="navbar">
     <a href="#" class="nav-logo">
       <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-        <circle cx="16" cy="16" r="14" stroke="#1976d2" stroke-width="1.5" />
-        <path d="M16 4 L16 28 M4 16 L28 16 M7 7 L25 25 M25 7 L7 25" stroke="#ffffff" stroke-width="0.8" opacity="0.5" />
-        <circle cx="16" cy="16" r="4" fill="#d32f2f" />
+        <circle cx="16" cy="16" r="14" stroke="#CC0000" stroke-width="1.5" />
+        <path d="M16 4 L16 28 M4 16 L28 16 M7 7 L25 25 M25 7 L7 25" stroke="#CC0000" stroke-width="0.8" opacity="0.5" />
+        <circle cx="16" cy="16" r="4" fill="#CC0000" />
       </svg>
       <span class="nav-logo-text">TECHNO <span>KINGS</span></span>
     </a>
@@ -105,6 +106,7 @@
       <li><a href="#about">About</a></li>
       <li><a href="events.html">Events</a></li>
       <li><a href="#schedule">Schedule</a></li>
+      <li><a href="coordinators.html">Coordinators</a></li>
       <li><a href="register.html">Register</a></li>
     </ul>
     <button class="nav-cta" onclick="window.location.href='register.html'">REGISTER NOW</button>
@@ -118,6 +120,7 @@
     <a href="#about" onclick="toggleMenu()">ABOUT</a>
     <a href="events.html">EVENTS</a>
     <a href="#schedule" onclick="toggleMenu()">SCHEDULE</a>
+    <a href="coordinators.html">COORDINATORS</a>
     <a href="register.html">REGISTER</a>
   </div>
   <section id="hero">
@@ -222,6 +225,47 @@
       </p>
     </div>
   </section>
+  <!-- SECTION DIVIDER -->
+  <div class="section-divider">
+    <svg viewBox="0 0 1200 40" preserveAspectRatio="none" width="100%" height="40">
+      <path d="M0 20 L200 20 L220 5 L280 5 L300 20 L600 20 L620 35 L680 35 L700 20 L1200 20" stroke="#CC0000" stroke-width="1.5" fill="none" opacity="0.6"/>
+      <circle cx="300" cy="20" r="4" fill="#CC0000" opacity="0.8"/>
+      <circle cx="700" cy="20" r="4" fill="#CC0000" opacity="0.8"/>
+    </svg>
+  </div>
+
+  <!-- WHY TECHNOKINGS -->
+  <section id="why-tk">
+    <div class="container">
+      <div class="why-grid">
+        <div class="why-card reveal">
+          <div class="why-icon">🎯</div>
+          <div class="why-num">8</div>
+          <div class="why-label">Competitions Across Tech &amp; Non-Tech</div>
+        </div>
+        <div class="why-card reveal" style="transition-delay:.1s">
+          <div class="why-icon">🏆</div>
+          <div class="why-num">₹20K</div>
+          <div class="why-label">Total Prize Pool to Be Won</div>
+        </div>
+        <div class="why-card reveal" style="transition-delay:.2s">
+          <div class="why-icon">📅</div>
+          <div class="why-num">1 Day</div>
+          <div class="why-label">Non-Stop Action — Sept 18, 2026</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION DIVIDER -->
+  <div class="section-divider">
+    <svg viewBox="0 0 1200 40" preserveAspectRatio="none" width="100%" height="40">
+      <path d="M0 20 L200 20 L220 5 L280 5 L300 20 L600 20 L620 35 L680 35 L700 20 L1200 20" stroke="#CC0000" stroke-width="1.5" fill="none" opacity="0.6"/>
+      <circle cx="300" cy="20" r="4" fill="#CC0000" opacity="0.8"/>
+      <circle cx="700" cy="20" r="4" fill="#CC0000" opacity="0.8"/>
+    </svg>
+  </div>
+
   <!-- PRIZE POOL -->
   <section id="prize">
     <canvas id="prize-canvas"></canvas>
@@ -394,6 +438,7 @@
             <li><a href="#about">About</a></li>
             <li><a href="events.html">Events</a></li>
             <li><a href="#schedule">Schedule</a></li>
+            <li><a href="coordinators.html">Coordinators</a></li>
             <li><a href="register.html">Register</a></li>
           </ul>
         </div>
@@ -426,9 +471,10 @@
       </div>
     </div>
   </footer>
+  <script src="events-data.js"></script>
   <script src="spider-verse.js?v=3"></script>
 </body>
-<script src="script.js?v=3"></script>
-
+<script src="script.js?v=4"></script>
+<script src="cursor.js"></script>
 <script src="interactions.js"></script>
 </html>

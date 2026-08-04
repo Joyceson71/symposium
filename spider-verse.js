@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 trail.style.left = e.clientX + "px";
                 trail.style.top = e.clientY + "px";
                 // Randomize colors between red and blue
-                trail.style.color = Math.random() > 0.5 ? "#cc0000" : "#00f0ff";
+                trail.style.color = "#cc0000";
                 document.body.appendChild(trail);
                 setTimeout(() => trail.remove(), 1000);
             }
@@ -197,7 +197,7 @@ function closeEasterEgg() {
             splatter.style.top = (Math.random() * 80) + "%";
             // Randomize color between red and cyan
             if(Math.random() > 0.5) {
-                splatter.style.background = "radial-gradient(circle, #0ff 0%, transparent 60%)";
+                splatter.style.background = "radial-gradient(circle, rgba(204,0,0,0.4) 0%, transparent 60%)";
             }
             sec.appendChild(splatter);
         }

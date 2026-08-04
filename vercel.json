@@ -1,6 +1,11 @@
-{
+﻿{
   "framework": null,
   "buildCommand": "echo \"Skipping build for static site\"",
   "outputDirectory": ".",
-  "installCommand": "echo \"No install required\""
+  "installCommand": "echo \"No install required\"",
+  "rewrites": [
+    { "source": "/coordinators", "destination": "/coordinators.html" },
+    { "source": "/events", "destination": "/events.html" },
+    { "source": "/register", "destination": "/register.html" }
+  ]
 }

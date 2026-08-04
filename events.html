@@ -2,6 +2,10 @@
 <html lang="en">
 
 <head>
+<!doctype html>
+<html lang="en">
+
+<head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0" />
   <title>Events | TechnoKings 2K26</title>
@@ -9,12 +13,14 @@
     href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap"
     rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="spider-verse-3d.js" defer></script>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="spider-verse.css?v=4">
   <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
 </head>
 
 <body>
+  <canvas id="bg-canvas"></canvas>
   <div id="cursor"></div>
   <div id="cursor-ring"></div>
   
@@ -31,6 +37,7 @@
       <li><a href="index.html#hero">Home</a></li>
       <li><a href="index.html#about">About</a></li>
       <li><a href="events.html" class="active">Events</a></li>
+      <li><a href="coordinators.html">Coordinators</a></li>
       <li><a href="register.html">Register</a></li>
     </ul>
     <button class="nav-cta" onclick="window.location.href='register.html'">REGISTER NOW</button>
@@ -44,6 +51,7 @@
     <a href="index.html#hero" onclick="toggleMenu()">HOME</a>
     <a href="index.html#about" onclick="toggleMenu()">ABOUT</a>
     <a href="events.html" onclick="toggleMenu()" class="active">EVENTS</a>
+    <a href="coordinators.html">COORDINATORS</a>
     <a href="register.html" onclick="toggleMenu()">REGISTER</a>
   </div>
 
@@ -150,10 +158,26 @@
     </div>
     
     <div class="carousel-controls">
-      <button id="carousel-prev" class="btn-primary" style="background: rgba(0,255,255,0.2); border-color: #0ff; color: #0ff; box-shadow: 0 0 10px #0ff; margin-right: 20px;">&lt; PREV</button>
-      <button id="carousel-next" class="btn-primary" style="background: rgba(255,0,60,0.2); border-color: #f03; color: #f03; box-shadow: 0 0 10px #f03;">NEXT &gt;</button>
+      <button id="carousel-prev" class="btn-primary" style="background: rgba(204,0,0,0.2); border-color: #CC0000; color: #CC0000; box-shadow: 0 0 10px #CC0000; margin-right: 20px;">&lt; PREV</button>
+      <button id="carousel-next" class="btn-primary" style="background: rgba(204,0,0,0.2); border-color: #CC0000; color: #CC0000; box-shadow: 0 0 10px #CC0000;">NEXT &gt;</button>
     </div>
   </section>
+
+  <!-- MOBILE EVENT LIST (shown on <768px) -->
+  <section id="events-mobile-section">
+    <div class="container">
+      <div id="events-mobile-list" class="events-mobile-list"></div>
+    </div>
+  </section>
+
+  <!-- COORDINATOR STRIP -->
+  <div class="event-coord-strip reveal">
+    <div class="container">
+      <div class="coord-strip-title">NEED HELP? CONTACT EVENT COORDINATORS</div>
+      <p style="color: rgba(255,255,255,0.5); font-size: 14px; margin-bottom: 20px;">Find coordinators for every event — reach out directly or visit the full coordinators page.</p>
+      <a href="coordinators.html" class="btn-ghost" style="margin-top:8px;">VIEW ALL COORDINATORS →</a>
+    </div>
+  </div>
 
 
 
@@ -174,7 +198,7 @@
             <li><a href="index.html#hero">Home</a></li>
             <li><a href="index.html#about">About</a></li>
             <li><a href="events.html">Events</a></li>
-            <li><a href="index.html#countdown">Schedule</a></li>
+            <li><a href="coordinators.html">Coordinators</a></li>
             <li><a href="register.html">Register</a></li>
           </ul>
         </div>
@@ -201,8 +225,10 @@
     </div>
   </footer>
 
-  <script src="script.js?v=3"></script>
+  <script src="events-data.js"></script>
+  <script src="script.js?v=4"></script>
   <script src="spider-verse.js?v=3"></script>
   <script src="spider-carousel.js?v=4"></script>
+  <script src="cursor.js"></script>
 </body>
 </html>

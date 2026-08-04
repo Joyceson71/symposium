@@ -1,4 +1,4 @@
-* {
+﻿* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -60,7 +60,7 @@ body {
     position: fixed;
     width: 36px;
     height: 36px;
-    border: 1.5px solid var(--blue);
+    border: 1.5px solid #CC0000;
     border-radius: 50%;
     pointer-events: none;
     z-index: 9998;
@@ -325,10 +325,11 @@ nav.scrolled {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: -10;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
     pointer-events: none;
+    display: block;
 }
 
 #fluid-canvas {
@@ -875,7 +876,7 @@ section {
 }
 
 .event-rules li::before {
-    content: "â–¸";
+    content: "Ã¢â€“Â¸";
     position: absolute;
     left: 0;
     color: var(--red);
@@ -2136,10 +2137,10 @@ footer::before {
 /* ===================== MASSIVE AESTHETIC UPGRADE ===================== */
 /* CYBERPUNK / GLASSMORPHISM / NEON GLOW */
 
-/* Duplicate :root removed — variables merged into the :root block at the top of this file */
+/* Duplicate :root removed â€” variables merged into the :root block at the top of this file */
 /* (was: --neon-red, --neon-glow, --glass-bg, --glass-border, --grid-color) */
 
-/* Background Cyber-Grid Overlay — NOTE: overridden by the Comic-Book Halftone
+/* Background Cyber-Grid Overlay â€” NOTE: overridden by the Comic-Book Halftone
    block further below. Commented out to prevent dead CSS. Re-enable here if
    you want the grid instead of dots.
    body::after {
@@ -2526,7 +2527,7 @@ body::after {
 }
 
 .btn-primary::after {
-  content: "Â»";
+  content: "Ã‚Â»";
   position: absolute;
   right: -20px;
   opacity: 0;
@@ -2587,7 +2588,7 @@ body::after {
 
 /* Graffiti / Urban Typography Touches (Miles Morales Style)
    Use .section-eyebrow--stamp for the rotated badge variant.
-   Do NOT apply to .section-eyebrow globally — that would rotate every
+   Do NOT apply to .section-eyebrow globally â€” that would rotate every
    section eyebrow label on the page. */
 .section-eyebrow--stamp {
   font-family: 'Bebas Neue', sans-serif;
@@ -2677,11 +2678,11 @@ body::after {
 }
 
 @keyframes arc-reactor-pulse-heavy {
-  0% { box-shadow: 0 0 10px #0ff, inset 0 0 10px #0ff; border-color: #0ff; transform: scale(1); }
-  25% { box-shadow: 0 0 30px #0ff, inset 0 0 20px #0ff; border-color: #fff; transform: scale(1.05); }
-  50% { box-shadow: 0 0 15px #0ff, inset 0 0 10px #0ff; border-color: #0ff; transform: scale(0.98); }
-  75% { box-shadow: 0 0 40px #0ff, inset 0 0 25px #0ff; border-color: #fff; transform: scale(1.02); }
-  100% { box-shadow: 0 0 10px #0ff, inset 0 0 10px #0ff; border-color: #0ff; transform: scale(1); }
+  0% { box-shadow: 0 0 10px #CC0000, inset 0 0 10px #CC0000; border-color: #CC0000; transform: scale(1); }
+  25% { box-shadow: 0 0 30px #CC0000, inset 0 0 20px #CC0000; border-color: #fff; transform: scale(1.05); }
+  50% { box-shadow: 0 0 15px #CC0000, inset 0 0 10px #CC0000; border-color: #CC0000; transform: scale(0.98); }
+  75% { box-shadow: 0 0 40px #CC0000, inset 0 0 25px #CC0000; border-color: #fff; transform: scale(1.02); }
+  100% { box-shadow: 0 0 10px #CC0000, inset 0 0 10px #CC0000; border-color: #CC0000; transform: scale(1); }
 }
 
 @keyframes venon-symbiote-ooze {
@@ -2723,15 +2724,15 @@ body::after {
 }
 
 @keyframes o-hara-2099-glitch {
-  0% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); filter: drop-shadow(0 0 5px #f00) drop-shadow(0 0 10px #0ff); }
+  0% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); filter: drop-shadow(0 0 5px #f00) drop-shadow(0 0 10px #CC0000); }
   10% { clip-path: polygon(0 15%, 100% 15%, 100% 30%, 0 30%); transform: translateX(-5px); }
   20% { clip-path: polygon(0 70%, 100% 70%, 100% 85%, 0 85%); transform: translateX(5px); }
   30% { clip-path: polygon(0 40%, 100% 40%, 100% 55%, 0 55%); transform: translateY(-5px); }
-  40% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); filter: drop-shadow(0 0 15px #f00) drop-shadow(0 0 20px #0ff); }
+  40% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); filter: drop-shadow(0 0 15px #f00) drop-shadow(0 0 20px #CC0000); }
   50% { clip-path: polygon(0 25%, 100% 25%, 100% 40%, 0 40%); transform: translateY(5px); }
   60% { clip-path: polygon(0 80%, 100% 80%, 100% 95%, 0 95%); transform: scale(1.05); }
   70% { clip-path: polygon(0 50%, 100% 50%, 100% 65%, 0 65%); transform: scale(0.95); }
-  80% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); filter: drop-shadow(0 0 5px #f00) drop-shadow(0 0 10px #0ff); }
+  80% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); filter: drop-shadow(0 0 5px #f00) drop-shadow(0 0 10px #CC0000); }
   90% { clip-path: polygon(0 10%, 100% 10%, 100% 20%, 0 20%); transform: skewX(10deg); }
   100% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); transform: skewX(0deg); }
 }
@@ -2812,9 +2813,9 @@ body::after {
 .ohara-2099-mode {
   background: rgba(10, 10, 30, 0.8);
   border: 2px solid #f00;
-  box-shadow: 0 0 15px #f00, inset 0 0 15px #0ff;
-  color: #0ff;
-  text-shadow: 0 0 5px #0ff;
+  box-shadow: 0 0 15px #f00, inset 0 0 15px #CC0000;
+  color: #CC0000;
+  text-shadow: 0 0 5px #CC0000;
   font-family: monospace;
   position: relative;
   overflow: hidden;
@@ -3421,3 +3422,146 @@ body::after {
         margin-left: 50px;
     }
 }
+
+/* =========================================================
+   SECTION DIVIDERS
+   ========================================================= */
+.section-divider { width: 100%; line-height: 0; overflow: hidden; position: relative; z-index: 1; }
+
+/* =========================================================
+   WHY TECHNOKINGS SECTION
+   ========================================================= */
+#why-tk { padding: clamp(40px,5vw,80px) 0; position: relative; z-index: 1; }
+.why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; }
+.why-card { background: rgba(204,0,0,0.06); border: 1px solid rgba(204,0,0,0.25); clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%); padding: 32px 28px; text-align: center; transition: background 0.3s, border-color 0.3s, transform 0.3s; }
+.why-card:hover { background: rgba(204,0,0,0.14); border-color: rgba(204,0,0,0.6); transform: translateY(-6px); }
+.why-icon { font-size: 36px; margin-bottom: 12px; }
+.why-num { font-family: 'Bebas Neue', sans-serif; font-size: clamp(40px,5vw,64px); color: #CC0000; line-height: 1; margin-bottom: 8px; }
+.why-label { font-family: 'Inter', sans-serif; font-size: 13px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 1px; }
+
+/* =========================================================
+   COORDINATOR CARDS
+   ========================================================= */
+.coord-category-label { font-family: 'Orbitron', monospace; font-size: 11px; letter-spacing: 3px; color: #CC0000; margin-bottom: 20px; text-transform: uppercase; }
+.coord-event-group { margin-bottom: 48px; }
+.coord-event-title { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: #fff; border-left: 3px solid #CC0000; padding-left: 12px; margin-bottom: 16px; }
+.coord-cards-row { display: flex; flex-wrap: wrap; gap: 16px; }
+.coord-card { background: rgba(204,0,0,0.06); border: 1px solid rgba(204,0,0,0.2); clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%); padding: 24px 28px; min-width: 200px; flex: 1 1 200px; max-width: 260px; transition: background 0.2s, border-color 0.2s; }
+.coord-card:hover { background: rgba(204,0,0,0.12); border-color: rgba(204,0,0,0.5); }
+.coord-card.faculty { border-color: #FFD700; background: rgba(255,215,0,0.06); }
+.coord-avatar { font-size: 36px; margin-bottom: 8px; }
+.coord-name { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: #fff; }
+.coord-role, .coord-dept { font-family: 'Inter', sans-serif; font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 2px; }
+.coord-phone-btn { display: inline-block; margin-top: 12px; font-family: 'Orbitron', monospace; font-size: 11px; color: #CC0000; text-decoration: none; border: 1px solid rgba(204,0,0,0.4); padding: 4px 10px; transition: background 0.2s; }
+.coord-phone-btn:hover { background: rgba(204,0,0,0.2); }
+.coord-chip { display: inline-flex; flex-direction: column; background: rgba(204,0,0,0.08); border: 1px solid rgba(204,0,0,0.25); padding: 8px 12px; border-radius: 4px; margin: 4px; }
+.coord-phone { font-size: 12px; color: #CC0000; text-decoration: none; }
+.coord-strip-title { font-family: 'Orbitron', monospace; font-size: 13px; letter-spacing: 3px; color: #CC0000; margin-bottom: 12px; text-transform: uppercase; }
+.event-coord-strip { background: rgba(204,0,0,0.05); border-top: 1px solid rgba(204,0,0,0.2); border-bottom: 1px solid rgba(204,0,0,0.2); padding: 40px 0; position: relative; z-index: 1; }
+
+/* =========================================================
+   MOBILE EVENTS LIST
+   ========================================================= */
+@media (max-width: 767px) {
+    #hologram-events-section { display: none !important; }
+    .events-mobile-list { display: flex !important; flex-direction: column; gap: 12px; }
+    #events-mobile-section { display: block !important; padding: 40px 0 60px; position: relative; z-index: 1; }
+}
+@media (min-width: 768px) { #events-mobile-section { display: none; } }
+.mobile-event-item { background: rgba(15,15,18,0.7); border: 1px solid rgba(204,0,0,0.2); border-radius: 8px; overflow: hidden; }
+.mobile-event-header { width: 100%; background: transparent; border: none; padding: 18px 20px; display: flex; align-items: center; gap: 12px; color: #fff; font-family: 'Bebas Neue', sans-serif; font-size: 20px; cursor: pointer; text-align: left; }
+.mobile-event-header[aria-expanded="true"] { color: #CC0000; }
+.mobile-event-icon { font-size: 24px; }
+.mobile-event-name { flex: 1; }
+.mobile-event-cat { font-family: 'Orbitron', monospace; font-size: 9px; color: rgba(255,255,255,0.4); letter-spacing: 2px; padding: 2px 6px; border: 1px solid rgba(255,255,255,0.2); border-radius: 2px; }
+.mobile-event-toggle { font-size: 20px; color: #CC0000; transition: transform 0.3s; }
+.mobile-event-header[aria-expanded="true"] .mobile-event-toggle { transform: rotate(45deg); }
+.mobile-event-body { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; padding: 0 20px; }
+.mobile-event-header[aria-expanded="true"] + .mobile-event-body { padding-bottom: 20px; }
+.mobile-event-desc { color: rgba(255,255,255,0.7); font-size: 14px; margin-bottom: 12px; }
+.mobile-event-meta { display: flex; gap: 16px; flex-wrap: wrap; font-size: 12px; color: rgba(255,255,255,0.5); margin-bottom: 12px; }
+.mobile-event-rules { list-style: disc; padding-left: 20px; color: rgba(255,255,255,0.6); font-size: 13px; margin-bottom: 12px; }
+.mobile-event-coords { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+
+/* =========================================================
+   REGISTER STEPS (What Happens Next)
+   ========================================================= */
+.register-steps { display: flex; flex-direction: column; gap: 16px; max-width: 600px; margin: 0 auto; }
+.step { display: flex; align-items: center; gap: 20px; background: rgba(204,0,0,0.06); border: 1px solid rgba(204,0,0,0.2); padding: 18px 24px; border-radius: 8px; transition: background 0.3s; }
+.step:hover { background: rgba(204,0,0,0.12); }
+.step-num { font-family: 'Orbitron', monospace; font-size: 28px; font-weight: 900; color: #CC0000; min-width: 48px; }
+.step-text { font-family: 'Inter', sans-serif; font-size: 15px; color: rgba(255,255,255,0.85); }
+
+/* =========================================================
+   CURSOR WEB SVG
+   ========================================================= */
+#cursor {
+    width: 20px; height: 20px;
+    background: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='9' stroke='%23CC0000' stroke-width='1' fill='none'/%3E%3Cline x1='10' y1='1' x2='10' y2='19' stroke='%23CC0000' stroke-width='0.5'/%3E%3Cline x1='1' y1='10' x2='19' y2='10' stroke='%23CC0000' stroke-width='0.5'/%3E%3C/svg%3E");
+    mix-blend-mode: screen;
+    transition: transform 0.1s;
+    position: fixed;
+    pointer-events: none;
+    z-index: 99999;
+    transform: translate(-50%, -50%);
+}
+#cursor.hovering { transform: translate(-50%, -50%) scale(2) rotate(45deg); }
+@media (pointer: coarse) { #cursor, #cursor-ring { display: none !important; } }
+
+/* =========================================================
+   SECTION Z-INDEX STACKING â€” ensure content always above canvas
+   ========================================================= */
+#hero, #about, #countdown, #prize, #schedule, #faq, #why-tk,
+#hologram-events-section, #events-mobile-section, footer,
+.event-coord-strip, #coordinators-hero, #coordinators-grid,
+#register-steps-section, #register, nav, #mobile-menu,
+#loader, #walkman-container, #easter-egg-modal, #success-modal {
+    position: relative;
+    z-index: 1;
+}
+
+/* =========================================================
+   PRIZE CANVAS FILL FIX
+   ========================================================= */
+#prize-canvas {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+}
+#prize { position: relative; }
+
+/* =========================================================
+   REMOVE ALL REMAINING BLUE LEAKS
+   ========================================================= */
+/* Override any remaining #CC0000 / cyan / blue in timeline nodes */
+.timeline-item:nth-child(even) .timeline-dot {
+    border-color: #CC0000 !important;
+    box-shadow: 0 0 10px #CC0000 !important;
+}
+.timeline-item:nth-child(odd) .timeline-dot {
+    border-color: #CC0000 !important;
+    box-shadow: 0 0 10px #CC0000 !important;
+}
+.time-label { color: #CC0000 !important; }
+.timeline-item:nth-child(odd) .time-label { color: #CC0000 !important; }
+.timeline-line {
+    background: linear-gradient(to bottom, rgba(204,0,0,0.2), #CC0000, rgba(10,10,10,0.5)) !important;
+    box-shadow: 0 0 15px rgba(204,0,0,0.5) !important;
+}
+.timeline-item:hover .timeline-content,
+.timeline-item:nth-child(odd):hover .timeline-content {
+    box-shadow: 0 10px 30px rgba(204,0,0,0.2) !important;
+    border-color: rgba(204,0,0,0.5) !important;
+}
+.faq-item.active .faq-icon { color: #CC0000 !important; }
+
+/* =========================================================
+   RESPONSIVE â€” sections paddings on mobile
+   ========================================================= */
+@media (max-width: 375px) {
+    section { padding-left: clamp(16px, 5vw, 40px); padding-right: clamp(16px, 5vw, 40px); }
+    .hero-t1, .hero-t2, .hero-t3 { font-size: clamp(48px, 14vw, 120px); }
+}
+

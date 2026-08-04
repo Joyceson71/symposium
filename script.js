@@ -1,4 +1,4 @@
-/* ===================== CURSOR ===================== */
+﻿/* ===================== CURSOR ===================== */
 const cur = document.getElementById("cursor"),
     ring = document.getElementById("cursor-ring");
 let mx = 0,
@@ -664,7 +664,7 @@ function countUp(el, target, prefix) {
             start = target;
             clearInterval(t);
         }
-        if (prefix === "₹") {
+        if (prefix === "â‚¹") {
             el.textContent =
                 prefix +
                 (start >= 1000 ? Math.floor(start / 1000) + "K" : Math.floor(start));
@@ -890,10 +890,10 @@ function submitForm() {
         department: document.getElementById("f-dept").value.trim(),
         year: document.getElementById("f-year").value,
         roll: document.getElementById("f-roll").value.trim(),
-        link: document.getElementById("f-link").value.trim() || "—",
+        link: document.getElementById("f-link").value.trim() || "â€”",
         event: document.getElementById("f-event").value,
         teamSize: document.querySelector('input[name="teamsize"]:checked').value,
-        teammateName: document.getElementById("f-teammate").value.trim() || "—",
+        teammateName: document.getElementById("f-teammate").value.trim() || "â€”",
         accommodation: document.getElementById("f-accom").value,
         dietary: document.getElementById("f-diet").value,
         paymentFile: uploadedFile.name,
@@ -1044,59 +1044,59 @@ if (scrollTrack) {
 const eventsData = [
   {
     title: "PAPER PRESENTATION",
-    logo: "📄",
+    logo: "ðŸ“„",
     tagline: "Ink Meets Innovation",
     desc: "Showcase your research and innovative ideas before a panel of expert judges. Present a technical paper on any topic in Electronics, Communication, or Emerging Technologies. Defend your data, impress the jury.",
-    rules: ["Team size: 1–2 members", "IEEE-format report + PPT required", "10 min presentation + 5 min Q&A", "Plagiarism must be below 20%"]
+    rules: ["Team size: 1â€“2 members", "IEEE-format report + PPT required", "10 min presentation + 5 min Q&A", "Plagiarism must be below 20%"]
   },
   {
     title: "PROJECT EXPO",
-    logo: "⚙️",
+    logo: "âš™ï¸",
     tagline: "Build It. Show It. Own It.",
     desc: "Bring your hardware or software masterpiece to the expo floor. Connect your circuits, boot your code, and let your prototype speak louder than any slide deck.",
-    rules: ["Team size: 1–2 members", "Working prototype strongly preferred", "Judged: Innovation, Execution, Impact", "Abstract submission 3 days prior"]
+    rules: ["Team size: 1â€“2 members", "Working prototype strongly preferred", "Judged: Innovation, Execution, Impact", "Abstract submission 3 days prior"]
   },
   {
     title: "CIRCUIT BREAKERS",
-    logo: "⚡",
+    logo: "âš¡",
     tagline: "Fault Found. Victory Claimed.",
     desc: "You have a broken circuit. A ticking clock. And your bare hands. Identify faults, rewire connections, and build working circuits from scratch under tournament pressure.",
-    rules: ["Team size: 1–2 members", "Components and tools provided on-spot", "3 rounds: Fault ID → Circuit Build → Speed", "No phones or external datasheets"]
+    rules: ["Team size: 1â€“2 members", "Components and tools provided on-spot", "3 rounds: Fault ID â†’ Circuit Build â†’ Speed", "No phones or external datasheets"]
   },
   {
     title: "TECHNICAL QUIZ",
-    logo: "🧠",
+    logo: "ðŸ§ ",
     tagline: "Fast Buzzers. Sharp Minds.",
-    desc: "From Maxwells equations to modern microcontrollers — how deep does your ECE knowledge run? A multi-round elimination battle covering core electronics and communication.",
-    rules: ["Team size: 1–2 members", "4 rounds: Written → Rapid fire → Visual → Buzzer", "Elimination after each round", "Topics: Analog, Digital, EDC, Signals"]
+    desc: "From Maxwells equations to modern microcontrollers â€” how deep does your ECE knowledge run? A multi-round elimination battle covering core electronics and communication.",
+    rules: ["Team size: 1â€“2 members", "4 rounds: Written â†’ Rapid fire â†’ Visual â†’ Buzzer", "Elimination after each round", "Topics: Analog, Digital, EDC, Signals"]
   },
   {
     title: "MINUTE TO WIN IT",
-    logo: "⏱️",
+    logo: "â±ï¸",
     tagline: "60 Seconds of Chaos",
-    desc: "Stack, balance, spin, and scramble — complete wild, prop-based challenges in under 60 seconds each. Simple rules. Impossible under pressure.",
-    rules: ["Team size: 1–2 members", "Multiple knockout rounds", "All props provided on-site"]
+    desc: "Stack, balance, spin, and scramble â€” complete wild, prop-based challenges in under 60 seconds each. Simple rules. Impossible under pressure.",
+    rules: ["Team size: 1â€“2 members", "Multiple knockout rounds", "All props provided on-site"]
   },
   {
     title: "DETECTIVE",
-    logo: "🔍",
+    logo: "ðŸ”",
     tagline: "The Clues Dont Lie. Can You?",
     desc: "A crime scene awaits. Evidence is scattered. Time is running out. Observe the scene, decode the clues, connect the dots, and name the culprit before other teams beat you to it.",
-    rules: ["Team size: 1–2 members", "Points for correct culprit + fastest solve", "Red herrings included — trust nothing"]
+    rules: ["Team size: 1â€“2 members", "Points for correct culprit + fastest solve", "Red herrings included â€” trust nothing"]
   },
   {
     title: "BOX HUNT",
-    logo: "📦",
+    logo: "ðŸ“¦",
     tagline: "Find the Box. Claim the Points.",
     desc: "Numbered boxes are hidden across the campus. A full-campus scavenger race where your speed, observation, and navigation skills determine your destiny.",
-    rules: ["Team size: 1–2 members", "45-minute time limit", "Each box contains a code to submit"]
+    rules: ["Team size: 1â€“2 members", "45-minute time limit", "Each box contains a code to submit"]
   },
   {
     title: "START MUSIC",
-    logo: "🎵",
+    logo: "ðŸŽµ",
     tagline: "Name It Before the Drop",
     desc: "The song starts. You have 5 seconds. A buzzer-based rapid-fire showdown where your playlist knowledge becomes your competitive edge.",
-    rules: ["Team size: 1–2 members", "Buzzer system — first buzz answers", "Wrong answer = negative points"]
+    rules: ["Team size: 1â€“2 members", "Buzzer system â€” first buzz answers", "Wrong answer = negative points"]
   }
 ];
 
@@ -1125,7 +1125,202 @@ function showEvent(idx) {
                 <div class="comic-panel-desc" style="margin-bottom: 15px;">${ev.desc}</div>
                 ${rulesHtml}
                 <div style="margin-top: 24px; text-align: center;">
-                    <button class="btn-primary" onclick="window.location.href='register.html'" style="transform: rotate(2deg); box-shadow: 4px 4px 0 #0ff;">REGISTER NOW</button>
+                    <button class="btn-primary" onclick="window.location.href='register.html'" style="transform: rotate(2deg); box-shadow: 4px 4px 0 #CC0000;">REGISTER NOW</button>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+
+/* ===================== SPIDER-MAN: WEB-SLINGER ENGINE ===================== */
+// Inject the Web Canvas
+const webCanvas = document.createElement("canvas");
+webCanvas.id = "web-slinger-canvas";
+webCanvas.style.position = "fixed";
+webCanvas.style.top = "0";
+webCanvas.style.left = "0";
+webCanvas.style.width = "100vw";
+webCanvas.style.height = "100vh";
+webCanvas.style.pointerEvents = "none";
+webCanvas.style.zIndex = "9000"; // Below modals, above some backgrounds
+document.body.appendChild(webCanvas);
+
+const wctx = webCanvas.getContext("2d");
+let cw, ch;
+function resizeWebCanvas() {
+    cw = webCanvas.width = window.innerWidth;
+    ch = webCanvas.height = window.innerHeight;
+}
+window.addEventListener("resize", resizeWebCanvas);
+resizeWebCanvas();
+
+// Web physics nodes
+const numNodes = 5;
+const nodes = [];
+const targetMouse = { x: cw / 2, y: ch / 2 };
+const currentMouse = { x: cw / 2, y: ch / 2 };
+
+// Anchor points (Corners + Edges)
+const anchors = [];
+
+function initAnchors() {
+    anchors.length = 0;
+    anchors.push({ x: 0, y: 0 }); // Top Left
+    anchors.push({ x: cw, y: 0 }); // Top Right
+    anchors.push({ x: 0, y: ch }); // Bottom Left
+    anchors.push({ x: cw, y: ch }); // Bottom Right
+    anchors.push({ x: cw / 2, y: 0 }); // Top Center
+}
+initAnchors();
+window.addEventListener("resize", initAnchors);
+
+document.addEventListener("mousemove", (e) => {
+    targetMouse.x = e.clientX;
+    targetMouse.y = e.clientY;
+});
+
+class WebNode {
+    constructor(anchorX, anchorY) {
+        this.anchor = { x: anchorX, y: anchorY };
+        this.pos = { x: anchorX, y: anchorY };
+        this.vel = { x: 0, y: 0 };
+        this.attached = false;
+        this.restLength = Math.random() * 200 + 100;
+        this.stiffness = 0.05 + Math.random() * 0.05;
+        this.damping = 0.8;
+    }
+    update(mx, my) {
+        let tx = this.anchor.x;
+        let ty = this.anchor.y;
+        
+        // If mouse is somewhat close, attach to it
+        const dx = mx - this.anchor.x;
+        const dy = my - this.anchor.y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        
+        if (dist < 600) {
+            this.attached = true;
+            // Point on the line between anchor and mouse
+            tx = this.anchor.x + dx * 0.8;
+            ty = this.anchor.y + dy * 0.8;
+        } else {
+            this.attached = false;
+        }
+        
+        const forceX = (tx - this.pos.x) * this.stiffness;
+        const forceY = (ty - this.pos.y) * this.stiffness;
+        
+        this.vel.x = (this.vel.x + forceX) * this.damping;
+        this.vel.y = (this.vel.y + forceY) * this.damping;
+        
+        this.pos.x += this.vel.x;
+        this.pos.y += this.vel.y;
+    }
+    draw(ctx, mx, my) {
+        if (!this.attached) return; // Only draw when active
+        
+        ctx.beginPath();
+        ctx.moveTo(this.anchor.x, this.anchor.y);
+        // Draw chaotic web strands
+        ctx.quadraticCurveTo(this.pos.x, this.pos.y, mx, my);
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.4)";
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+        
+        // Minor connecting threads
+        ctx.beginPath();
+        ctx.moveTo(this.pos.x, this.pos.y);
+        ctx.lineTo(mx + (Math.random() - 0.5) * 50, my + (Math.random() - 0.5) * 50);
+        ctx.strokeStyle = "rgba(255, 0, 60, 0.2)";
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+    }
+}
+
+let webNodes = [];
+function resetWebNodes() {
+    webNodes = anchors.map(a => new WebNode(a.x, a.y));
+}
+resetWebNodes();
+window.addEventListener("resize", resetWebNodes);
+
+function animateWebs() {
+    wctx.clearRect(0, 0, cw, ch);
+    
+    // Smooth mouse follow
+    currentMouse.x += (targetMouse.x - currentMouse.x) * 0.15;
+    currentMouse.y += (targetMouse.y - currentMouse.y) * 0.15;
+    
+    webNodes.forEach(node => {
+        node.update(currentMouse.x, currentMouse.y);
+        node.draw(wctx, currentMouse.x, currentMouse.y);
+    });
+    
+    requestAnimationFrame(animateWebs);
+}
+animateWebs();
+
+/* ===================== SPIDEY-SENSE INTERACTION ===================== */
+// Inject vignette
+const spideySense = document.createElement("div");
+spideySense.id = "spidey-sense-vignette";
+document.body.appendChild(spideySense);
+
+// Triggers
+const senseTriggers = document.querySelectorAll("button, a, .event-card, .spider-node, .stat-card");
+senseTriggers.forEach(el => {
+    el.addEventListener("mouseenter", () => {
+        document.body.classList.add("spidey-sense-active");
+    });
+    el.addEventListener("mouseleave", () => {
+        document.body.classList.remove("spidey-sense-active");
+    tagline: "The Clues Dont Lie. Can You?",
+    desc: "A crime scene awaits. Evidence is scattered. Time is running out. Observe the scene, decode the clues, connect the dots, and name the culprit before other teams beat you to it.",
+    rules: ["Team size: 1â€“2 members", "Points for correct culprit + fastest solve", "Red herrings included â€” trust nothing"]
+  },
+  {
+    title: "BOX HUNT",
+    logo: "ðŸ“¦",
+    tagline: "Find the Box. Claim the Points.",
+    desc: "Numbered boxes are hidden across the campus. A full-campus scavenger race where your speed, observation, and navigation skills determine your destiny.",
+    rules: ["Team size: 1â€“2 members", "45-minute time limit", "Each box contains a code to submit"]
+  },
+  {
+    title: "START MUSIC",
+    logo: "ðŸŽµ",
+    tagline: "Name It Before the Drop",
+    desc: "The song starts. You have 5 seconds. A buzzer-based rapid-fire showdown where your playlist knowledge becomes your competitive edge.",
+    rules: ["Team size: 1â€“2 members", "Buzzer system â€” first buzz answers", "Wrong answer = negative points"]
+  }
+];
+
+function showEvent(idx) {
+    const center = document.getElementById("spider-center");
+    if (!center) return;
+    
+    // Highlight active node
+    document.querySelectorAll(".spider-node").forEach((node, i) => {
+        if(i === idx) node.classList.add("active");
+        else node.classList.remove("active");
+    });
+    
+    const ev = eventsData[idx];
+    let rulesHtml = "<ul class=\"event-rules\" style=\"text-align: left; margin: 0 auto; display: inline-block;\">";
+    ev.rules.forEach(r => rulesHtml += "<li>" + r + "</li>");
+    rulesHtml += "</ul>";
+    
+    center.innerHTML = `
+        <div class="comic-panel-container" style="animation: sv-chromatic-shift 0.3s forwards;">
+            <div class="comic-panel">
+                <div class="comic-bubble">THWIP!</div>
+                <div class="center-logo" style="font-size: 3rem; margin-bottom: 10px;">${ev.logo}</div>
+                <div class="comic-panel-title">${ev.title}</div>
+                <div class="event-tagline" style="font-family: 'Permanent Marker', cursive; color: #e81123; margin-bottom: 15px; font-size: 1.2rem; display:block;">${ev.tagline}</div>
+                <div class="comic-panel-desc" style="margin-bottom: 15px;">${ev.desc}</div>
+                ${rulesHtml}
+                <div style="margin-top: 24px; text-align: center;">
+                    <button class="btn-primary" onclick="window.location.href='register.html'" style="transform: rotate(2deg); box-shadow: 4px 4px 0 #CC0000;">REGISTER NOW</button>
                 </div>
             </div>
         </div>
@@ -1281,22 +1476,19 @@ senseTriggers.forEach(el => {
 // FAQ Accordion
 document.addEventListener("DOMContentLoaded", () => {
     const faqQuestions = document.querySelectorAll(".faq-question");
-    faqQuestions.forEach(question => {
-        question.addEventListener("click", () => {
-            const item = question.parentElement;
-            const isActive = item.classList.contains("active");
-            
-            // Close all other items
-            document.querySelectorAll(".faq-item").forEach(otherItem => {
+    faqQuestions.forEach(function(question) {
+        question.addEventListener("click", function() {
+            var item = question.parentElement;
+            var isActive = item.classList.contains("active");
+            document.querySelectorAll(".faq-item").forEach(function(otherItem) {
                 otherItem.classList.remove("active");
-                otherItem.querySelector(".faq-answer").style.maxHeight = null;
+                var ans = otherItem.querySelector(".faq-answer");
+                if(ans) ans.style.maxHeight = null;
             });
-            
-            // Open the clicked item if it wasn't active
             if (!isActive) {
                 item.classList.add("active");
-                const answer = item.querySelector(".faq-answer");
-                answer.style.maxHeight = answer.scrollHeight + "px";
+                var answer = item.querySelector(".faq-answer");
+                if(answer) answer.style.maxHeight = answer.scrollHeight + "px";
             }
         });
     });
@@ -1304,151 +1496,101 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // ===================== COUNTDOWN TIMER =====================
 (function initCountdown() {
-    const countDownDate = new Date("Sep 18, 2026 09:00:00").getTime();
-    const daysEl = document.getElementById("cd-days");
-    const hoursEl = document.getElementById("cd-hours");
-    const minsEl = document.getElementById("cd-mins");
-    const secsEl = document.getElementById("cd-secs");
-
+    var countDownDate = new Date("Sep 18, 2026 09:00:00").getTime();
+    var daysEl = document.getElementById("cd-days");
+    var hoursEl = document.getElementById("cd-hours");
+    var minsEl = document.getElementById("cd-mins");
+    var secsEl = document.getElementById("cd-secs");
     if(!daysEl || !hoursEl || !minsEl || !secsEl) return;
 
-    // Run once immediately
-    updateTimer();
-
-    const x = setInterval(updateTimer, 1000);
-
     function updateTimer() {
-        const now = new Date().getTime();
-        const distance = countDownDate - now;
-
+        var now = new Date().getTime();
+        var distance = countDownDate - now;
         if (distance < 0) {
-            clearInterval(x);
-            daysEl.innerHTML = "00";
-            hoursEl.innerHTML = "00";
-            minsEl.innerHTML = "00";
-            secsEl.innerHTML = "00";
+            clearInterval(timerInt);
+            daysEl.innerHTML = "00"; hoursEl.innerHTML = "00";
+            minsEl.innerHTML = "00"; secsEl.innerHTML = "00";
             return;
         }
-
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
         daysEl.innerHTML = days < 10 ? "0" + days : days;
         hoursEl.innerHTML = hours < 10 ? "0" + hours : hours;
         minsEl.innerHTML = minutes < 10 ? "0" + minutes : minutes;
         secsEl.innerHTML = seconds < 10 ? "0" + seconds : seconds;
     }
+    updateTimer();
+    var timerInt = setInterval(updateTimer, 1000);
 })();
 
-// ===================== NUMBER COUNTERS =====================
-(function initCounters() {
-    const counters = document.querySelectorAll(".stat-num[data-count], #prize-count");
-    if(counters.length === 0) return;
-    
-    const speed = 100;
-
-    const animateCount = (counter) => {
-        let target = +counter.getAttribute("data-count");
-        if(counter.id === "prize-count") target = 20000;
-        if(!target) return;
-        
-        let count = 0;
-        const inc = target / speed;
-
-        const update = () => {
-            count += inc;
-            if (count < target) {
-                counter.innerText = Math.ceil(count).toLocaleString();
-                requestAnimationFrame(update);
-            } else {
-                counter.innerText = target.toLocaleString();
+// ===================== NUMBER COUNTERS (fixed) =====================
+document.addEventListener('DOMContentLoaded', function() {
+    var counterObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (!entry.isIntersecting) return;
+            var el = entry.target;
+            var target = +(el.dataset.count || 0);
+            if (el.id === 'prize-count') target = 20000;
+            if (!target) return;
+            var prefix = el.dataset.prefix || '';
+            var duration = 1800;
+            var start = performance.now();
+            function step(now) {
+                var progress = Math.min((now - start) / duration, 1);
+                var eased = 1 - Math.pow(1 - progress, 3);
+                el.textContent = prefix + Math.floor(eased * target).toLocaleString('en-IN');
+                if (progress < 1) requestAnimationFrame(step);
             }
-        };
-        update();
-    };
-
-    const observer = new IntersectionObserver((entries, obs) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                animateCount(entry.target);
-                obs.unobserve(entry.target);
-            }
+            requestAnimationFrame(step);
+            counterObserver.unobserve(el);
         });
-    }, { threshold: 0.5 });
+    }, { threshold: 0.3, rootMargin: '0px 0px -50px 0px' });
 
-    counters.forEach(c => {
-        c.innerText = '0';
-        observer.observe(c);
+    document.querySelectorAll('.stat-num[data-count]').forEach(function(el) {
+        el.textContent = '0';
+        counterObserver.observe(el);
     });
-})();
+    var prizeEl = document.getElementById('prize-count');
+    if (prizeEl) {
+        prizeEl.textContent = '0';
+        counterObserver.observe(prizeEl);
+    }
+});
 
 // ===================== PARTICLE CURSOR TRAIL =====================
 (function initCursorTrail() {
-    const canvas = document.createElement("canvas");
-    canvas.style.position = "fixed";
-    canvas.style.top = "0";
-    canvas.style.left = "0";
-    canvas.style.width = "100vw";
-    canvas.style.height = "100vh";
-    canvas.style.pointerEvents = "none";
-    canvas.style.zIndex = "9998"; // Just below custom cursor
-    document.body.appendChild(canvas);
-    
-    const ctx = canvas.getContext("2d");
-    let width = canvas.width = window.innerWidth;
-    let height = canvas.height = window.innerHeight;
-
-    window.addEventListener("resize", () => {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
-    });
-
-    const particles = [];
-    const colors = ["#ff4d4d", "#0070f3", "#ffffff", "#ff0033"];
-    
-    let mouse = { x: width/2, y: height/2 };
-    
-    window.addEventListener("mousemove", (e) => {
-        mouse.x = e.clientX;
-        mouse.y = e.clientY;
-        
-        // Add particles on move
-        for(let i=0; i<3; i++) {
-            particles.push({
-                x: mouse.x,
-                y: mouse.y,
-                vx: (Math.random() - 0.5) * 4,
-                vy: (Math.random() - 0.5) * 4,
-                size: Math.random() * 3 + 1,
-                color: colors[Math.floor(Math.random() * colors.length)],
-                life: 1
-            });
+    var tc = document.createElement("canvas");
+    tc.style.cssText = "position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:9998;";
+    document.body.appendChild(tc);
+    var tctx = tc.getContext("2d");
+    var tw = tc.width = window.innerWidth;
+    var th = tc.height = window.innerHeight;
+    window.addEventListener("resize", function() { tw = tc.width = window.innerWidth; th = tc.height = window.innerHeight; });
+    var tparts = [];
+    var tcolors = ["#CC0000","#ff4d4d","#ffffff","#ff0033"];
+    var tmouse = { x: tw/2, y: th/2 };
+    window.addEventListener("mousemove", function(e) {
+        tmouse.x = e.clientX; tmouse.y = e.clientY;
+        for(var i=0;i<3;i++) {
+            tparts.push({ x:tmouse.x, y:tmouse.y,
+                vx:(Math.random()-0.5)*4, vy:(Math.random()-0.5)*4,
+                size:Math.random()*3+1,
+                color:tcolors[Math.floor(Math.random()*tcolors.length)], life:1 });
         }
     });
-
-    function render() {
-        ctx.clearRect(0, 0, width, height);
-        
-        for(let i = 0; i < particles.length; i++) {
-            const p = particles[i];
-            ctx.globalAlpha = p.life;
-            ctx.fillStyle = p.color;
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-            ctx.fill();
-            
-            p.x += p.vx;
-            p.y += p.vy;
-            p.life -= 0.02;
-            
-            if(p.life <= 0) {
-                particles.splice(i, 1);
-                i--;
-            }
+    function trender() {
+        tctx.clearRect(0,0,tw,th);
+        for(var i=0;i<tparts.length;i++) {
+            var p=tparts[i];
+            tctx.globalAlpha=p.life; tctx.fillStyle=p.color;
+            tctx.beginPath(); tctx.arc(p.x,p.y,p.size,0,Math.PI*2); tctx.fill();
+            p.x+=p.vx; p.y+=p.vy; p.life-=0.02;
+            if(p.life<=0){tparts.splice(i,1);i--;}
         }
-        requestAnimationFrame(render);
+        requestAnimationFrame(trender);
     }
-    render();
+    trender();
 })();
+
