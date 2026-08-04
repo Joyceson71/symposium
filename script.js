@@ -157,8 +157,10 @@ function toggleMenu() {
     const particlesMesh = new THREE.Points(particlesGeo, particlesMat);
     spiderEmblem.add(particlesMesh);
 
-    // Scale Emblem massive for Desktop Hero, hide for mobile
-    spiderEmblem.scale.setScalar(isMobile ? 0.01 : 1.2);
+    // Scale Emblem massive for all devices to ensure visibility
+    spiderEmblem.scale.setScalar(isMobile ? 1.2 : 1.8);
+    // Position it clearly in front of the camera
+    spiderEmblem.position.set(0, isMobile ? 35 : 0, isMobile ? 20 : 4);
     scene.add(spiderEmblem);
 
     /* CYBER CITY (INSTANCED MESH) */
@@ -344,8 +346,10 @@ function toggleMenu() {
         
         // --- CINEMATIC SCROLL ANIMATIONS ---
         if (spiderEmblem) {
-            spiderEmblem.position.y = scrollPercent * 20; 
-            spiderEmblem.scale.setScalar((isMobile ? 0.01 : 1.2) * Math.max(0, 1 - scrollPercent*2));
+            const baseScale = isMobile ? 1.2 : 1.8;
+            const baseY = isMobile ? 35 : 0;
+            spiderEmblem.position.y = baseY + (scrollPercent * 20); 
+            spiderEmblem.scale.setScalar(baseScale * Math.max(0, 1 - scrollPercent * 1.5));
         }
 
         if (scrollPercent > 0.1 && scrollPercent < 0.4) {
@@ -424,7 +428,8 @@ function toggleMenu() {
         requestAnimationFrame(anim);
         const t = clock.getElapsedTime();
         
-        spiderEmblem.position.y = Math.sin(t * 1.5) * 0.2;
+        const baseY = isMobile ? 35 : 0;
+        spiderEmblem.position.y = baseY + (globalScrollPercent * 20) + Math.sin(t * 1.5) * 0.2;
         const targetRotX = mouseY * 0.3;
         const targetRotY = mouseX * 0.5 + Math.sin(t * 0.5) * 0.1;
         spiderEmblem.rotation.x += (targetRotX - spiderEmblem.rotation.x) * 0.1;
@@ -1296,3 +1301,154 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 });
+
+// ===================== COUNTDOWN TIMER =====================
+(function initCountdown() {
+    const countDownDate = new Date("Sep 18, 2026 09:00:00").getTime();
+    const daysEl = document.getElementById("cd-days");
+    const hoursEl = document.getElementById("cd-hours");
+    const minsEl = document.getElementById("cd-mins");
+    const secsEl = document.getElementById("cd-secs");
+
+    if(!daysEl || !hoursEl || !minsEl || !secsEl) return;
+
+    // Run once immediately
+    updateTimer();
+
+    const x = setInterval(updateTimer, 1000);
+
+    function updateTimer() {
+        const now = new Date().getTime();
+        const distance = countDownDate - now;
+
+        if (distance < 0) {
+            clearInterval(x);
+            daysEl.innerHTML = "00";
+            hoursEl.innerHTML = "00";
+            minsEl.innerHTML = "00";
+            secsEl.innerHTML = "00";
+            return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        daysEl.innerHTML = days < 10 ? "0" + days : days;
+        hoursEl.innerHTML = hours < 10 ? "0" + hours : hours;
+        minsEl.innerHTML = minutes < 10 ? "0" + minutes : minutes;
+        secsEl.innerHTML = seconds < 10 ? "0" + seconds : seconds;
+    }
+})();
+
+// ===================== NUMBER COUNTERS =====================
+(function initCounters() {
+    const counters = document.querySelectorAll(".stat-num[data-count], #prize-count");
+    if(counters.length === 0) return;
+    
+    const speed = 100;
+
+    const animateCount = (counter) => {
+        let target = +counter.getAttribute("data-count");
+        if(counter.id === "prize-count") target = 20000;
+        if(!target) return;
+        
+        let count = 0;
+        const inc = target / speed;
+
+        const update = () => {
+            count += inc;
+            if (count < target) {
+                counter.innerText = Math.ceil(count).toLocaleString();
+                requestAnimationFrame(update);
+            } else {
+                counter.innerText = target.toLocaleString();
+            }
+        };
+        update();
+    };
+
+    const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                animateCount(entry.target);
+                obs.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    counters.forEach(c => {
+        c.innerText = '0';
+        observer.observe(c);
+    });
+})();
+
+// ===================== PARTICLE CURSOR TRAIL =====================
+(function initCursorTrail() {
+    const canvas = document.createElement("canvas");
+    canvas.style.position = "fixed";
+    canvas.style.top = "0";
+    canvas.style.left = "0";
+    canvas.style.width = "100vw";
+    canvas.style.height = "100vh";
+    canvas.style.pointerEvents = "none";
+    canvas.style.zIndex = "9998"; // Just below custom cursor
+    document.body.appendChild(canvas);
+    
+    const ctx = canvas.getContext("2d");
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    window.addEventListener("resize", () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+    });
+
+    const particles = [];
+    const colors = ["#ff4d4d", "#0070f3", "#ffffff", "#ff0033"];
+    
+    let mouse = { x: width/2, y: height/2 };
+    
+    window.addEventListener("mousemove", (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+        
+        // Add particles on move
+        for(let i=0; i<3; i++) {
+            particles.push({
+                x: mouse.x,
+                y: mouse.y,
+                vx: (Math.random() - 0.5) * 4,
+                vy: (Math.random() - 0.5) * 4,
+                size: Math.random() * 3 + 1,
+                color: colors[Math.floor(Math.random() * colors.length)],
+                life: 1
+            });
+        }
+    });
+
+    function render() {
+        ctx.clearRect(0, 0, width, height);
+        
+        for(let i = 0; i < particles.length; i++) {
+            const p = particles[i];
+            ctx.globalAlpha = p.life;
+            ctx.fillStyle = p.color;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            ctx.fill();
+            
+            p.x += p.vx;
+            p.y += p.vy;
+            p.life -= 0.02;
+            
+            if(p.life <= 0) {
+                particles.splice(i, 1);
+                i--;
+            }
+        }
+        requestAnimationFrame(render);
+    }
+    render();
+})();
