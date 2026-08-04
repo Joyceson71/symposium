@@ -1272,3 +1272,27 @@ senseTriggers.forEach(el => {
         document.body.classList.remove("spidey-sense-active");
     });
 });
+
+// FAQ Accordion
+document.addEventListener("DOMContentLoaded", () => {
+    const faqQuestions = document.querySelectorAll(".faq-question");
+    faqQuestions.forEach(question => {
+        question.addEventListener("click", () => {
+            const item = question.parentElement;
+            const isActive = item.classList.contains("active");
+            
+            // Close all other items
+            document.querySelectorAll(".faq-item").forEach(otherItem => {
+                otherItem.classList.remove("active");
+                otherItem.querySelector(".faq-answer").style.maxHeight = null;
+            });
+            
+            // Open the clicked item if it wasn't active
+            if (!isActive) {
+                item.classList.add("active");
+                const answer = item.querySelector(".faq-answer");
+                answer.style.maxHeight = answer.scrollHeight + "px";
+            }
+        });
+    });
+});
