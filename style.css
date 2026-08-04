@@ -3196,6 +3196,7 @@ body::after {
 }
 
 .graffiti-text {
+    font-family: 'Permanent Marker', cursive !important;
     text-shadow: 0 0 10px rgba(255,0,0,0.5), 2px 2px 0px rgba(0,0,0,1) !important;
 }
 
