@@ -1,4 +1,4 @@
-﻿/**
+/**
  * ============================================================================
  * TECHNOKINGS 2K26 - ADVANCED DOM ANIMATION & PHYSICS ENGINE
  * Custom GSAP-style timeline, split-text, magnetic UI, and tilt physics.
@@ -10,11 +10,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* --- 1. TEXT SPLITTING ENGINE --- */
     // Targets all major headings and splits them into span.char for staggered reveals
-    const textTargets = document.querySelectorAll("h1, h2, .section-title, .hero-title");
+    const textTargets = document.querySelectorAll("h1, h2, .section-title, .hero-t1, .hero-t2, .hero-t3, .hero-tagline");
     
     textTargets.forEach(el => {
         // Don't split if it has complex HTML children
-        if (el.children.length > 0 && !el.classList.contains("hero-title")) return;
+        if (el.children.length > 0) return;
         
         const text = el.innerText;
         el.innerHTML = "";
@@ -46,15 +46,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 const el = entry.target;
                 
                 // Animate Split Text
-                if (el.classList.contains("hero-title") || el.tagName === "H1" || el.tagName === "H2") {
-                    const chars = el.querySelectorAll(".split-char");
+                const chars = el.querySelectorAll(".split-char");
+                if (chars.length > 0) {
                     chars.forEach((char, idx) => {
                         setTimeout(() => {
                             char.style.transform = "translateY(0) rotate(0deg)";
                             char.style.opacity = "1";
                         }, idx * 25); // Stagger
                     });
-                } 
+                }
                 
                 // Animate Cards / Containers
                 if (el.classList.contains("event-card") || el.classList.contains("coordinator-card")) {
