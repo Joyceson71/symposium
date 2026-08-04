@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 
 <head>
@@ -43,7 +43,7 @@
   </nav>
   
   <div id="mobile-menu">
-    <button class="menu-close" onclick="toggleMenu()">✕</button>
+    <button class="menu-close" onclick="toggleMenu()">âœ•</button>
     <a href="index.html#hero" onclick="toggleMenu()">HOME</a>
     <a href="index.html#about" onclick="toggleMenu()">ABOUT</a>
     <a href="events.html" onclick="toggleMenu()">EVENTS</a>
@@ -125,7 +125,7 @@
             <div class="field-error" id="e-emergency">Please enter a valid 10-digit emergency number</div>
           </div>
           <div class="form-btns">
-            <button class="btn-next" onclick="goStep(2)">NEXT STEP →</button>
+            <button class="btn-next" onclick="goStep(2)">NEXT STEP â†’</button>
           </div>
         </div>
 
@@ -166,8 +166,8 @@
             <input class="field-input" id="f-link" type="url" placeholder="https://..." />
           </div>
           <div class="form-btns" style="margin-top: 28px">
-            <button class="btn-back" onclick="goStep(1)">← BACK</button>
-            <button class="btn-next" onclick="goStep(3)">NEXT STEP →</button>
+            <button class="btn-back" onclick="goStep(1)">â† BACK</button>
+            <button class="btn-next" onclick="goStep(3)">NEXT STEP â†’</button>
           </div>
         </div>
 
@@ -181,13 +181,13 @@
             <label class="field-label">Select Event</label>
             <select class="field-select" id="f-event">
               <option value="">-- Choose your event --</option>
-              <optgroup label="⚡ TECHNICAL EVENTS">
+              <optgroup label="âš¡ TECHNICAL EVENTS">
                 <option value="Paper Presentation">Paper Presentation</option>
                 <option value="Project Expo">Project Expo</option>
                 <option value="Circuit Breakers">Circuit Breakers</option>
                 <option value="Technical Quiz">Technical Quiz</option>
               </optgroup>
-              <optgroup label="🕷️ NON-TECHNICAL EVENTS">
+              <optgroup label="ðŸ•·ï¸ NON-TECHNICAL EVENTS">
                 <option value="Minute to Win It">Minute to Win It</option>
                 <option value="Detective">Detective</option>
                 <option value="Box Hunt">Box Hunt</option>
@@ -241,8 +241,8 @@
             </select>
           </div>
           <div class="form-btns" style="margin-top: 28px">
-            <button class="btn-back" onclick="goStep(2)">← BACK</button>
-            <button class="btn-next" onclick="goStep(4)">NEXT STEP →</button>
+            <button class="btn-back" onclick="goStep(2)">â† BACK</button>
+            <button class="btn-next" onclick="goStep(4)">NEXT STEP â†’</button>
           </div>
         </div>
 
@@ -277,7 +277,7 @@
               </div>
             </div>
             <p class="qr-upi">UPI: yourname@okaxis</p>
-            <p class="qr-fee">Registration Fee: ₹[AMOUNT]</p>
+            <p class="qr-fee">Registration Fee: â‚¹[AMOUNT]</p>
             <p class="qr-note">Pay exactly the specified amount. Screenshot must show successful payment confirmation with transaction ID.</p>
           </div>
 
@@ -288,7 +288,7 @@
             </div>
             <div class="pay-step">
               <div class="pay-step-num">2</div>
-              <div class="pay-step-text">Complete the payment — take note of the transaction ID</div>
+              <div class="pay-step-text">Complete the payment â€” take note of the transaction ID</div>
             </div>
             <div class="pay-step">
               <div class="pay-step-num">3</div>
@@ -303,17 +303,17 @@
           <div class="field-group">
             <label class="field-label">Payment Screenshot</label>
             <div class="upload-zone" id="upload-zone" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)" onclick="document.getElementById('file-input').click()">
-              <span class="upload-icon">⬆</span>
+              <span class="upload-icon">â¬†</span>
               <p class="upload-text">Drag & drop or click to upload</p>
-              <p class="upload-sub">JPG, PNG, WEBP · Max 5MB</p>
+              <p class="upload-sub">JPG, PNG, WEBP Â· Max 5MB</p>
             </div>
             <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp" style="display: none" onchange="handleFileSelect(event)" />
             <div id="file-preview" class="show" style="display: none">
               <div class="preview-info">
-                <span class="preview-check">✓</span>
+                <span class="preview-check">âœ“</span>
                 <span class="preview-name" id="preview-name"></span>
               </div>
-              <button class="preview-remove" onclick="removeFile()">✕</button>
+              <button class="preview-remove" onclick="removeFile()">âœ•</button>
             </div>
             <div class="field-error" id="e-file">Please upload your payment screenshot</div>
           </div>
@@ -327,7 +327,7 @@
           </div>
 
           <div class="form-btns">
-            <button class="btn-back" onclick="goStep(3)">← BACK</button>
+            <button class="btn-back" onclick="goStep(3)">â† BACK</button>
           </div>
           <button class="btn-submit" id="submit-btn" onclick="submitForm()">SUBMIT REGISTRATION</button>
         </div>
@@ -376,21 +376,21 @@
           <div class="footer-heading">Connect With Us</div>
           <div class="footer-contact">
             <div class="footer-contact-item">
-              <span>📧</span>events@college.edu
+              <span>ðŸ“§</span>events@college.edu
             </div>
             <div class="footer-contact-item">
-              <span>📱</span>+91 XXXXXXXXXX
+              <span>ðŸ“±</span>+91 XXXXXXXXXX
             </div>
             <div class="footer-contact-item">
-              <span>📸</span>@technoKings2k26
+              <span>ðŸ“¸</span>@technoKings2k26
             </div>
           </div>
         </div>
       </div>
       <div class="footer-divider"></div>
       <div class="footer-bottom">
-        <p class="footer-copy">© 2026 TechnoKings · ECE Department · [College Name]</p>
-        <p class="footer-copy">Designed with <span class="footer-heart">♥</span> by ECE Dept</p>
+        <p class="footer-copy">Â© 2026 TechnoKings Â· ECE Department Â· [College Name]</p>
+        <p class="footer-copy">Designed with <span class="footer-heart">â™¥</span> by ECE Dept</p>
       </div>
     </div>
   </footer>
@@ -398,5 +398,7 @@
   <script src="script.js?v=4"></script>
   <script src="spider-verse.js?v=3"></script>
   <script src="cursor.js"></script>
+<script src="advanced-engine.js"></script>
 </body>
 </html>
+
