@@ -1,4 +1,4 @@
-﻿* {
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -366,7 +366,7 @@ nav.scrolled {
 
 .hero-t1 {
     font-family: "Bebas Neue", sans-serif;
-    font-size: clamp(64px, 12vw, 160px);
+    font-size: clamp(80px, 16vw, 220px);
     color: #fff;
     display: block;
     opacity: 0;
@@ -376,7 +376,7 @@ nav.scrolled {
 
 .hero-t2 {
     font-family: "Bebas Neue", sans-serif;
-    font-size: clamp(64px, 12vw, 160px);
+    font-size: clamp(80px, 16vw, 220px);
     color: var(--red);
     display: block;
     opacity: 0;
@@ -387,7 +387,7 @@ nav.scrolled {
 
 .hero-t3 {
     font-family: "Bebas Neue", sans-serif;
-    font-size: clamp(40px, 7vw, 96px);
+    font-size: clamp(60px, 10vw, 140px);
     display: block;
     -webkit-text-stroke: 1px rgba(255, 255, 255, 0.5);
     color: transparent;
@@ -3562,6 +3562,6 @@ body::after {
    ========================================================= */
 @media (max-width: 375px) {
     section { padding-left: clamp(16px, 5vw, 40px); padding-right: clamp(16px, 5vw, 40px); }
-    .hero-t1, .hero-t2, .hero-t3 { font-size: clamp(48px, 14vw, 120px); }
+    .hero-t1, .hero-t2, .hero-t3 { font-size: clamp(60px, 16vw, 160px); }
 }
 
