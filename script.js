@@ -1,4 +1,4 @@
-﻿/* ===================== CURSOR ===================== */
+/* ===================== CURSOR ===================== */
 const cur = document.getElementById("cursor"),
     ring = document.getElementById("cursor-ring");
 let mx = 0,
@@ -614,59 +614,59 @@ if (scrollTrack) {
 const eventsData = [
   {
     title: "PAPER PRESENTATION",
-    logo: "Ã°Å¸â€œâ€ž",
+    logo: "📄",
     tagline: "Ink Meets Innovation",
     desc: "Showcase your research and innovative ideas before a panel of expert judges. Present a technical paper on any topic in Electronics, Communication, or Emerging Technologies. Defend your data, impress the jury.",
-    rules: ["Team size: 1Ã¢â‚¬â€œ2 members", "IEEE-format report + PPT required", "10 min presentation + 5 min Q&A", "Plagiarism must be below 20%"]
+    rules: ["Team size: 1-2 members", "IEEE-format report + PPT required", "10 min presentation + 5 min Q&A", "Plagiarism must be below 20%"]
   },
   {
     title: "PROJECT EXPO",
-    logo: "Ã¢Å¡â„¢Ã¯Â¸Â",
+    logo: "⚙️",
     tagline: "Build It. Show It. Own It.",
     desc: "Bring your hardware or software masterpiece to the expo floor. Connect your circuits, boot your code, and let your prototype speak louder than any slide deck.",
-    rules: ["Team size: 1Ã¢â‚¬â€œ2 members", "Working prototype strongly preferred", "Judged: Innovation, Execution, Impact", "Abstract submission 3 days prior"]
+    rules: ["Team size: 1-2 members", "Working prototype strongly preferred", "Judged: Innovation, Execution, Impact", "Abstract submission 3 days prior"]
   },
   {
     title: "CIRCUIT BREAKERS",
-    logo: "Ã¢Å¡Â¡",
+    logo: "⚡",
     tagline: "Fault Found. Victory Claimed.",
     desc: "You have a broken circuit. A ticking clock. And your bare hands. Identify faults, rewire connections, and build working circuits from scratch under tournament pressure.",
-    rules: ["Team size: 1Ã¢â‚¬â€œ2 members", "Components and tools provided on-spot", "3 rounds: Fault ID Ã¢â€ â€™ Circuit Build Ã¢â€ â€™ Speed", "No phones or external datasheets"]
+    rules: ["Team size: 1-2 members", "Components and tools provided on-spot", "3 rounds: Fault ID → Circuit Build → Speed", "No phones or external datasheets"]
   },
   {
     title: "TECHNICAL QUIZ",
-    logo: "Ã°Å¸Â§Â ",
+    logo: "🧠",
     tagline: "Fast Buzzers. Sharp Minds.",
-    desc: "From Maxwells equations to modern microcontrollers Ã¢â‚¬â€ how deep does your ECE knowledge run? A multi-round elimination battle covering core electronics and communication.",
-    rules: ["Team size: 1Ã¢â‚¬â€œ2 members", "4 rounds: Written Ã¢â€ â€™ Rapid fire Ã¢â€ â€™ Visual Ã¢â€ â€™ Buzzer", "Elimination after each round", "Topics: Analog, Digital, EDC, Signals"]
+    desc: "From Maxwells equations to modern microcontrollers — how deep does your ECE knowledge run? A multi-round elimination battle covering core electronics and communication.",
+    rules: ["Team size: 1-2 members", "4 rounds: Written → Rapid fire → Visual → Buzzer", "Elimination after each round", "Topics: Analog, Digital, EDC, Signals"]
   },
   {
     title: "MINUTE TO WIN IT",
-    logo: "Ã¢ÂÂ±Ã¯Â¸Â",
+    logo: "⏱️",
     tagline: "60 Seconds of Chaos",
-    desc: "Stack, balance, spin, and scramble Ã¢â‚¬â€ complete wild, prop-based challenges in under 60 seconds each. Simple rules. Impossible under pressure.",
-    rules: ["Team size: 1Ã¢â‚¬â€œ2 members", "Multiple knockout rounds", "All props provided on-site"]
+    desc: "Stack, balance, spin, and scramble — complete wild, prop-based challenges in under 60 seconds each. Simple rules. Impossible under pressure.",
+    rules: ["Team size: 1-2 members", "Multiple knockout rounds", "All props provided on-site"]
   },
   {
     title: "DETECTIVE",
-    logo: "Ã°Å¸â€Â",
+    logo: "🔍",
     tagline: "The Clues Dont Lie. Can You?",
     desc: "A crime scene awaits. Evidence is scattered. Time is running out. Observe the scene, decode the clues, connect the dots, and name the culprit before other teams beat you to it.",
-    rules: ["Team size: 1Ã¢â‚¬â€œ2 members", "Points for correct culprit + fastest solve", "Red herrings included Ã¢â‚¬â€ trust nothing"]
+    rules: ["Team size: 1-2 members", "Points for correct culprit + fastest solve", "Red herrings included — trust nothing"]
   },
   {
     title: "BOX HUNT",
-    logo: "Ã°Å¸â€œÂ¦",
+    logo: "📦",
     tagline: "Find the Box. Claim the Points.",
     desc: "Numbered boxes are hidden across the campus. A full-campus scavenger race where your speed, observation, and navigation skills determine your destiny.",
-    rules: ["Team size: 1Ã¢â‚¬â€œ2 members", "45-minute time limit", "Each box contains a code to submit"]
+    rules: ["Team size: 1-2 members", "45-minute time limit", "Each box contains a code to submit"]
   },
   {
     title: "START MUSIC",
-    logo: "Ã°Å¸Å½Âµ",
+    logo: "🎵",
     tagline: "Name It Before the Drop",
     desc: "The song starts. You have 5 seconds. A buzzer-based rapid-fire showdown where your playlist knowledge becomes your competitive edge.",
-    rules: ["Team size: 1Ã¢â‚¬â€œ2 members", "Buzzer system Ã¢â‚¬â€ first buzz answers", "Wrong answer = negative points"]
+    rules: ["Team size: 1-2 members", "Buzzer system — first buzz answers", "Wrong answer = negative points"]
   }
 ];
 
