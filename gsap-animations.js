@@ -4,39 +4,62 @@ gsap.registerPlugin(ScrollTrigger);
 // Utility: Text Splitter (Pure JS to avoid loading SplitText plugin)
 function splitTextIntoSpans(selector) {
     const elements = document.querySelectorAll(selector);
+    
+    function processNode(node) {
+        if (node.nodeType === Node.TEXT_NODE) {
+            const text = node.textContent;
+            if (!text.trim()) return node.cloneNode();
+            
+            const fragment = document.createDocumentFragment();
+            const words = text.split(/(\s+)/); 
+            
+            words.forEach(word => {
+                if (/^\s+$/.test(word)) {
+                    const space = document.createElement('span');
+                    space.style.display = 'inline-block';
+                    space.style.whiteSpace = 'pre';
+                    space.innerText = word;
+                    fragment.appendChild(space);
+                } else if (word.length > 0) {
+                    const wordSpan = document.createElement('span');
+                    wordSpan.style.display = 'inline-block';
+                    wordSpan.style.whiteSpace = 'nowrap';
+                    
+                    const chars = [...word];
+                    chars.forEach(char => {
+                        const charSpan = document.createElement('span');
+                        charSpan.style.display = 'inline-block';
+                        charSpan.innerText = char;
+                        charSpan.className = 'char-span';
+                        wordSpan.appendChild(charSpan);
+                    });
+                    fragment.appendChild(wordSpan);
+                }
+            });
+            return fragment;
+        } else if (node.nodeType === Node.ELEMENT_NODE) {
+            if (node.nodeName === 'BR') {
+                return node.cloneNode();
+            }
+            const clone = node.cloneNode(false);
+            Array.from(node.childNodes).forEach(child => {
+                clone.appendChild(processNode(child));
+            });
+            return clone;
+        }
+        return node.cloneNode();
+    }
+
     elements.forEach(el => {
-        // Prevent splitting twice
         if(el.classList.contains('splitted')) return;
         
-        const text = el.innerText;
-        el.innerHTML = '';
-        
-        // Split by words first, then by characters to preserve words
-        const words = text.split(' ');
-        words.forEach((word, wordIndex) => {
-            const wordSpan = document.createElement('span');
-            wordSpan.style.display = 'inline-block';
-            wordSpan.style.whiteSpace = 'nowrap';
-            
-            const chars = word.split('');
-            chars.forEach(char => {
-                const charSpan = document.createElement('span');
-                charSpan.style.display = 'inline-block';
-                // preserve spaces properly or use margin
-                charSpan.innerText = char;
-                charSpan.className = 'char-span';
-                wordSpan.appendChild(charSpan);
-            });
-            
-            el.appendChild(wordSpan);
-            
-            if(wordIndex < words.length - 1) {
-                const space = document.createElement('span');
-                space.innerHTML = '&nbsp;';
-                space.style.display = 'inline-block';
-                el.appendChild(space);
-            }
+        const newContent = document.createDocumentFragment();
+        Array.from(el.childNodes).forEach(child => {
+            newContent.appendChild(processNode(child));
         });
+        
+        el.innerHTML = '';
+        el.appendChild(newContent);
         el.classList.add('splitted');
     });
 }
