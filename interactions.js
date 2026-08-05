@@ -160,6 +160,20 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    document.addEventListener('touchmove', (e) => {
+        if(e.touches.length > 0) {
+            const touch = e.touches[0];
+            spotlight.style.left = touch.clientX + 'px';
+            spotlight.style.top = touch.clientY + 'px';
+
+            const now = Date.now();
+            if (now - lastTrailTime > 40) {
+                createTrailDot(touch.clientX, touch.clientY);
+                lastTrailTime = now;
+            }
+        }
+    }, {passive: true});
+
     function createTrailDot(x, y) {
         const dot = document.createElement('div');
         dot.className = 'cursor-trail';
@@ -258,6 +272,20 @@ document.addEventListener("DOMContentLoaded", () => {
             el.style.transition = 'transform 0.1s linear';
         });
     });
+
+    document.addEventListener('touchmove', (e) => {
+        if (e.touches.length > 0) {
+            const touch = e.touches[0];
+            const x = (touch.clientX / window.innerWidth - 0.5) * 2;
+            const y = (touch.clientY / window.innerHeight - 0.5) * 2;
+            
+            heroElements.forEach((el, index) => {
+                const depth = (index + 1) * 5; 
+                el.style.transform = `translate(${x * depth}px, ${y * depth}px)`;
+                el.style.transition = 'transform 0.1s linear';
+            });
+        }
+    }, {passive: true});
 
     // 11. CSS Hero Particle Injector
     const hpField = document.createElement('div');

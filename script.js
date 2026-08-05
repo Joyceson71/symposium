@@ -11,6 +11,10 @@ document.addEventListener("mousemove", (e) => {
     cur.style.left = mx + "px";
     cur.style.top = my + "px";
 });
+window.addEventListener("touchstart", () => {
+    cur.style.display = "none";
+    ring.style.display = "none";
+}, { once: true });
 (function animRing() {
     rx += (mx - rx) * 0.12;
     ry += (my - ry) * 0.12;
@@ -138,6 +142,24 @@ function toggleMenu() {
             targetRotationX = ((e.clientY - rect.top) / rect.height - 0.5) * Math.PI;
         }
     });
+    canvas.addEventListener("touchstart", (e) => {
+        hovered = true;
+        const rect = canvas.getBoundingClientRect();
+        targetRotationY = ((e.touches[0].clientX - rect.left) / rect.width - 0.5) * Math.PI;
+        targetRotationX = ((e.touches[0].clientY - rect.top) / rect.height - 0.5) * Math.PI;
+    }, {passive: true});
+    canvas.addEventListener("touchend", () => {
+        hovered = false;
+        targetRotationX = 0;
+        targetRotationY = 0;
+    });
+    canvas.addEventListener("touchmove", (e) => {
+        if(hovered && e.touches.length > 0) {
+            const rect = canvas.getBoundingClientRect();
+            targetRotationY = ((e.touches[0].clientX - rect.left) / rect.width - 0.5) * Math.PI;
+            targetRotationX = ((e.touches[0].clientY - rect.top) / rect.height - 0.5) * Math.PI;
+        }
+    }, {passive: true});
     
     (function a() {
         requestAnimationFrame(a);
@@ -607,6 +629,24 @@ if (scrollTrack) {
         const walk = (x - startX) * 2; // scroll speed multiplier
         scrollTrack.scrollLeft = scrollLeft - walk;
     });
+
+    scrollTrack.addEventListener("touchstart", (e) => {
+        isDown = true;
+        startX = e.touches[0].pageX - scrollTrack.offsetLeft;
+        scrollLeft = scrollTrack.scrollLeft;
+    }, {passive: true});
+    scrollTrack.addEventListener("touchend", () => {
+        isDown = false;
+    });
+    scrollTrack.addEventListener("touchcancel", () => {
+        isDown = false;
+    });
+    scrollTrack.addEventListener("touchmove", (e) => {
+        if (!isDown) return;
+        const x = e.touches[0].pageX - scrollTrack.offsetLeft;
+        const walk = (x - startX) * 2;
+        scrollTrack.scrollLeft = scrollLeft - walk;
+    }, {passive: true});
 }
 
 
@@ -749,6 +789,18 @@ document.addEventListener("mousemove", (e) => {
     targetMouse.x = e.clientX;
     targetMouse.y = e.clientY;
 });
+document.addEventListener("touchstart", (e) => {
+    if (e.touches.length > 0) {
+        targetMouse.x = e.touches[0].clientX;
+        targetMouse.y = e.touches[0].clientY;
+    }
+}, {passive: true});
+document.addEventListener("touchmove", (e) => {
+    if (e.touches.length > 0) {
+        targetMouse.x = e.touches[0].clientX;
+        targetMouse.y = e.touches[0].clientY;
+    }
+}, {passive: true});
 
 class WebNode {
     constructor(anchorX, anchorY) {
@@ -955,6 +1007,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 color:tcolors[Math.floor(Math.random()*tcolors.length)], life:1 });
         }
     });
+    window.addEventListener("touchmove", function(e) {
+        if (e.touches.length > 0) {
+            tmouse.x = e.touches[0].clientX; tmouse.y = e.touches[0].clientY;
+            for(var i=0;i<3;i++) {
+                tparts.push({ x:tmouse.x, y:tmouse.y,
+                    vx:(Math.random()-0.5)*4, vy:(Math.random()-0.5)*4,
+                    size:Math.random()*3+1,
+                    color:tcolors[Math.floor(Math.random()*tcolors.length)], life:1 });
+            }
+        }
+    }, {passive: true});
     function trender() {
         tctx.clearRect(0,0,tw,th);
         for(var i=0;i<tparts.length;i++) {
