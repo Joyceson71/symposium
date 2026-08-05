@@ -40,21 +40,7 @@ document
     });
 
 /* ===================== LOADER ===================== */
-function hideLoader() {
-    setTimeout(() => {
-        const loader = document.getElementById("loader");
-        if(loader) {
-            loader.style.opacity = "0";
-            setTimeout(() => (loader.style.display = "none"), 800);
-        }
-    }, 2800);
-}
-
-if (document.readyState === "loading") {
-    window.addEventListener("DOMContentLoaded", hideLoader);
-} else {
-    hideLoader();
-}
+// Loader logic moved to gsap-animations.js for advanced timeline orchestration
 
 /* ===================== NAVBAR ===================== */
 window.addEventListener("scroll", () => {
@@ -1002,8 +988,8 @@ document.addEventListener('DOMContentLoaded', function() {
         tmouse.x = e.clientX; tmouse.y = e.clientY;
         for(var i=0;i<3;i++) {
             tparts.push({ x:tmouse.x, y:tmouse.y,
-                vx:(Math.random()-0.5)*4, vy:(Math.random()-0.5)*4,
-                size:Math.random()*3+1,
+                vx:(Math.random()-0.5)*8, vy:(Math.random()-0.5)*8,
+                size:Math.random()*4+2,
                 color:tcolors[Math.floor(Math.random()*tcolors.length)], life:1 });
         }
     });
@@ -1012,8 +998,8 @@ document.addEventListener('DOMContentLoaded', function() {
             tmouse.x = e.touches[0].clientX; tmouse.y = e.touches[0].clientY;
             for(var i=0;i<3;i++) {
                 tparts.push({ x:tmouse.x, y:tmouse.y,
-                    vx:(Math.random()-0.5)*4, vy:(Math.random()-0.5)*4,
-                    size:Math.random()*3+1,
+                    vx:(Math.random()-0.5)*8, vy:(Math.random()-0.5)*8,
+                    size:Math.random()*4+2,
                     color:tcolors[Math.floor(Math.random()*tcolors.length)], life:1 });
             }
         }
@@ -1022,9 +1008,15 @@ document.addEventListener('DOMContentLoaded', function() {
         tctx.clearRect(0,0,tw,th);
         for(var i=0;i<tparts.length;i++) {
             var p=tparts[i];
-            tctx.globalAlpha=p.life; tctx.fillStyle=p.color;
+            tctx.globalAlpha=Math.max(0, p.life); tctx.fillStyle=p.color;
             tctx.beginPath(); tctx.arc(p.x,p.y,p.size,0,Math.PI*2); tctx.fill();
-            p.x+=p.vx; p.y+=p.vy; p.life-=0.02;
+            
+            // Advanced Physics Engine additions
+            p.vy += 0.2; // Gravity
+            p.vx *= 0.95; // Friction X
+            p.vy *= 0.95; // Friction Y
+            
+            p.x+=p.vx; p.y+=p.vy; p.life-=0.015;
             if(p.life<=0){tparts.splice(i,1);i--;}
         }
         requestAnimationFrame(trender);
