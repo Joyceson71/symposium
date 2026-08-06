@@ -9,6 +9,8 @@
 
 class ShaderLab {
     constructor() {
+        if (window.innerWidth < 768) return;
+
         this.canvas = document.createElement('canvas');
         this.canvas.id = 'shader-lab-canvas';
         this.canvas.style.position = 'fixed';

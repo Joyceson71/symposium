@@ -216,5 +216,7 @@ class SpiderPhysicsEngine {
 
 // Inject physics engine on load
 window.addEventListener('load', () => {
-    window.SymposiumPhysics = new SpiderPhysicsEngine();
+    if (window.innerWidth > 768) {
+        window.SymposiumPhysics = new SpiderPhysicsEngine();
+    }
 });

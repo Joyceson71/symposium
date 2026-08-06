@@ -8,6 +8,8 @@
 
 (function AdvancedEngineInit() {
     console.log("[AdvancedEngine] Initializing Ultra-Complex WebGL Subsystems...");
+    if (window.innerWidth < 768) return;
+
 
     // 1. Create overlay canvas for Fluid / Boids
     const fxCanvas = document.createElement("canvas");
