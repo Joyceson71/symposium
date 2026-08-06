@@ -172,8 +172,10 @@ class ShaderLab {
     }
 
     resize() {
-        this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight;
+        const isMobile = window.innerWidth < 768;
+        const scale = isMobile ? 0.5 : 1;
+        this.canvas.width = window.innerWidth * scale;
+        this.canvas.height = window.innerHeight * scale;
         this.gl.viewport(0, 0, this.canvas.width, this.canvas.height);
         this.gl.uniform2f(this.resUniform, this.canvas.width, this.canvas.height);
     }

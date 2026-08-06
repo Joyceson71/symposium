@@ -1,37 +1,40 @@
 
 document.addEventListener("DOMContentLoaded", () => {
-    
-    const tiltScript = document.createElement("script");
-    tiltScript.src = "https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js";
-    tiltScript.onload = () => {
-        VanillaTilt.init(document.querySelectorAll(".event-card, .stat-card, .register-wrap, .skewed-container, .comic-panel"), {
-            max: 15,
-            speed: 400,
-            glare: true,
-            "max-glare": 0.3,
-            scale: 1.05
-        });
-    };
-    document.head.appendChild(tiltScript);
+    if (window.innerWidth > 768) {
+        const tiltScript = document.createElement("script");
+        tiltScript.src = "https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js";
+        tiltScript.onload = () => {
+            VanillaTilt.init(document.querySelectorAll(".event-card, .stat-card, .register-wrap, .skewed-container, .comic-panel"), {
+                max: 15,
+                speed: 400,
+                glare: true,
+                "max-glare": 0.3,
+                scale: 1.05
+            });
+        };
+        document.head.appendChild(tiltScript);
+    }
 
     // 2. Spidey-Sense Radar Trail
     let lastX = 0;
     let lastY = 0;
     // 1. Spidey-Sense Trail Logic
-    document.addEventListener("mousemove", (e) => {
-        if (document.body.classList.contains("spidey-sense-active")) {
-            if (Math.random() > 0.8) {
-                const trail = document.createElement("div");
-                trail.className = "spidey-sense-trail";
-                trail.style.left = e.clientX + "px";
-                trail.style.top = e.clientY + "px";
-                // Randomize colors between red and blue
-                trail.style.color = "#cc0000";
-                document.body.appendChild(trail);
-                setTimeout(() => trail.remove(), 1000);
+    if (window.innerWidth > 768) {
+        document.addEventListener("mousemove", (e) => {
+            if (document.body.classList.contains("spidey-sense-active")) {
+                if (Math.random() > 0.8) {
+                    const trail = document.createElement("div");
+                    trail.className = "spidey-sense-trail";
+                    trail.style.left = e.clientX + "px";
+                    trail.style.top = e.clientY + "px";
+                    // Randomize colors between red and blue
+                    trail.style.color = "#cc0000";
+                    document.body.appendChild(trail);
+                    setTimeout(() => trail.remove(), 1000);
+                }
             }
-        }
-    });
+        });
+    }
 
     // 2. Scroll Glitch Effect
     let scrollTimeout;

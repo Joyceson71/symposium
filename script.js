@@ -15,13 +15,15 @@ window.addEventListener("touchstart", () => {
     cur.style.display = "none";
     ring.style.display = "none";
 }, { once: true });
-(function animRing() {
-    rx += (mx - rx) * 0.12;
-    ry += (my - ry) * 0.12;
-    ring.style.left = rx + "px";
-    ring.style.top = ry + "px";
-    requestAnimationFrame(animRing);
-})();
+if (window.innerWidth > 768) {
+    (function animRing() {
+        rx += (mx - rx) * 0.12;
+        ry += (my - ry) * 0.12;
+        ring.style.left = rx + "px";
+        ring.style.top = ry + "px";
+        requestAnimationFrame(animRing);
+    })();
+}
 document
     .querySelectorAll(
         "a,button,.event-card,.stat-card,.nontech-card,.tier-card,.team-label-box,.upload-zone",

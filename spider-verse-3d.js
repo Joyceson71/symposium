@@ -1,4 +1,4 @@
-﻿/**
+/**
  * ============================================================================
  * TECHNOKINGS 2K26 - ADVANCED 3D SCENE & ANIMATION SYSTEM
  * ============================================================================
@@ -22,6 +22,9 @@
         return;
     }
 
+    // Device constraints
+    const isMobile = window.innerWidth < 768;
+
     /* --- 1. CORE THREE.JS SETUP --- */
     const renderer = new THREE.WebGLRenderer({
         canvas,
@@ -29,7 +32,7 @@
         alpha: true,
         powerPreference: "high-performance"
     });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(isMobile ? 1 : Math.min(window.devicePixelRatio, 2));
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.1;
@@ -38,9 +41,6 @@
     scene.fog = new THREE.FogExp2(0x0a0505, 0.015); // Dark red-black fog
 
     const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 500);
-    
-    // Device constraints
-    const isMobile = window.innerWidth < 768;
     
     // Initial camera position (Street level)
     camera.position.set(0, 5, 20);
@@ -93,7 +93,7 @@
     const raycaster = new THREE.Raycaster();
 
     /* --- 4. THE PROCEDURAL CYBER-CITY (INSTANCED MESH) --- */
-    const buildingCount = isMobile ? 800 : 3000;
+    const buildingCount = isMobile ? 300 : 3000;
     const buildingGeo = new THREE.BoxGeometry(1, 1, 1);
     buildingGeo.translate(0, 0.5, 0); // Origin at bottom
 
@@ -154,7 +154,7 @@
     scene.add(gridHelper);
 
     /* --- 5. SPIDER-VERSE QUANTUM WEB (PARTICLES) --- */
-    const particleCount = isMobile ? 1500 : 4000;
+    const particleCount = isMobile ? 500 : 4000;
     const pGeo = new THREE.BufferGeometry();
     const pPos = new Float32Array(particleCount * 3);
     const pVel = []; // Velocities for physics

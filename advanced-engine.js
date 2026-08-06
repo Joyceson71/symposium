@@ -1,4 +1,4 @@
-﻿/**
+/**
  * ============================================================================
  * TECHNOKINGS 2K26 - ADVANCED PHYSICS & SHADER ENGINE
  * 10K+ Complexity Equivalent: Boids Flocking, Fluid Sims, Audio FFT, Glitch Post-Processing
@@ -42,7 +42,7 @@
     /* ============================================================================
      * SUBSYSTEM A: BOIDS FLOCKING SIMULATION (Quantum Swarm)
      * ============================================================================ */
-    const BOID_COUNT = window.innerWidth < 768 ? 500 : 2000;
+    const BOID_COUNT = window.innerWidth < 768 ? 50 : 2000;
     const boids = new Float32Array(BOID_COUNT * 6); // [x, y, vx, vy, ax, ay]
     
     // Initialize boids randomly
