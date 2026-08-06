@@ -139,50 +139,24 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Reveal Left / Right
-    gsap.utils.toArray('.reveal-left').forEach(el => {
-        gsap.from(el, {
-            scrollTrigger: {
-                trigger: el,
-                start: "top 85%",
-                toggleActions: "play none none reverse"
-            },
-            x: -100,
-            opacity: 0,
-            duration: 1,
-            ease: "power3.out"
-        });
-    });
-
-    gsap.utils.toArray('.reveal-right').forEach(el => {
-        gsap.from(el, {
-            scrollTrigger: {
-                trigger: el,
-                start: "top 85%",
-                toggleActions: "play none none reverse"
-            },
-            x: 100,
-            opacity: 0,
-            duration: 1,
-            ease: "power3.out"
-        });
-    });
-
     // Stagger Cards (Stats, Why)
     gsap.utils.toArray('.stats-row, .why-grid').forEach(grid => {
         const cards = grid.children;
-        gsap.from(cards, {
-            scrollTrigger: {
-                trigger: grid,
-                start: "top 85%",
-                toggleActions: "play none none reverse"
-            },
-            y: 50,
-            opacity: 0,
-            stagger: 0.15,
-            duration: 0.8,
-            ease: "back.out(1.2)"
-        });
+        gsap.fromTo(cards, 
+            { y: 50, opacity: 0 },
+            {
+                scrollTrigger: {
+                    trigger: grid,
+                    start: "top 85%",
+                    toggleActions: "play none none reverse"
+                },
+                y: 0,
+                opacity: 1,
+                stagger: 0.15,
+                duration: 0.8,
+                ease: "back.out(1.2)"
+            }
+        );
     });
 
     // 3. Velocity Skew Effect using GSAP
