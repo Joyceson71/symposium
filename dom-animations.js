@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Don't split if it has complex HTML children
         if (el.children.length > 0) return;
         
-        const text = el.innerText || el.textContent || "";
+        const text = el.innerText;
         el.innerHTML = "";
         el.style.display = "inline-block";
         el.style.overflow = "hidden"; // For mask reveals

@@ -181,7 +181,6 @@ class SpiderPhysicsEngine {
     }
 
     draw() {
-        if (!this.ctx) return;
         this.ctx.clearRect(0, 0, this.width, this.height);
         
         this.webs.forEach(web => {
