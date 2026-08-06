@@ -20,24 +20,34 @@ document.addEventListener("DOMContentLoaded", () => {
     // 2. Advanced Scroll Reveals (Intersection Observer)
     const revealElements = document.querySelectorAll(".reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-blur, .reveal-flip, .reveal-clip");
     
-    const revealOptions = {
-        threshold: 0.15,
-        rootMargin: "0px 0px -50px 0px"
-    };
+    if (typeof IntersectionObserver !== 'undefined') {
+        const revealOptions = {
+            threshold: 0.15,
+            rootMargin: "0px 0px -50px 0px"
+        };
 
-    const revealObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add("visible");
-                if (entry.target.classList.contains('stat-num')) {
-                    animateValue(entry.target, 0, parseInt(entry.target.getAttribute('data-count') || 0), 2000);
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("visible");
+                    if (entry.target.classList.contains('stat-num')) {
+                        animateValue(entry.target, 0, parseInt(entry.target.getAttribute('data-count') || 0), 2000);
+                    }
+                    observer.unobserve(entry.target);
                 }
-                observer.unobserve(entry.target);
+            });
+        }, revealOptions);
+
+        revealElements.forEach(el => revealObserver.observe(el));
+    } else {
+        // Fallback for environments without IntersectionObserver
+        revealElements.forEach(el => {
+            el.classList.add("visible");
+            if (el.classList.contains('stat-num')) {
+                animateValue(el, 0, parseInt(el.getAttribute('data-count') || 0), 2000);
             }
         });
-    }, revealOptions);
-
-    revealElements.forEach(el => revealObserver.observe(el));
+    }
 
     // 3. Counter Animation (Numbers rolling up)
     function animateValue(obj, start, end, duration) {
