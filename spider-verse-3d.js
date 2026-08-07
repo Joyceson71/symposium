@@ -192,39 +192,64 @@
     // Model 1: The Procedural Cyber-Spider (Advanced Hero Model)
     const coreGroup = new THREE.Group();
     
-    // Thorax & Abdomen
-    const bodyMat = new THREE.MeshStandardMaterial({ 
-        color: 0x111111, 
-        roughness: 0.2, 
-        metalness: 0.9,
-        wireframe: false
+    // Thorax & Abdomen (Spider-Man Suit Colors)
+    const redMat = new THREE.MeshStandardMaterial({ 
+        color: 0xcc0000, 
+        roughness: 0.3, 
+        metalness: 0.6 
     });
-    const abdomenGeo = new THREE.SphereGeometry(2, 32, 16);
+    const blueMat = new THREE.MeshStandardMaterial({ 
+        color: 0x0f256e, 
+        roughness: 0.4, 
+        metalness: 0.5 
+    });
+    // Webbing wireframe
+    const webMat = new THREE.MeshBasicMaterial({
+        color: 0x000000,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.7
+    });
+
+    const abdomenGeo = new THREE.SphereGeometry(2, 16, 12);
     abdomenGeo.scale(1, 0.6, 1.2);
-    const abdomen = new THREE.Mesh(abdomenGeo, bodyMat);
+    const abdomen = new THREE.Mesh(abdomenGeo, blueMat);
+    // Add web pattern overlay
+    const abdomenWeb = new THREE.Mesh(abdomenGeo, webMat);
+    abdomenWeb.scale.setScalar(1.01);
+    abdomen.add(abdomenWeb);
     abdomen.position.set(0, 0, -1);
     
-    const headGeo = new THREE.SphereGeometry(1, 16, 16);
+    const headGeo = new THREE.SphereGeometry(1, 16, 12);
     headGeo.scale(1.2, 0.7, 1);
-    const head = new THREE.Mesh(headGeo, bodyMat);
+    const head = new THREE.Mesh(headGeo, redMat);
+    const headWeb = new THREE.Mesh(headGeo, webMat);
+    headWeb.scale.setScalar(1.02);
+    head.add(headWeb);
     head.position.set(0, 0, 1.5);
     
     coreGroup.add(abdomen, head);
     
-    // Glowing Red Eyes
-    const eyeMat = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-    const eyeGeo = new THREE.SphereGeometry(0.15, 8, 8);
+    // Glowing White Eyes (Spider-Man Lenses)
+    const eyeMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+    const eyeGeo = new THREE.SphereGeometry(0.18, 8, 8);
     for(let i=0; i<4; i++) {
         const eye1 = new THREE.Mesh(eyeGeo, eyeMat);
+        // angled slightly like angry spidey eyes
         eye1.position.set(-0.3 - (i*0.2), 0.3 - (i*0.05), 0.8 + (i*0.1));
+        eye1.scale.set(1.5, 0.5, 1);
+        eye1.rotation.z = Math.PI / 6;
+
         const eye2 = new THREE.Mesh(eyeGeo, eyeMat);
         eye2.position.set(0.3 + (i*0.2), 0.3 - (i*0.05), 0.8 + (i*0.1));
+        eye2.scale.set(1.5, 0.5, 1);
+        eye2.rotation.z = -Math.PI / 6;
+
         head.add(eye1, eye2);
     }
     
-    // 8 Articulated Legs
+    // 8 Articulated Legs (Red Femur, Blue Tibia)
     const legs = [];
-    const legMat = new THREE.MeshStandardMaterial({ color: 0x222222, roughness: 0.4, metalness: 0.8 });
     const femurGeo = new THREE.CylinderGeometry(0.15, 0.1, 3);
     femurGeo.translate(0, 1.5, 0); // pivot at base
     const tibiaGeo = new THREE.CylinderGeometry(0.1, 0.05, 4);
@@ -237,12 +262,12 @@
         
         const legGroup = new THREE.Group();
         
-        const femur = new THREE.Mesh(femurGeo, legMat);
+        const femur = new THREE.Mesh(femurGeo, redMat);
         // Angle femurs outwards
         femur.rotation.z = side * (Math.PI / 3);
         femur.rotation.x = (idx - 1.5) * 0.4;
         
-        const tibia = new THREE.Mesh(tibiaGeo, legMat);
+        const tibia = new THREE.Mesh(tibiaGeo, blueMat);
         tibia.position.y = 3; // end of femur
         tibia.position.x = side * 1.5;
         tibia.rotation.z = side * (-Math.PI / 2.2); // bend downwards
