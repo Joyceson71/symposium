@@ -189,64 +189,73 @@
 
     /* --- 6. FLOATING MODELS / EASTER EGGS --- */
     
-    // Model 1: The Neon Multiverse Web (Advanced Hero Model)
+    // Model 1: The Crimson Spider-Verse Core
     const coreGroup = new THREE.Group();
     
-    // Outer Cyan Wireframe Sphere (The Multiverse Web)
-    const webGeo = new THREE.IcosahedronGeometry(6, 2);
-    const webMat = new THREE.MeshBasicMaterial({ 
-        color: 0x00ffff, 
-        wireframe: true, 
+    // Outer Crimson Web
+    const webGeo = new THREE.IcosahedronGeometry(7, 2);
+    const webMat = new THREE.LineBasicMaterial({
+        color: 0xff0000,
         transparent: true,
-        opacity: 0.3
+        opacity: 0.4
     });
-    const webSphere = new THREE.Mesh(webGeo, webMat);
+    const webSphere = new THREE.LineSegments(new THREE.EdgesGeometry(webGeo), webMat);
     coreGroup.add(webSphere);
     
-    // Inner Solid Red Core
-    const innerGeo = new THREE.IcosahedronGeometry(2.5, 0);
-    const innerMat = new THREE.MeshStandardMaterial({
-        color: 0xff1744,
-        emissive: 0xaa0000,
-        emissiveIntensity: 0.5,
-        roughness: 0.2,
-        metalness: 0.8
-    });
-    const innerCore = new THREE.Mesh(innerGeo, innerMat);
-    coreGroup.add(innerCore);
+    // Extruded Spider-Man Logo (Black with Red emissive glow)
+    const logoShape = new THREE.Shape();
+    // Bottom tip of abdomen
+    logoShape.moveTo(0, -3.5);
+    // Left abdomen curve
+    logoShape.lineTo(-1.2, -1.0);
+    // Left bottom leg
+    logoShape.lineTo(-3.5, -2.5);
+    logoShape.lineTo(-3.6, -2.2);
+    logoShape.lineTo(-1.6, -0.4); // return to body
+    // Left middle leg
+    logoShape.lineTo(-4.0, -0.8);
+    logoShape.lineTo(-4.1, -0.5);
+    logoShape.lineTo(-1.8, 0.4); // return to body
+    // Left top leg
+    logoShape.lineTo(-4.2, 1.5);
+    logoShape.lineTo(-4.0, 1.8);
+    logoShape.lineTo(-1.6, 1.2); // return to head base
+    // Left head
+    logoShape.lineTo(-0.8, 2.5);
+    logoShape.lineTo(0, 2.8); // top center of head
+    // Right side (Mirrored)
+    logoShape.lineTo(0.8, 2.5);
+    logoShape.lineTo(1.6, 1.2);
+    // Right top leg
+    logoShape.lineTo(4.0, 1.8);
+    logoShape.lineTo(4.2, 1.5);
+    logoShape.lineTo(1.8, 0.4);
+    // Right middle leg
+    logoShape.lineTo(4.1, -0.5);
+    logoShape.lineTo(4.0, -0.8);
+    logoShape.lineTo(1.6, -0.4);
+    // Right bottom leg
+    logoShape.lineTo(3.6, -2.2);
+    logoShape.lineTo(3.5, -2.5);
+    logoShape.lineTo(1.2, -1.0);
+    // Back to start
+    logoShape.lineTo(0, -3.5);
 
-    // Orbiting Gold Data Particles
-    const dataParticleCount = 200;
-    const dataGeo = new THREE.BufferGeometry();
-    const dataPos = new Float32Array(dataParticleCount * 3);
-    const dataAngles = []; 
-    
-    for (let i = 0; i < dataParticleCount; i++) {
-        const radius = 3.5 + Math.random() * 4;
-        const theta = Math.random() * Math.PI * 2;
-        const phi = Math.acos(Math.random() * 2 - 1);
-        
-        dataPos[i*3] = radius * Math.sin(phi) * Math.cos(theta);
-        dataPos[i*3+1] = radius * Math.sin(phi) * Math.sin(theta);
-        dataPos[i*3+2] = radius * Math.cos(phi);
-        
-        dataAngles.push({
-            radius, theta, phi,
-            speed: (Math.random() - 0.5) * 0.02,
-            axisRotation: new THREE.Vector3(Math.random()-0.5, Math.random()-0.5, Math.random()-0.5).normalize()
-        });
-    }
-    
-    dataGeo.setAttribute('position', new THREE.BufferAttribute(dataPos, 3));
-    const dataMat = new THREE.PointsMaterial({
-        color: 0xffd700,
-        size: 0.15,
-        transparent: true,
-        opacity: 0.8,
-        blending: THREE.AdditiveBlending
+    const extrudeSettings = { depth: 0.6, bevelEnabled: true, bevelSegments: 4, steps: 2, bevelSize: 0.15, bevelThickness: 0.15 };
+    const logoGeo = new THREE.ExtrudeGeometry(logoShape, extrudeSettings);
+    logoGeo.center();
+
+    const logoMat = new THREE.MeshStandardMaterial({
+        color: 0x111111,
+        emissive: 0xaa0000,
+        emissiveIntensity: 0.4,
+        roughness: 0.2,
+        metalness: 0.8,
     });
-    const dataCloud = new THREE.Points(dataGeo, dataMat);
-    coreGroup.add(dataCloud);
+
+    const emblem = new THREE.Mesh(logoGeo, logoMat);
+    emblem.scale.setScalar(0.8);
+    coreGroup.add(emblem);
 
     coreGroup.position.set(0, -500, 0); // Hide initially
 
@@ -377,17 +386,12 @@
                 coreGroup.rotation.y = time * 0.2 + mouseX * 0.3;
                 coreGroup.rotation.x = mouseY * 0.3;
                 
-                // Inner core counter-rotation
-                innerCore.rotation.y = -time * 0.4;
-                innerCore.rotation.x = time * 0.2;
+                // Inner core logo slight pulse
+                emblem.rotation.y = time * 0.1;
                 
                 // Smooth Web pulsation
                 const webScale = 1 + Math.sin(time * 2) * 0.03;
                 webSphere.scale.setScalar(webScale);
-                
-                // Data Particle Orbiting
-                dataCloud.rotation.y = time * 0.1;
-                dataCloud.rotation.z = time * 0.05;
             } else {
                 coreGroup.position.y = -500;
             }

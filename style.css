@@ -343,57 +343,36 @@ nav.scrolled {
     mix-blend-mode: screen; /* Makes particles glow vibrantly */
 }
 
-.hero-content.terminal-ui {
+.hero-content {
     position: relative;
     z-index: 10;
-    text-align: left;
-    padding: 30px;
-    background: rgba(0, 10, 0, 0.6);
-    border: 1px solid #00ff00;
-    box-shadow: inset 0 0 20px rgba(0, 255, 0, 0.2), 0 0 20px rgba(0, 255, 0, 0.1);
-    max-width: 900px;
-    margin: 0 auto;
-    backdrop-filter: blur(5px);
-}
-
-.terminal-ui::before {
-    content: "TERMINAL_OVERRIDE_V2.4";
-    position: absolute;
-    top: -12px;
-    left: 20px;
-    background: #000;
-    color: #00ff00;
-    font-family: "Orbitron", monospace;
-    font-size: 10px;
-    padding: 0 10px;
-    border-left: 1px solid #00ff00;
-    border-right: 1px solid #00ff00;
+    text-align: center;
+    padding: 0 24px;
 }
 
 .hero-eyebrow {
     font-family: "Orbitron", monospace;
-    font-size: 14px;
-    letter-spacing: 2px;
-    color: #00ff00;
-    margin-bottom: 15px;
+    font-size: 11px;
+    letter-spacing: 6px;
+    color: var(--red);
+    margin-bottom: 20px;
     opacity: 0;
     animation: fadeSlideUp 0.8s ease 1.5s forwards;
 }
 
 .hero-title {
-    line-height: 1.1;
-    margin-bottom: 20px;
+    line-height: 0.9;
 }
 
 .hero-t1 {
-    font-family: "Orbitron", monospace;
-    font-weight: 900;
-    font-size: clamp(40px, 8vw, 80px);
-    color: var(--neon-red);
-    display: inline-block;
+    font-family: "Permanent Marker", cursive;
+    font-size: clamp(50px, 10vw, 130px);
+    color: var(--red);
+    display: block;
     opacity: 0;
+    transform: translateX(-80px) rotate(-3deg);
     animation: slideInLeft 0.9s cubic-bezier(0.16, 1, 0.3, 1) 1.7s forwards;
-    text-shadow: 0 0 10px var(--neon-red), 2px 2px 0px rgba(0,255,0,0.5);
+    text-shadow: 4px 4px 0px #0a0a0a;
 }
 
 /* hero-t2 removed */
@@ -401,61 +380,72 @@ nav.scrolled {
 /* hero-t3 removed */
 
 .hero-tagline {
-    font-family: "Orbitron", monospace;
+    font-family: "Rajdhani", sans-serif;
     font-size: 18px;
-    color: #fff;
+    color: var(--muted);
     letter-spacing: 2px;
-    margin-top: 10px;
+    margin-top: 24px;
     opacity: 0;
     animation: fadeSlideUp 0.8s ease 2.4s forwards;
 }
 
 .hero-btns {
     display: flex;
-    gap: 20px;
-    justify-content: flex-start;
+    gap: 16px;
+    justify-content: center;
     margin-top: 40px;
     opacity: 0;
     animation: fadeSlideUp 0.8s ease 2.6s forwards;
 }
 
 .btn-primary {
-    background: rgba(255, 23, 68, 0.1);
-    color: var(--neon-red);
-    padding: 14px 30px;
-    font-family: "Orbitron", monospace;
-    font-size: 16px;
+    background: var(--red);
+    color: #fff;
+    padding: 16px 48px;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 20px;
     letter-spacing: 3px;
-    border: 1px solid var(--neon-red);
+    border: none;
     cursor: pointer;
-    transition: all 0.2s ease;
-    box-shadow: inset 0 0 10px rgba(255, 23, 68, 0.2);
+    transition: all 0.3s;
     position: relative;
     overflow: hidden;
 }
 
+.btn-primary::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.1);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+}
+
+.btn-primary:hover::before {
+    transform: scaleX(1);
+}
+
 .btn-primary:hover {
-    background: var(--neon-red);
-    color: #000;
-    box-shadow: 0 0 20px var(--neon-red);
+    box-shadow: 0 0 40px rgba(204, 0, 0, 0.6);
+    transform: scale(1.03);
 }
 
 .btn-ghost {
-    background: rgba(0, 255, 0, 0.05);
-    color: #00ff00;
-    padding: 14px 30px;
-    font-family: "Orbitron", monospace;
-    font-size: 16px;
+    background: transparent;
+    color: #fff;
+    padding: 16px 48px;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: 20px;
     letter-spacing: 3px;
-    border: 1px solid #00ff00;
+    border: 2px solid var(--red);
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.3s;
 }
 
 .btn-ghost:hover {
-    background: #00ff00;
-    color: #000;
-    box-shadow: 0 0 20px #00ff00;
+    background: var(--red);
+    box-shadow: 0 0 30px rgba(204, 0, 0, 0.4);
 }
 
 .scroll-hint {
