@@ -3583,7 +3583,7 @@ body::after {
    AGGRESSIVE MOBILE PERFORMANCE OVERRIDES
    ========================================================= */
 @media (max-width: 768px) {
-    * {
+    nav.scrolled, #navbar, .btn-ghost, .stat-card, .event-card, .nontech-card, .tier-card, .form-step, .spider-node, .gwen-stacy-mode, .faq-item, .reg-wrapper {
         backdrop-filter: none !important;
         -webkit-backdrop-filter: none !important;
     }
