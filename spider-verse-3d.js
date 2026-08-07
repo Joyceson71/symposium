@@ -189,127 +189,65 @@
 
     /* --- 6. FLOATING MODELS / EASTER EGGS --- */
     
-    // Model 1: The 3D Extruded Spider-Man Emblem
+    // Model 1: The Neon Multiverse Web (Advanced Hero Model)
     const coreGroup = new THREE.Group();
     
-    const logoShape = new THREE.Shape();
-    // Build a geometric/cyber Spider-Man logo shape
-    
-    // Bottom tip of abdomen
-    logoShape.moveTo(0, -3.5);
-    // Left abdomen curve
-    logoShape.lineTo(-1.2, -1.0);
-    
-    // Left bottom leg
-    logoShape.lineTo(-3.5, -2.5);
-    logoShape.lineTo(-3.6, -2.2);
-    logoShape.lineTo(-1.6, -0.4); // return to body
-    
-    // Left middle leg
-    logoShape.lineTo(-4.0, -0.8);
-    logoShape.lineTo(-4.1, -0.5);
-    logoShape.lineTo(-1.8, 0.4); // return to body
-    
-    // Left top leg
-    logoShape.lineTo(-4.2, 1.5);
-    logoShape.lineTo(-4.0, 1.8);
-    logoShape.lineTo(-1.6, 1.2); // return to head base
-    
-    // Left head
-    logoShape.lineTo(-0.8, 2.5);
-    logoShape.lineTo(0, 2.8); // top center of head
-    
-    // Right side (Mirrored)
-    logoShape.lineTo(0.8, 2.5);
-    logoShape.lineTo(1.6, 1.2);
-    
-    // Right top leg
-    logoShape.lineTo(4.0, 1.8);
-    logoShape.lineTo(4.2, 1.5);
-    logoShape.lineTo(1.8, 0.4);
-    
-    // Right middle leg
-    logoShape.lineTo(4.1, -0.5);
-    logoShape.lineTo(4.0, -0.8);
-    logoShape.lineTo(1.6, -0.4);
-    
-    // Right bottom leg
-    logoShape.lineTo(3.6, -2.2);
-    logoShape.lineTo(3.5, -2.5);
-    logoShape.lineTo(1.2, -1.0);
-    
-    // Back to start
-    logoShape.lineTo(0, -3.5);
-
-    const extrudeSettings = {
-        depth: 0.6,
-        bevelEnabled: true,
-        bevelSegments: 4,
-        steps: 2,
-        bevelSize: 0.15,
-        bevelThickness: 0.15
-    };
-
-    const logoGeo = new THREE.ExtrudeGeometry(logoShape, extrudeSettings);
-    logoGeo.center(); // Center the geometry
-
-    const logoMat = new THREE.MeshStandardMaterial({
-        color: 0x050505, // Black Venom base
-        emissive: 0x220044, // Purple symbiote glow
-        emissiveIntensity: 0.8,
-        roughness: 0.05, // Highly glossy liquid
-        metalness: 1.0,
-    });
-    
-    // Create the corrupted Venom emblem
-    const emblem = new THREE.Mesh(logoGeo, logoMat);
-    
-    // Add glowing red inner emblem to simulate taking over Spidey
-    const redMat = new THREE.MeshStandardMaterial({
-        color: 0xff0000,
-        emissive: 0xaa0000,
-        roughness: 0.2, metalness: 0.8
-    });
-    const innerEmblem = new THREE.Mesh(logoGeo, redMat);
-    innerEmblem.scale.setScalar(0.95);
-    innerEmblem.position.z = 0.1;
-    emblem.add(innerEmblem);
-    
-    coreGroup.add(emblem);
-
-    // 2. Symbiote Tendrils (All over the screen)
-    const tendrilCount = 80;
-    const pointsPerTendril = 50;
-    const tendrils = [];
-    
-    const tendrilMat = new THREE.LineBasicMaterial({
-        color: 0x0a0a0a, // Deep symbiote black
+    // Outer Cyan Wireframe Sphere (The Multiverse Web)
+    const webGeo = new THREE.IcosahedronGeometry(6, 2);
+    const webMat = new THREE.MeshBasicMaterial({ 
+        color: 0x00ffff, 
+        wireframe: true, 
         transparent: true,
-        opacity: 0.7
+        opacity: 0.3
     });
+    const webSphere = new THREE.Mesh(webGeo, webMat);
+    coreGroup.add(webSphere);
     
-    for (let i = 0; i < tendrilCount; i++) {
-        const points = [];
-        for (let j = 0; j < pointsPerTendril; j++) {
-            points.push(new THREE.Vector3(0, 0, 0));
-        }
-        const geo = new THREE.BufferGeometry().setFromPoints(points);
-        const line = new THREE.Line(geo, tendrilMat);
+    // Inner Solid Red Core
+    const innerGeo = new THREE.IcosahedronGeometry(2.5, 0);
+    const innerMat = new THREE.MeshStandardMaterial({
+        color: 0xff1744,
+        emissive: 0xaa0000,
+        emissiveIntensity: 0.5,
+        roughness: 0.2,
+        metalness: 0.8
+    });
+    const innerCore = new THREE.Mesh(innerGeo, innerMat);
+    coreGroup.add(innerCore);
+
+    // Orbiting Gold Data Particles
+    const dataParticleCount = 200;
+    const dataGeo = new THREE.BufferGeometry();
+    const dataPos = new Float32Array(dataParticleCount * 3);
+    const dataAngles = []; 
+    
+    for (let i = 0; i < dataParticleCount; i++) {
+        const radius = 3.5 + Math.random() * 4;
+        const theta = Math.random() * Math.PI * 2;
+        const phi = Math.acos(Math.random() * 2 - 1);
         
-        // Random properties for chaotic movement
-        const angle = Math.random() * Math.PI * 2;
-        const speed = Math.random() * 0.05 + 0.02;
-        const lengthMultiplier = Math.random() * 20 + 10; // Sprawl far across screen
-        const zOffset = (Math.random() - 0.5) * 30; // Deep 3D spread
+        dataPos[i*3] = radius * Math.sin(phi) * Math.cos(theta);
+        dataPos[i*3+1] = radius * Math.sin(phi) * Math.sin(theta);
+        dataPos[i*3+2] = radius * Math.cos(phi);
         
-        tendrils.push({
-            line, geo, angle, speed, lengthMultiplier, zOffset,
-            phaseX: Math.random() * Math.PI * 2,
-            phaseY: Math.random() * Math.PI * 2
+        dataAngles.push({
+            radius, theta, phi,
+            speed: (Math.random() - 0.5) * 0.02,
+            axisRotation: new THREE.Vector3(Math.random()-0.5, Math.random()-0.5, Math.random()-0.5).normalize()
         });
-        
-        coreGroup.add(line);
     }
+    
+    dataGeo.setAttribute('position', new THREE.BufferAttribute(dataPos, 3));
+    const dataMat = new THREE.PointsMaterial({
+        color: 0xffd700,
+        size: 0.15,
+        transparent: true,
+        opacity: 0.8,
+        blending: THREE.AdditiveBlending
+    });
+    const dataCloud = new THREE.Points(dataGeo, dataMat);
+    coreGroup.add(dataCloud);
+
     coreGroup.position.set(0, -500, 0); // Hide initially
 
     // Only add the advanced hero core to the scene if we are on the homepage
@@ -431,40 +369,25 @@
                 coreGroup.position.set(0, 5, targetCamZ - 15);
                 coreGroup.scale.setScalar(1 + scrollPercent * 2);
                 
-                // Venom Logo Animation (Glitchy & Erratic)
-                emblem.rotation.y = time * 0.5 + mouseX * 0.5;
-                emblem.rotation.x = mouseY * 0.5 + Math.sin(time * 5) * 0.05;
-                emblem.rotation.z = Math.sin(time * 2) * 0.1;
-                
-                // Pulsing scale like breathing liquid
-                const scale = 1 + Math.sin(time * 8) * 0.05;
-                emblem.scale.set(scale, scale, scale);
-
-                // Tendril "Squirming" Animation
-                tendrils.forEach((t, i) => {
-                    const posArray = t.geo.attributes.position.array;
-                    t.angle += t.speed * 0.5;
-                    
-                    for (let j = 0; j < pointsPerTendril; j++) {
-                        const idx = j * 3;
-                        const progress = j / pointsPerTendril; // 0 at core, 1 at tip
-                        
-                        // Chaotic organic math
-                        const waveX = Math.sin(time * 3 + j * 0.2 + t.phaseX) * progress * 4;
-                        const waveY = Math.cos(time * 4 + j * 0.15 + t.phaseY) * progress * 4;
-                        
-                        // Stretch outwards from the core
-                        const reach = progress * t.lengthMultiplier * (1 + Math.sin(time * 2 + i) * 0.2);
-                        
-                        posArray[idx] = Math.cos(t.angle) * reach + waveX;
-                        posArray[idx + 1] = Math.sin(t.angle) * reach + waveY;
-                        posArray[idx + 2] = t.zOffset * progress + Math.sin(time * 5 + j) * 2 * progress;
-                    }
-                    t.geo.attributes.position.needsUpdate = true;
-                });
-                
-                coreGroup.position.set(0, 5, targetCamZ - 15);
+                // Web Floating & Rotating Animation
+                coreGroup.position.set(0, 5 + Math.sin(time * 1.5) * 0.5, targetCamZ - 15);
                 coreGroup.scale.setScalar(1 + scrollPercent * 2);
+                
+                // Track mouse and auto-rotate
+                coreGroup.rotation.y = time * 0.2 + mouseX * 0.3;
+                coreGroup.rotation.x = mouseY * 0.3;
+                
+                // Inner core counter-rotation
+                innerCore.rotation.y = -time * 0.4;
+                innerCore.rotation.x = time * 0.2;
+                
+                // Smooth Web pulsation
+                const webScale = 1 + Math.sin(time * 2) * 0.03;
+                webSphere.scale.setScalar(webScale);
+                
+                // Data Particle Orbiting
+                dataCloud.rotation.y = time * 0.1;
+                dataCloud.rotation.z = time * 0.05;
             } else {
                 coreGroup.position.y = -500;
             }
