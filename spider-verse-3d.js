@@ -189,43 +189,70 @@
 
     /* --- 6. FLOATING MODELS / EASTER EGGS --- */
     
-    // Model 1: The Quantum Cyber-Core (Advanced Hero Model)
+    // Model 1: The Quantum Portal (Massive Advanced Hero Model)
     const coreGroup = new THREE.Group();
     
-    // Outer wireframe shell
-    const shellGeo = new THREE.IcosahedronGeometry(4, 1);
-    const shellMat = new THREE.MeshStandardMaterial({ 
+    // 1. Primary Torus Knot (The Rift)
+    const knotGeo = new THREE.TorusKnotGeometry(4, 0.8, 150, 20, 3, 5);
+    const knotMat = new THREE.MeshStandardMaterial({ 
         color: 0xcc0000, 
-        emissive: 0xaa0000, 
+        emissive: 0x990000, 
         wireframe: true, 
         wireframeLinewidth: 2,
         transparent: true,
-        opacity: 0.6
+        opacity: 0.8
     });
-    const shell = new THREE.Mesh(shellGeo, shellMat);
+    const knot = new THREE.Mesh(knotGeo, knotMat);
     
-    // Inner solid core
-    const coreGeo = new THREE.OctahedronGeometry(2.5, 0);
-    const coreMat = new THREE.MeshStandardMaterial({ 
-        color: 0x000000, 
-        roughness: 0.1, 
-        metalness: 1.0,
-        envMapIntensity: 2.0
+    // 2. Secondary Intersecting Torus Knot (The Containment Field)
+    const secondaryKnotGeo = new THREE.TorusKnotGeometry(4.5, 0.3, 100, 16, 2, 7);
+    const secondaryKnotMat = new THREE.MeshStandardMaterial({ 
+        color: 0xffd700, 
+        emissive: 0xcc8800, 
+        wireframe: true,
+        transparent: true,
+        opacity: 0.5
     });
-    const innerCore = new THREE.Mesh(coreGeo, coreMat);
+    const secondaryKnot = new THREE.Mesh(secondaryKnotGeo, secondaryKnotMat);
 
-    // Orbiting data fragments (small glowing cubes)
-    const fragments = new THREE.Group();
-    const fragGeo = new THREE.BoxGeometry(0.2, 0.2, 0.2);
-    const fragMat = new THREE.MeshBasicMaterial({ color: 0xffd700 });
-    for(let i=0; i<12; i++) {
-        const frag = new THREE.Mesh(fragGeo, fragMat);
-        const theta = (i / 12) * Math.PI * 2;
-        frag.position.set(Math.cos(theta) * 5, Math.sin(theta * 3) * 2, Math.sin(theta) * 5);
-        fragments.add(frag);
+    // 3. Swirling Vortex Particle System
+    const vortexParticleCount = 1500;
+    const vortexGeo = new THREE.BufferGeometry();
+    const vortexPos = new Float32Array(vortexParticleCount * 3);
+    const vortexAngles = []; // Store base angles for animation
+    
+    for (let i = 0; i < vortexParticleCount * 3; i += 3) {
+        // Distribute in a wide disk/torus
+        const radius = 3 + Math.random() * 8;
+        const theta = Math.random() * Math.PI * 2;
+        const y = (Math.random() - 0.5) * 4; // Spread vertically
+        
+        vortexPos[i] = Math.cos(theta) * radius;
+        vortexPos[i+1] = y;
+        vortexPos[i+2] = Math.sin(theta) * radius;
+        
+        vortexAngles.push({
+            angle: theta,
+            radius: radius,
+            speed: (Math.random() * 0.02) + 0.01,
+            yBase: y,
+            yFreq: (Math.random() * 2) + 1
+        });
     }
     
-    coreGroup.add(shell, innerCore, fragments);
+    vortexGeo.setAttribute('position', new THREE.BufferAttribute(vortexPos, 3));
+    
+    const vortexMat = new THREE.PointsMaterial({
+        color: 0xff3333,
+        size: 0.15,
+        transparent: true,
+        opacity: 0.9,
+        blending: THREE.AdditiveBlending
+    });
+    
+    const vortex = new THREE.Points(vortexGeo, vortexMat);
+
+    coreGroup.add(knot, secondaryKnot, vortex);
     coreGroup.position.set(0, -500, 0); // Hide initially
 
     // Only add the advanced hero core to the scene if we are on the homepage
@@ -346,12 +373,36 @@
             if (scrollPercent < 0.3) {
                 coreGroup.position.set(0, 5, targetCamZ - 15);
                 coreGroup.scale.setScalar(1 + scrollPercent * 2);
-                shell.rotation.y = time * 0.5;
-                shell.rotation.x = time * 0.3;
-                innerCore.rotation.y = -time * 0.2;
-                innerCore.rotation.z = time * 0.1;
-                fragments.rotation.y = time;
-                fragments.rotation.x = Math.sin(time * 0.5) * 0.5;
+                
+                // Portal Animation
+                knot.rotation.y = time * 0.3;
+                knot.rotation.x = time * 0.1;
+                
+                secondaryKnot.rotation.y = -time * 0.5;
+                secondaryKnot.rotation.z = time * 0.2;
+                
+                // Vortex Particle Swirl Animation
+                const vPositions = vortex.geometry.attributes.position.array;
+                for (let i = 0; i < vortexParticleCount; i++) {
+                    const idx = i * 3;
+                    const data = vortexAngles[i];
+                    
+                    data.angle += data.speed;
+                    // Gradually pull inwards then reset to simulate a black hole
+                    data.radius -= data.speed * 0.5;
+                    if (data.radius < 2) {
+                        data.radius = 11; 
+                    }
+                    
+                    vPositions[idx] = Math.cos(data.angle) * data.radius;
+                    vPositions[idx+1] = data.yBase + Math.sin(time * data.yFreq) * 0.5;
+                    vPositions[idx+2] = Math.sin(data.angle) * data.radius;
+                }
+                vortex.geometry.attributes.position.needsUpdate = true;
+                
+                // Mouse Parallax for the portal
+                coreGroup.rotation.y = mouseX * 0.5;
+                coreGroup.rotation.x = mouseY * 0.5;
             } else {
                 coreGroup.position.y = -500;
             }
