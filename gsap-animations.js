@@ -181,6 +181,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     onUpdate: () => skewSetter(proxy.skew)
                 });
             }
-        });
+        }, { passive: true });
     }
 });

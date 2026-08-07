@@ -166,7 +166,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     window.addEventListener("scroll", () => {
         targetScroll = window.scrollY;
-    });
+    }, { passive: true });
 
     const parallaxElements = document.querySelectorAll(".parallax-bg, .hero-title, .web-bg");
     

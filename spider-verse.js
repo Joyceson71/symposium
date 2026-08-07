@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
         scrollTimeout = setTimeout(() => {
             textElements.forEach(el => el.classList.remove("scroll-glitch-active"));
         }, 150);
-    });
+    }, { passive: true });
 
 /* ===================== THE WALKMAN: AUDIO VISUALIZER ===================== */
 let audioCtx;

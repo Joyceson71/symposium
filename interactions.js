@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
         const scrolled = (winScroll / height) * 100;
         progressBar.style.width = scrolled + "%";
-    });
+    }, { passive: true });
 
     // 2. Advanced Scroll Reveals (Intersection Observer)
     const revealElements = document.querySelectorAll(".reveal, .reveal-left, .reveal-right, .reveal-scale, .reveal-blur, .reveal-flip, .reveal-clip");

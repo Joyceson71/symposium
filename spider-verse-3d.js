@@ -86,7 +86,7 @@
             targetCamZ = 30 - (scrollPercent * 100);
             targetCamY = 10 + (scrollPercent * 5);
         }
-    });
+    }, { passive: true });
 
     // Cursor repulsion vector for particle physics
     const cursorVector = new THREE.Vector3();

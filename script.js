@@ -49,7 +49,7 @@ window.addEventListener("scroll", () => {
     document
         .getElementById("navbar")
         .classList.toggle("scrolled", window.scrollY > 80);
-});
+}, { passive: true });
 function scrollToReg() {
     window.location.href = "register.html";
 }
