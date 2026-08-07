@@ -189,70 +189,72 @@
 
     /* --- 6. FLOATING MODELS / EASTER EGGS --- */
     
-    // Model 1: The Quantum Portal (Massive Advanced Hero Model)
+    // Model 1: The Procedural Cyber-Spider (Advanced Hero Model)
     const coreGroup = new THREE.Group();
     
-    // 1. Primary Torus Knot (The Rift)
-    const knotGeo = new THREE.TorusKnotGeometry(4, 0.8, 150, 20, 3, 5);
-    const knotMat = new THREE.MeshStandardMaterial({ 
-        color: 0xcc0000, 
-        emissive: 0x990000, 
-        wireframe: true, 
-        wireframeLinewidth: 2,
-        transparent: true,
-        opacity: 0.8
+    // Thorax & Abdomen
+    const bodyMat = new THREE.MeshStandardMaterial({ 
+        color: 0x111111, 
+        roughness: 0.2, 
+        metalness: 0.9,
+        wireframe: false
     });
-    const knot = new THREE.Mesh(knotGeo, knotMat);
+    const abdomenGeo = new THREE.SphereGeometry(2, 32, 16);
+    abdomenGeo.scale(1, 0.6, 1.2);
+    const abdomen = new THREE.Mesh(abdomenGeo, bodyMat);
+    abdomen.position.set(0, 0, -1);
     
-    // 2. Secondary Intersecting Torus Knot (The Containment Field)
-    const secondaryKnotGeo = new THREE.TorusKnotGeometry(4.5, 0.3, 100, 16, 2, 7);
-    const secondaryKnotMat = new THREE.MeshStandardMaterial({ 
-        color: 0xffd700, 
-        emissive: 0xcc8800, 
-        wireframe: true,
-        transparent: true,
-        opacity: 0.5
-    });
-    const secondaryKnot = new THREE.Mesh(secondaryKnotGeo, secondaryKnotMat);
-
-    // 3. Swirling Vortex Particle System
-    const vortexParticleCount = 1500;
-    const vortexGeo = new THREE.BufferGeometry();
-    const vortexPos = new Float32Array(vortexParticleCount * 3);
-    const vortexAngles = []; // Store base angles for animation
+    const headGeo = new THREE.SphereGeometry(1, 16, 16);
+    headGeo.scale(1.2, 0.7, 1);
+    const head = new THREE.Mesh(headGeo, bodyMat);
+    head.position.set(0, 0, 1.5);
     
-    for (let i = 0; i < vortexParticleCount * 3; i += 3) {
-        // Distribute in a wide disk/torus
-        const radius = 3 + Math.random() * 8;
-        const theta = Math.random() * Math.PI * 2;
-        const y = (Math.random() - 0.5) * 4; // Spread vertically
-        
-        vortexPos[i] = Math.cos(theta) * radius;
-        vortexPos[i+1] = y;
-        vortexPos[i+2] = Math.sin(theta) * radius;
-        
-        vortexAngles.push({
-            angle: theta,
-            radius: radius,
-            speed: (Math.random() * 0.02) + 0.01,
-            yBase: y,
-            yFreq: (Math.random() * 2) + 1
-        });
+    coreGroup.add(abdomen, head);
+    
+    // Glowing Red Eyes
+    const eyeMat = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+    const eyeGeo = new THREE.SphereGeometry(0.15, 8, 8);
+    for(let i=0; i<4; i++) {
+        const eye1 = new THREE.Mesh(eyeGeo, eyeMat);
+        eye1.position.set(-0.3 - (i*0.2), 0.3 - (i*0.05), 0.8 + (i*0.1));
+        const eye2 = new THREE.Mesh(eyeGeo, eyeMat);
+        eye2.position.set(0.3 + (i*0.2), 0.3 - (i*0.05), 0.8 + (i*0.1));
+        head.add(eye1, eye2);
     }
     
-    vortexGeo.setAttribute('position', new THREE.BufferAttribute(vortexPos, 3));
+    // 8 Articulated Legs
+    const legs = [];
+    const legMat = new THREE.MeshStandardMaterial({ color: 0x222222, roughness: 0.4, metalness: 0.8 });
+    const femurGeo = new THREE.CylinderGeometry(0.15, 0.1, 3);
+    femurGeo.translate(0, 1.5, 0); // pivot at base
+    const tibiaGeo = new THREE.CylinderGeometry(0.1, 0.05, 4);
+    tibiaGeo.translate(0, -2, 0); // pivot at top
     
-    const vortexMat = new THREE.PointsMaterial({
-        color: 0xff3333,
-        size: 0.15,
-        transparent: true,
-        opacity: 0.9,
-        blending: THREE.AdditiveBlending
-    });
-    
-    const vortex = new THREE.Points(vortexGeo, vortexMat);
+    for(let i=0; i<8; i++) {
+        const isLeft = i < 4;
+        const side = isLeft ? -1 : 1;
+        const idx = i % 4; // 0 to 3
+        
+        const legGroup = new THREE.Group();
+        
+        const femur = new THREE.Mesh(femurGeo, legMat);
+        // Angle femurs outwards
+        femur.rotation.z = side * (Math.PI / 3);
+        femur.rotation.x = (idx - 1.5) * 0.4;
+        
+        const tibia = new THREE.Mesh(tibiaGeo, legMat);
+        tibia.position.y = 3; // end of femur
+        tibia.position.x = side * 1.5;
+        tibia.rotation.z = side * (-Math.PI / 2.2); // bend downwards
+        
+        femur.add(tibia);
+        legGroup.add(femur);
+        
+        legGroup.position.set(side * 0.8, 0, (idx - 1.5) * 0.8);
+        coreGroup.add(legGroup);
+        legs.push({ group: legGroup, femur, tibia, offset: idx * 0.5 + (isLeft ? 0 : Math.PI) });
+    }
 
-    coreGroup.add(knot, secondaryKnot, vortex);
     coreGroup.position.set(0, -500, 0); // Hide initially
 
     // Only add the advanced hero core to the scene if we are on the homepage
@@ -374,35 +376,23 @@
                 coreGroup.position.set(0, 5, targetCamZ - 15);
                 coreGroup.scale.setScalar(1 + scrollPercent * 2);
                 
-                // Portal Animation
-                knot.rotation.y = time * 0.3;
-                knot.rotation.x = time * 0.1;
+                // Spider Floating & Crawl Animation
+                coreGroup.position.set(0, 5 + Math.sin(time * 1.5) * 0.5, targetCamZ - 15);
+                coreGroup.scale.setScalar(1 + scrollPercent * 2);
                 
-                secondaryKnot.rotation.y = -time * 0.5;
-                secondaryKnot.rotation.z = time * 0.2;
+                // Track mouse
+                coreGroup.rotation.y = mouseX * 0.3 + Math.sin(time * 0.2) * 0.2;
+                coreGroup.rotation.x = mouseY * 0.3 + Math.sin(time * 0.4) * 0.1;
+                coreGroup.rotation.z = Math.sin(time * 0.5) * 0.05;
                 
-                // Vortex Particle Swirl Animation
-                const vPositions = vortex.geometry.attributes.position.array;
-                for (let i = 0; i < vortexParticleCount; i++) {
-                    const idx = i * 3;
-                    const data = vortexAngles[i];
-                    
-                    data.angle += data.speed;
-                    // Gradually pull inwards then reset to simulate a black hole
-                    data.radius -= data.speed * 0.5;
-                    if (data.radius < 2) {
-                        data.radius = 11; 
-                    }
-                    
-                    vPositions[idx] = Math.cos(data.angle) * data.radius;
-                    vPositions[idx+1] = data.yBase + Math.sin(time * data.yFreq) * 0.5;
-                    vPositions[idx+2] = Math.sin(data.angle) * data.radius;
-                }
-                vortex.geometry.attributes.position.needsUpdate = true;
-                
-                // Mouse Parallax for the portal
-                coreGroup.rotation.y = mouseX * 0.5;
-                coreGroup.rotation.x = mouseY * 0.5;
+                // Procedural leg articulation
+                legs.forEach(leg => {
+                    const side = leg.group.position.x < 0 ? -1 : 1;
+                    // Wiggle femur
+                    leg.femur.rotation.x = leg.group.position.z * 0.5 + Math.sin(time * 4 + leg.offset) * 0.2;
+                    // Wiggle tibia (bend knee)
+                    leg.tibia.rotation.z = side * (-Math.PI / 2.2) + Math.cos(time * 4 + leg.offset) * 0.2;
+                });
             } else {
                 coreGroup.position.y = -500;
             }
