@@ -254,15 +254,62 @@
     logoGeo.center(); // Center the geometry
 
     const logoMat = new THREE.MeshStandardMaterial({
+        color: 0x050505, // Black Venom base
+        emissive: 0x220044, // Purple symbiote glow
+        emissiveIntensity: 0.8,
+        roughness: 0.05, // Highly glossy liquid
+        metalness: 1.0,
+    });
+    
+    // Create the corrupted Venom emblem
+    const emblem = new THREE.Mesh(logoGeo, logoMat);
+    
+    // Add glowing red inner emblem to simulate taking over Spidey
+    const redMat = new THREE.MeshStandardMaterial({
         color: 0xff0000,
         emissive: 0xaa0000,
-        emissiveIntensity: 0.3,
-        roughness: 0.1,
-        metalness: 0.9,
+        roughness: 0.2, metalness: 0.8
     });
-
-    const emblem = new THREE.Mesh(logoGeo, logoMat);
+    const innerEmblem = new THREE.Mesh(logoGeo, redMat);
+    innerEmblem.scale.setScalar(0.95);
+    innerEmblem.position.z = 0.1;
+    emblem.add(innerEmblem);
+    
     coreGroup.add(emblem);
+
+    // 2. Symbiote Tendrils (All over the screen)
+    const tendrilCount = 80;
+    const pointsPerTendril = 50;
+    const tendrils = [];
+    
+    const tendrilMat = new THREE.LineBasicMaterial({
+        color: 0x0a0a0a, // Deep symbiote black
+        transparent: true,
+        opacity: 0.7
+    });
+    
+    for (let i = 0; i < tendrilCount; i++) {
+        const points = [];
+        for (let j = 0; j < pointsPerTendril; j++) {
+            points.push(new THREE.Vector3(0, 0, 0));
+        }
+        const geo = new THREE.BufferGeometry().setFromPoints(points);
+        const line = new THREE.Line(geo, tendrilMat);
+        
+        // Random properties for chaotic movement
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 0.05 + 0.02;
+        const lengthMultiplier = Math.random() * 20 + 10; // Sprawl far across screen
+        const zOffset = (Math.random() - 0.5) * 30; // Deep 3D spread
+        
+        tendrils.push({
+            line, geo, angle, speed, lengthMultiplier, zOffset,
+            phaseX: Math.random() * Math.PI * 2,
+            phaseY: Math.random() * Math.PI * 2
+        });
+        
+        coreGroup.add(line);
+    }
     coreGroup.position.set(0, -500, 0); // Hide initially
 
     // Only add the advanced hero core to the scene if we are on the homepage
@@ -384,14 +431,40 @@
                 coreGroup.position.set(0, 5, targetCamZ - 15);
                 coreGroup.scale.setScalar(1 + scrollPercent * 2);
                 
-                // Logo Floating & Rotating Animation
-                coreGroup.position.set(0, 5 + Math.sin(time * 2.0) * 0.5, targetCamZ - 15);
-                coreGroup.scale.setScalar(1 + scrollPercent * 2);
+                // Venom Logo Animation (Glitchy & Erratic)
+                emblem.rotation.y = time * 0.5 + mouseX * 0.5;
+                emblem.rotation.x = mouseY * 0.5 + Math.sin(time * 5) * 0.05;
+                emblem.rotation.z = Math.sin(time * 2) * 0.1;
                 
-                // Track mouse and auto-rotate
-                coreGroup.rotation.y = time * 0.5 + mouseX * 0.5;
-                coreGroup.rotation.x = mouseY * 0.5;
-                coreGroup.rotation.z = Math.sin(time * 0.5) * 0.1;
+                // Pulsing scale like breathing liquid
+                const scale = 1 + Math.sin(time * 8) * 0.05;
+                emblem.scale.set(scale, scale, scale);
+
+                // Tendril "Squirming" Animation
+                tendrils.forEach((t, i) => {
+                    const posArray = t.geo.attributes.position.array;
+                    t.angle += t.speed * 0.5;
+                    
+                    for (let j = 0; j < pointsPerTendril; j++) {
+                        const idx = j * 3;
+                        const progress = j / pointsPerTendril; // 0 at core, 1 at tip
+                        
+                        // Chaotic organic math
+                        const waveX = Math.sin(time * 3 + j * 0.2 + t.phaseX) * progress * 4;
+                        const waveY = Math.cos(time * 4 + j * 0.15 + t.phaseY) * progress * 4;
+                        
+                        // Stretch outwards from the core
+                        const reach = progress * t.lengthMultiplier * (1 + Math.sin(time * 2 + i) * 0.2);
+                        
+                        posArray[idx] = Math.cos(t.angle) * reach + waveX;
+                        posArray[idx + 1] = Math.sin(t.angle) * reach + waveY;
+                        posArray[idx + 2] = t.zOffset * progress + Math.sin(time * 5 + j) * 2 * progress;
+                    }
+                    t.geo.attributes.position.needsUpdate = true;
+                });
+                
+                coreGroup.position.set(0, 5, targetCamZ - 15);
+                coreGroup.scale.setScalar(1 + scrollPercent * 2);
             } else {
                 coreGroup.position.y = -500;
             }
