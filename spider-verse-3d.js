@@ -189,19 +189,50 @@
 
     /* --- 6. FLOATING MODELS / EASTER EGGS --- */
     
-    // Model 1: The Core (Icosahedron)
+    // Model 1: The Quantum Cyber-Core (Advanced Hero Model)
     const coreGroup = new THREE.Group();
-    const iso1 = new THREE.Mesh(
-        new THREE.IcosahedronGeometry(3, 0),
-        new THREE.MeshStandardMaterial({ color: 0xcc0000, emissive: 0xaa0000, wireframe: true, wireframeLinewidth: 2 })
-    );
-    const iso2 = new THREE.Mesh(
-        new THREE.IcosahedronGeometry(2.5, 1),
-        new THREE.MeshStandardMaterial({ color: 0x000000, roughness: 0.2, metalness: 0.9 })
-    );
-    coreGroup.add(iso1, iso2);
+    
+    // Outer wireframe shell
+    const shellGeo = new THREE.IcosahedronGeometry(4, 1);
+    const shellMat = new THREE.MeshStandardMaterial({ 
+        color: 0xcc0000, 
+        emissive: 0xaa0000, 
+        wireframe: true, 
+        wireframeLinewidth: 2,
+        transparent: true,
+        opacity: 0.6
+    });
+    const shell = new THREE.Mesh(shellGeo, shellMat);
+    
+    // Inner solid core
+    const coreGeo = new THREE.OctahedronGeometry(2.5, 0);
+    const coreMat = new THREE.MeshStandardMaterial({ 
+        color: 0x000000, 
+        roughness: 0.1, 
+        metalness: 1.0,
+        envMapIntensity: 2.0
+    });
+    const innerCore = new THREE.Mesh(coreGeo, coreMat);
+
+    // Orbiting data fragments (small glowing cubes)
+    const fragments = new THREE.Group();
+    const fragGeo = new THREE.BoxGeometry(0.2, 0.2, 0.2);
+    const fragMat = new THREE.MeshBasicMaterial({ color: 0xffd700 });
+    for(let i=0; i<12; i++) {
+        const frag = new THREE.Mesh(fragGeo, fragMat);
+        const theta = (i / 12) * Math.PI * 2;
+        frag.position.set(Math.cos(theta) * 5, Math.sin(theta * 3) * 2, Math.sin(theta) * 5);
+        fragments.add(frag);
+    }
+    
+    coreGroup.add(shell, innerCore, fragments);
     coreGroup.position.set(0, -500, 0); // Hide initially
-    scene.add(coreGroup);
+
+    // Only add the advanced hero core to the scene if we are on the homepage
+    const isHomePage = window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('/') || window.location.pathname === '';
+    if (isHomePage) {
+        scene.add(coreGroup);
+    }
 
     // Model 2: Tech Rings
     const rings = new THREE.Group();
@@ -310,15 +341,20 @@
 
         // 3. Cinematic Scroll Triggers (Moving models into view)
         
-        // Core (Hero Section)
-        if (scrollPercent < 0.3) {
-            coreGroup.position.set(0, 5, targetCamZ - 15);
-            coreGroup.scale.setScalar(1 + scrollPercent * 2);
-            iso1.rotation.y = time * 0.5;
-            iso1.rotation.x = time * 0.3;
-            iso2.rotation.y = -time * 0.2;
-        } else {
-            coreGroup.position.y = -500;
+        // Core (Hero Section) - Only animate if on homepage
+        if (isHomePage) {
+            if (scrollPercent < 0.3) {
+                coreGroup.position.set(0, 5, targetCamZ - 15);
+                coreGroup.scale.setScalar(1 + scrollPercent * 2);
+                shell.rotation.y = time * 0.5;
+                shell.rotation.x = time * 0.3;
+                innerCore.rotation.y = -time * 0.2;
+                innerCore.rotation.z = time * 0.1;
+                fragments.rotation.y = time;
+                fragments.rotation.x = Math.sin(time * 0.5) * 0.5;
+            } else {
+                coreGroup.position.y = -500;
+            }
         }
 
         // Tech Rings (About Section)
