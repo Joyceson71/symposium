@@ -189,97 +189,80 @@
 
     /* --- 6. FLOATING MODELS / EASTER EGGS --- */
     
-    // Model 1: The Procedural Cyber-Spider (Advanced Hero Model)
+    // Model 1: The 3D Extruded Spider-Man Emblem
     const coreGroup = new THREE.Group();
     
-    // Thorax & Abdomen (Spider-Man Suit Colors)
-    const redMat = new THREE.MeshStandardMaterial({ 
-        color: 0xcc0000, 
-        roughness: 0.3, 
-        metalness: 0.6 
+    const logoShape = new THREE.Shape();
+    // Build a geometric/cyber Spider-Man logo shape
+    
+    // Bottom tip of abdomen
+    logoShape.moveTo(0, -3.5);
+    // Left abdomen curve
+    logoShape.lineTo(-1.2, -1.0);
+    
+    // Left bottom leg
+    logoShape.lineTo(-3.5, -2.5);
+    logoShape.lineTo(-3.6, -2.2);
+    logoShape.lineTo(-1.6, -0.4); // return to body
+    
+    // Left middle leg
+    logoShape.lineTo(-4.0, -0.8);
+    logoShape.lineTo(-4.1, -0.5);
+    logoShape.lineTo(-1.8, 0.4); // return to body
+    
+    // Left top leg
+    logoShape.lineTo(-4.2, 1.5);
+    logoShape.lineTo(-4.0, 1.8);
+    logoShape.lineTo(-1.6, 1.2); // return to head base
+    
+    // Left head
+    logoShape.lineTo(-0.8, 2.5);
+    logoShape.lineTo(0, 2.8); // top center of head
+    
+    // Right side (Mirrored)
+    logoShape.lineTo(0.8, 2.5);
+    logoShape.lineTo(1.6, 1.2);
+    
+    // Right top leg
+    logoShape.lineTo(4.0, 1.8);
+    logoShape.lineTo(4.2, 1.5);
+    logoShape.lineTo(1.8, 0.4);
+    
+    // Right middle leg
+    logoShape.lineTo(4.1, -0.5);
+    logoShape.lineTo(4.0, -0.8);
+    logoShape.lineTo(1.6, -0.4);
+    
+    // Right bottom leg
+    logoShape.lineTo(3.6, -2.2);
+    logoShape.lineTo(3.5, -2.5);
+    logoShape.lineTo(1.2, -1.0);
+    
+    // Back to start
+    logoShape.lineTo(0, -3.5);
+
+    const extrudeSettings = {
+        depth: 0.6,
+        bevelEnabled: true,
+        bevelSegments: 4,
+        steps: 2,
+        bevelSize: 0.15,
+        bevelThickness: 0.15
+    };
+
+    const logoGeo = new THREE.ExtrudeGeometry(logoShape, extrudeSettings);
+    logoGeo.center(); // Center the geometry
+
+    const logoMat = new THREE.MeshStandardMaterial({
+        color: 0xff0000,
+        emissive: 0xaa0000,
+        emissiveIntensity: 0.3,
+        roughness: 0.1,
+        metalness: 0.9,
     });
-    const blueMat = new THREE.MeshStandardMaterial({ 
-        color: 0x0f256e, 
-        roughness: 0.4, 
-        metalness: 0.5 
-    });
-    // Webbing wireframe
-    const webMat = new THREE.MeshBasicMaterial({
-        color: 0x000000,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.7
-    });
 
-    const abdomenGeo = new THREE.SphereGeometry(2, 16, 12);
-    abdomenGeo.scale(1, 0.6, 1.2);
-    const abdomen = new THREE.Mesh(abdomenGeo, blueMat);
-    // Add web pattern overlay
-    const abdomenWeb = new THREE.Mesh(abdomenGeo, webMat);
-    abdomenWeb.scale.setScalar(1.01);
-    abdomen.add(abdomenWeb);
-    abdomen.position.set(0, 0, -1);
-    
-    const headGeo = new THREE.SphereGeometry(1, 16, 12);
-    headGeo.scale(1.2, 0.7, 1);
-    const head = new THREE.Mesh(headGeo, redMat);
-    const headWeb = new THREE.Mesh(headGeo, webMat);
-    headWeb.scale.setScalar(1.02);
-    head.add(headWeb);
-    head.position.set(0, 0, 1.5);
-    
-    coreGroup.add(abdomen, head);
-    
-    // Glowing White Eyes (Spider-Man Lenses)
-    const eyeMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
-    const eyeGeo = new THREE.SphereGeometry(0.18, 8, 8);
-    for(let i=0; i<4; i++) {
-        const eye1 = new THREE.Mesh(eyeGeo, eyeMat);
-        // angled slightly like angry spidey eyes
-        eye1.position.set(-0.3 - (i*0.2), 0.3 - (i*0.05), 0.8 + (i*0.1));
-        eye1.scale.set(1.5, 0.5, 1);
-        eye1.rotation.z = Math.PI / 6;
-
-        const eye2 = new THREE.Mesh(eyeGeo, eyeMat);
-        eye2.position.set(0.3 + (i*0.2), 0.3 - (i*0.05), 0.8 + (i*0.1));
-        eye2.scale.set(1.5, 0.5, 1);
-        eye2.rotation.z = -Math.PI / 6;
-
-        head.add(eye1, eye2);
-    }
-    
-    // 8 Articulated Legs (Red Femur, Blue Tibia)
-    const legs = [];
-    const femurGeo = new THREE.CylinderGeometry(0.15, 0.1, 3);
-    femurGeo.translate(0, 1.5, 0); // pivot at base
-    const tibiaGeo = new THREE.CylinderGeometry(0.1, 0.05, 4);
-    tibiaGeo.translate(0, -2, 0); // pivot at top
-    
-    for(let i=0; i<8; i++) {
-        const isLeft = i < 4;
-        const side = isLeft ? -1 : 1;
-        const idx = i % 4; // 0 to 3
-        
-        const legGroup = new THREE.Group();
-        
-        const femur = new THREE.Mesh(femurGeo, redMat);
-        // Angle femurs outwards
-        femur.rotation.z = side * (Math.PI / 3);
-        femur.rotation.x = (idx - 1.5) * 0.4;
-        
-        const tibia = new THREE.Mesh(tibiaGeo, blueMat);
-        tibia.position.y = 3; // end of femur
-        tibia.position.x = side * 1.5;
-        tibia.rotation.z = side * (-Math.PI / 2.2); // bend downwards
-        
-        femur.add(tibia);
-        legGroup.add(femur);
-        
-        legGroup.position.set(side * 0.8, 0, (idx - 1.5) * 0.8);
-        coreGroup.add(legGroup);
-        legs.push({ group: legGroup, femur, tibia, offset: idx * 0.5 + (isLeft ? 0 : Math.PI) });
-    }
-
+    const emblem = new THREE.Mesh(logoGeo, logoMat);
+    coreGroup.add(emblem);
     coreGroup.position.set(0, -500, 0); // Hide initially
 
     // Only add the advanced hero core to the scene if we are on the homepage
@@ -401,23 +384,14 @@
                 coreGroup.position.set(0, 5, targetCamZ - 15);
                 coreGroup.scale.setScalar(1 + scrollPercent * 2);
                 
-                // Spider Floating & Crawl Animation
-                coreGroup.position.set(0, 5 + Math.sin(time * 1.5) * 0.5, targetCamZ - 15);
+                // Logo Floating & Rotating Animation
+                coreGroup.position.set(0, 5 + Math.sin(time * 2.0) * 0.5, targetCamZ - 15);
                 coreGroup.scale.setScalar(1 + scrollPercent * 2);
                 
-                // Track mouse
-                coreGroup.rotation.y = mouseX * 0.3 + Math.sin(time * 0.2) * 0.2;
-                coreGroup.rotation.x = mouseY * 0.3 + Math.sin(time * 0.4) * 0.1;
-                coreGroup.rotation.z = Math.sin(time * 0.5) * 0.05;
-                
-                // Procedural leg articulation
-                legs.forEach(leg => {
-                    const side = leg.group.position.x < 0 ? -1 : 1;
-                    // Wiggle femur
-                    leg.femur.rotation.x = leg.group.position.z * 0.5 + Math.sin(time * 4 + leg.offset) * 0.2;
-                    // Wiggle tibia (bend knee)
-                    leg.tibia.rotation.z = side * (-Math.PI / 2.2) + Math.cos(time * 4 + leg.offset) * 0.2;
-                });
+                // Track mouse and auto-rotate
+                coreGroup.rotation.y = time * 0.5 + mouseX * 0.5;
+                coreGroup.rotation.x = mouseY * 0.5;
+                coreGroup.rotation.z = Math.sin(time * 0.5) * 0.1;
             } else {
                 coreGroup.position.y = -500;
             }
