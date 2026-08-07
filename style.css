@@ -3190,6 +3190,9 @@ body::after {
 }
 
 #navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
     background: rgba(10, 17, 40, 0.3) !important;
     backdrop-filter: blur(25px) saturate(150%);
     -webkit-backdrop-filter: blur(25px) saturate(150%);
