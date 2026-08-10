@@ -19,6 +19,8 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/animations.css">
   <link rel="stylesheet" href="css/spider-verse.css">
+  <link rel="stylesheet" href="css/desktop-cinematic.css">
+
 </head>
 
 <body>
@@ -29,7 +31,16 @@
   <div id="cursor"></div>
   <div id="cursor-ring"></div>
 
+  <!-- Targeting reticle — desktop only -->
+  <div id="targeting-reticle" class="desktop-only">
+    <div class="reticle-tl"></div>
+    <div class="reticle-tr"></div>
+    <div class="reticle-bl"></div>
+    <div class="reticle-br"></div>
+  </div>
+
   <!-- Spider-sense overlay -->
+
   <div id="spider-sense-overlay"></div>
 
   <!-- LOADER -->
@@ -136,6 +147,14 @@
         <a id="hero-cta-events" href="events.html" class="btn-ghost">EXPLORE EVENTS</a>
       </div>
     </div>
+    <!-- HUD status strip — desktop only -->
+    <div class="hero-hud desktop-only">
+      <div class="hud-line"><span class="hl-key">STATUS</span> <span class="hl-val">● REGISTRATIONS OPEN</span></div>
+      <div class="hud-line"><span class="hl-key">DATE</span> <span class="hl-val">SEPT 18 // 2026</span></div>
+      <div class="hud-line"><span class="hl-key">VENUE</span> <span class="hl-val">KINGS ENGINEERING COLLEGE</span></div>
+      <div class="hud-line"><span class="hl-key">PRIZE</span> <span class="hl-val">₹20,000 TOTAL POOL</span></div>
+    </div>
+
     <div class="scroll-hint">
       <span>SCROLL TO EXPLORE</span>
       <div class="scroll-arrow"></div>
@@ -277,6 +296,11 @@
         </div>
       </div>
       <p class="countdown-sub">September 18, 2026 • Kings Engineering College • ECE Department</p>
+      <!-- Charge bar — desktop only -->
+      <div class="countdown-charge desktop-only">
+        <div class="countdown-charge-fill"></div>
+      </div>
+
     </div>
   </section>
 
@@ -323,7 +347,10 @@
         <p class="section-eyebrow">THE DAY'S FLOW</p>
         <h2 class="section-title">EVENT<br/><span class="red">SCHEDULE</span></h2>
       </div>
+      <!-- Drag hint — desktop only -->
+      <div class="timeline-drag-hint desktop-only">SCROLL TIMELINE</div>
       <div class="timeline-container">
+
         <div class="timeline-line"></div>
         <div class="timeline-item reveal-left">
           <div class="timeline-dot"></div>
