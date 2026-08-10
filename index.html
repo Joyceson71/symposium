@@ -12,6 +12,7 @@
 <script>
     // Synchronous detection runs before anything else
     const _isMob = window.matchMedia('(max-width:768px)').matches || ('ontouchstart' in window && window.innerWidth <= 768);
+    window.SKIP_3D = _isMob;
     if (!_isMob) {
       document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>');
     }

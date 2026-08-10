@@ -6,7 +6,13 @@
   <title>Coordinators | TechnoKings 2K26</title>
   <meta name="description" content="Meet the faculty and student coordinators behind TechnoKings 2K26 — ECE Department Symposium at Kings Engineering College."/>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet"/>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+    const _isMob = window.matchMedia('(max-width:768px)').matches || ('ontouchstart' in window && window.innerWidth <= 768);
+    window.SKIP_3D = _isMob;
+    if (!_isMob) {
+      document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\/script>');
+    }
+  </script>
   <script src="js/spider-verse-3d.js" defer></script>
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/spider-verse.css?v=3">
