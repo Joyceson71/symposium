@@ -54,7 +54,6 @@ body {
 
 html.theme-desktop body {
   padding-bottom: 0;
-  cursor: none;
 }
 
 img, svg, canvas, video {
