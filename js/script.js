@@ -1,10 +1,5 @@
-/* ================================================================
-   TECHNOKINGS 2K26 — script.js
-   SYNCHRONOUS device detection runs before DOMContentLoaded
-   ================================================================ */
 
 
-// ─── DEVICE DETECTION (synchronous, line 1) ──────────────────
 const IS_MOBILE = window.matchMedia('(max-width: 768px)').matches
   || ('ontouchstart' in window && window.innerWidth <= 768);
 const IS_LOW_POWER = navigator.hardwareConcurrency <= 4
@@ -14,10 +9,9 @@ document.documentElement.classList.add(IS_MOBILE ? 'theme-mobile' : 'theme-deskt
 
 if (IS_MOBILE || IS_LOW_POWER) window.SKIP_3D = true;
 
-// ─── DOM READY ───────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
 
-  initLoader();
+initLoader();
   initNavScroll();
   initReveal();
   initCountdown();
@@ -25,26 +19,24 @@ document.addEventListener('DOMContentLoaded', () => {
   initPrizeCounter();
   initFAQ();
 
-  if (IS_MOBILE) {
+if (IS_MOBILE) {
     initMobileBottomNav();
   } else {
     initScrollProgressBar();
     initCardTilt();
 
-  }
+}
 });
 
-// ─── LOADER ──────────────────────────────────────────────────
 function initLoader() {
   const loader = document.getElementById('loader');
   if (!loader) return;
-  // Hide after animation completes
-  setTimeout(() => {
+
+setTimeout(() => {
     loader.classList.add('hidden');
   }, 1800);
 }
 
-// ─── NAV SCROLL ──────────────────────────────────────────────
 function initNavScroll() {
   const navbar = document.getElementById('navbar');
   if (!navbar) return;
@@ -53,12 +45,11 @@ function initNavScroll() {
   }, { passive: true });
 }
 
-// ─── MOBILE BOTTOM NAV ───────────────────────────────────────
 function initMobileBottomNav() {
   const tabs = document.querySelectorAll('.mob-nav-tab');
   const currentPath = window.location.pathname.split('/').pop() || 'index.html';
 
-  tabs.forEach(tab => {
+tabs.forEach(tab => {
     const href = tab.getAttribute('href');
     if (!href) return;
     const tabPage = href.split('/').pop().split('?')[0] || 'index.html';
@@ -66,19 +57,18 @@ function initMobileBottomNav() {
       || (currentPath === '' && tabPage === 'index.html');
     if (isActive) tab.classList.add('active');
 
-    tab.addEventListener('click', () => {
+tab.addEventListener('click', () => {
       tabs.forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
     });
   });
 }
 
-// ─── SCROLL REVEALS ──────────────────────────────────────────
 function initReveal() {
   const els = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
   if (!els.length) return;
 
-  const observer = new IntersectionObserver(entries => {
+const observer = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.isIntersecting) {
         e.target.classList.add('visible');
@@ -87,16 +77,15 @@ function initReveal() {
     });
   }, { threshold: 0.12 });
 
-  els.forEach(el => observer.observe(el));
+els.forEach(el => observer.observe(el));
 }
 
-// ─── COUNTDOWN ───────────────────────────────────────────────
 function initCountdown() {
   const TARGET = new Date('2026-09-18T09:00:00+05:30');
   const IDS = ['cd-days', 'cd-hours', 'cd-mins', 'cd-secs'];
   const pad = n => String(n).padStart(2, '0');
 
-  function tick() {
+function tick() {
     const diff = TARGET - Date.now();
     if (diff <= 0) {
       IDS.forEach(id => {
@@ -111,22 +100,21 @@ function initCountdown() {
     const secs  = Math.floor(diff % 60000    / 1000);
     const vals  = [days, hours, mins, secs];
 
-    IDS.forEach((id, i) => {
+IDS.forEach((id, i) => {
       const el = document.getElementById(id);
       if (el) el.textContent = pad(vals[i]);
     });
   }
 
-  tick();
+tick();
   setInterval(tick, 1000);
 }
 
-// ─── STAT COUNTERS ───────────────────────────────────────────
 function initStatCounters() {
   const elements = document.querySelectorAll('[data-count]');
   if (!elements.length) return;
 
-  const observer = new IntersectionObserver(entries => {
+const observer = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (!e.isIntersecting) return;
       const el = e.target;
@@ -144,15 +132,14 @@ function initStatCounters() {
     });
   }, { threshold: 0.3 });
 
-  elements.forEach(el => observer.observe(el));
+elements.forEach(el => observer.observe(el));
 }
 
-// ─── PRIZE COUNTER ───────────────────────────────────────────
 function initPrizeCounter() {
   const el = document.getElementById('prize-count');
   if (!el) return;
 
-  const observer = new IntersectionObserver(entries => {
+const observer = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (!e.isIntersecting) return;
       let current = 0;
@@ -167,10 +154,9 @@ function initPrizeCounter() {
     });
   }, { threshold: 0.3 });
 
-  observer.observe(el);
+observer.observe(el);
 }
 
-// ─── FAQ ─────────────────────────────────────────────────────
 function initFAQ() {
   document.querySelectorAll('.faq-question').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -178,13 +164,12 @@ function initFAQ() {
       const answer = item.querySelector('.faq-answer');
       const isOpen = item.classList.contains('open');
 
-      // Close all
-      document.querySelectorAll('.faq-item.open').forEach(openItem => {
+document.querySelectorAll('.faq-item.open').forEach(openItem => {
         openItem.classList.remove('open');
         openItem.querySelector('.faq-answer').style.maxHeight = '0';
       });
 
-      if (!isOpen) {
+if (!isOpen) {
         item.classList.add('open');
         answer.style.maxHeight = answer.scrollHeight + 'px';
       }
@@ -192,7 +177,6 @@ function initFAQ() {
   });
 }
 
-// ─── SCROLL PROGRESS BAR (desktop) ───────────────────────────
 function initScrollProgressBar() {
   const bar = document.getElementById('scroll-progress');
   if (!bar) return;
@@ -202,7 +186,6 @@ function initScrollProgressBar() {
   }, { passive: true });
 }
 
-// ─── CARD TILT (desktop) ─────────────────────────────────────
 function initCardTilt() {
   document.querySelectorAll('.tiltable, .event-card-desktop').forEach(card => {
     card.addEventListener('mousemove', e => {
@@ -219,7 +202,6 @@ function initCardTilt() {
   });
 }
 
-// ─── GLOBAL HELPERS ──────────────────────────────────────────
 function toggleMenu() {
   const m = document.getElementById('mobile-menu');
   if (m) m.classList.toggle('open');
@@ -247,6 +229,4 @@ function closeEasterEgg() {
   const m = document.getElementById('easter-egg-modal');
   if (m) m.classList.add('hidden');
 }
-
-
 

@@ -1,19 +1,13 @@
-/**
- * ============================================================================
- * TECHNOKINGS 2K26 - REGISTRATION ENGINE (1.0.0)
- * Massive Custom Vanilla JS Form Validation & Dynamic Rendering Engine
- * ============================================================================
- */
 
-// Paste your Google Apps Script Web App URL here:
+
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz1N-zRD6Qol3B2G7v6Ss71wUuVx9BR7pSHb-1Mq6HuG77MmLZQ8NszS6OlYlU__Y13vw/exec';
 
 class RegistrationEngine {
     constructor() {
         this.container = document.getElementById('registration-app');
         if(!this.container) return;
-        
-        this.state = {
+
+this.state = {
             step: 1,
             maxSteps: 3,
             data: {
@@ -27,8 +21,8 @@ class RegistrationEngine {
             },
             errors: {}
         };
-        
-        this.events = [
+
+this.events = [
             { id: 'paper-presentation', name: 'Paper Presentation', maxTeam: 2 },
             { id: 'project-expo', name: 'Project Expo', maxTeam: 4 },
             { id: 'circuit-breakers', name: 'Circuit Breakers', maxTeam: 2 },
@@ -39,61 +33,59 @@ class RegistrationEngine {
             { id: 'start-music', name: 'Start Music', maxTeam: 1 }
         ];
 
-        this.init();
+this.init();
     }
 
-    init() {
-        // Clear standard HTML
-        this.container.innerHTML = '';
+init() {
+
+this.container.innerHTML = '';
         this.container.classList.add('js-reg-engine');
-        
-        // Build structural DOM
-        this.buildDOM();
+
+this.buildDOM();
         this.renderStep();
         this.bindEvents();
     }
 
-    buildDOM() {
+buildDOM() {
         this.wrapper = document.createElement('div');
         this.wrapper.className = 'reg-wrapper';
-        
-        this.header = document.createElement('div');
+
+this.header = document.createElement('div');
         this.header.className = 'reg-header';
-        
-        this.progress = document.createElement('div');
+
+this.progress = document.createElement('div');
         this.progress.className = 'reg-progress';
-        
-        this.body = document.createElement('div');
+
+this.body = document.createElement('div');
         this.body.className = 'reg-body';
-        
-        this.footer = document.createElement('div');
+
+this.footer = document.createElement('div');
         this.footer.className = 'reg-footer';
-        
-        this.wrapper.appendChild(this.header);
+
+this.wrapper.appendChild(this.header);
         this.wrapper.appendChild(this.progress);
         this.wrapper.appendChild(this.body);
         this.wrapper.appendChild(this.footer);
-        
-        this.container.appendChild(this.wrapper);
+
+this.container.appendChild(this.wrapper);
     }
 
-    renderStep() {
-        // Animate out old content
-        this.body.style.opacity = '0';
+renderStep() {
+
+this.body.style.opacity = '0';
         this.body.style.transform = 'translateY(20px)';
-        
-        setTimeout(() => {
+
+setTimeout(() => {
             this.body.innerHTML = '';
-            
-            if(this.state.step === 1) this.renderStep1();
+
+if(this.state.step === 1) this.renderStep1();
             else if(this.state.step === 2) this.renderStep2();
             else if(this.state.step === 3) this.renderStep3();
-            
-            this.renderProgress();
+
+this.renderProgress();
             this.renderFooter();
-            
-            // Animate in new content
-            requestAnimationFrame(() => {
+
+requestAnimationFrame(() => {
                 this.body.style.transition = 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
                 this.body.style.opacity = '1';
                 this.body.style.transform = 'translateY(0)';
@@ -101,7 +93,7 @@ class RegistrationEngine {
         }, 300);
     }
 
-    renderProgress() {
+renderProgress() {
         this.progress.innerHTML = '';
         for(let i=1; i<=this.state.maxSteps; i++) {
             const dot = document.createElement('div');
@@ -110,25 +102,25 @@ class RegistrationEngine {
         }
     }
 
-    renderFooter() {
+renderFooter() {
         this.footer.innerHTML = '';
-        
-        if (this.state.step > 1) {
+
+if (this.state.step > 1) {
             const backBtn = document.createElement('button');
             backBtn.className = 'btn-ghost';
             backBtn.innerText = 'BACK';
             backBtn.onclick = () => { this.state.step--; this.renderStep(); };
             this.footer.appendChild(backBtn);
         }
-        
-        const nextBtn = document.createElement('button');
+
+const nextBtn = document.createElement('button');
         nextBtn.className = 'btn-primary';
         nextBtn.innerText = this.state.step === this.state.maxSteps ? 'SUBMIT ALL' : 'NEXT PROTOCOL';
         nextBtn.onclick = () => this.handleNext();
         this.footer.appendChild(nextBtn);
     }
 
-    handleNext() {
+handleNext() {
         if(this.validateCurrentStep()) {
             if(this.state.step < this.state.maxSteps) {
                 this.state.step++;
@@ -139,36 +131,35 @@ class RegistrationEngine {
         }
     }
 
-    createInput(type, name, labelText, placeholder) {
+createInput(type, name, labelText, placeholder) {
         const group = document.createElement('div');
         group.className = 'form-group';
-        
-        const label = document.createElement('label');
+
+const label = document.createElement('label');
         label.innerText = labelText;
-        
-        const input = document.createElement('input');
+
+const input = document.createElement('input');
         input.type = type;
         input.name = name;
         input.placeholder = placeholder;
         input.value = this.state.data[name] || '';
-        
-        const error = document.createElement('span');
+
+const error = document.createElement('span');
         error.className = 'error-msg';
         error.id = `error-${name}`;
-        
-        // Real-time validation
-        input.addEventListener('input', (e) => {
+
+input.addEventListener('input', (e) => {
             this.state.data[name] = e.target.value;
             this.realTimeValidate(name, e.target.value);
         });
-        
-        group.appendChild(label);
+
+group.appendChild(label);
         group.appendChild(input);
         group.appendChild(error);
         return group;
     }
 
-    renderStep1() {
+renderStep1() {
         this.header.innerHTML = '<h2>PHASE 1: IDENTIFICATION</h2><p>Initialize team parameters.</p>';
         this.body.appendChild(this.createInput('text', 'teamName', 'TEAM DESIGNATION', 'Enter unique team name'));
         this.body.appendChild(this.createInput('text', 'leaderName', 'LEADER ALIAS', 'Enter full name'));
@@ -176,18 +167,18 @@ class RegistrationEngine {
         this.body.appendChild(this.createInput('tel', 'phone', 'SECURE FREQUENCY (PHONE)', '+91 XXXXX XXXXX'));
     }
 
-    renderStep2() {
+renderStep2() {
         this.header.innerHTML = '<h2>PHASE 2: MISSION SELECT</h2><p>Select your deployment zones.</p>';
-        
-        const grid = document.createElement('div');
+
+const grid = document.createElement('div');
         grid.className = 'event-select-grid';
-        
-        this.events.forEach(ev => {
+
+this.events.forEach(ev => {
             const card = document.createElement('div');
             card.className = `event-select-card ${this.state.data.selectedEvents.includes(ev.id) ? 'selected' : ''}`;
             card.innerHTML = `<h3>${ev.name}</h3><p>Max Squad: ${ev.maxTeam}</p>`;
-            
-            card.onclick = () => {
+
+card.onclick = () => {
                 if(this.state.data.selectedEvents.includes(ev.id)) {
                     this.state.data.selectedEvents = this.state.data.selectedEvents.filter(id => id !== ev.id);
                     card.classList.remove('selected');
@@ -198,81 +189,80 @@ class RegistrationEngine {
             };
             grid.appendChild(card);
         });
-        
-        const error = document.createElement('div');
+
+const error = document.createElement('div');
         error.id = 'error-events';
         error.className = 'error-msg';
-        
-        this.body.appendChild(grid);
+
+this.body.appendChild(grid);
         this.body.appendChild(error);
     }
 
-    renderStep3() {
+renderStep3() {
         this.header.innerHTML = '<h2>PHASE 3: AUTHORIZATION</h2><p>Digital signature required for deployment.</p>';
-        
-        const canvasContainer = document.createElement('div');
+
+const canvasContainer = document.createElement('div');
         canvasContainer.className = 'signature-container';
-        
-        const canvas = document.createElement('canvas');
+
+const canvas = document.createElement('canvas');
         canvas.id = 'signature-pad';
         canvas.width = 400;
         canvas.height = 200;
-        
-        const clearBtn = document.createElement('button');
+
+const clearBtn = document.createElement('button');
         clearBtn.className = 'btn-ghost signature-clear';
         clearBtn.innerText = 'CLEAR PAD';
-        
-        canvasContainer.appendChild(canvas);
+
+canvasContainer.appendChild(canvas);
         canvasContainer.appendChild(clearBtn);
-        
-        this.body.appendChild(canvasContainer);
-        
-        // Init signature drawing logic
-        setTimeout(() => this.initSignaturePad(canvas, clearBtn), 100);
+
+this.body.appendChild(canvasContainer);
+
+setTimeout(() => this.initSignaturePad(canvas, clearBtn), 100);
     }
 
-    initSignaturePad(canvas, clearBtn) {
+initSignaturePad(canvas, clearBtn) {
         const ctx = canvas.getContext('2d');
         let isDrawing = false;
-        
-        ctx.strokeStyle = '#CC0000';
+
+ctx.strokeStyle = '#CC0000';
         ctx.lineWidth = 3;
         ctx.lineCap = 'round';
-        
-        canvas.addEventListener('mousedown', e => {
+
+canvas.addEventListener('mousedown', e => {
             isDrawing = true;
             ctx.beginPath();
             ctx.moveTo(e.offsetX, e.offsetY);
         });
-        
-        canvas.addEventListener('mousemove', e => {
+
+canvas.addEventListener('mousemove', e => {
             if(!isDrawing) return;
             ctx.lineTo(e.offsetX, e.offsetY);
             ctx.stroke();
         });
-        
-        canvas.addEventListener('mouseup', () => {
+
+canvas.addEventListener('mouseup', () => {
             isDrawing = false;
             this.state.data.signature = canvas.toDataURL();
         });
-        
-        clearBtn.onclick = () => {
+
+clearBtn.onclick = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             this.state.data.signature = null;
         };
     }
 
-    realTimeValidate(field, value) {
+realTimeValidate(field, value) {
         const errEl = document.getElementById(`error-${field}`);
         let msg = '';
         if(field === 'email' && !/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value)) msg = 'Invalid email frequency detected.';
         if(field === 'phone' && value.length < 10) msg = 'Signal too weak (min 10 digits).';
-        
-        if(msg) errEl.innerText = msg;
+
+if(msg) errEl.innerText = msg;
         else errEl.innerText = '';
     }
 
-    validateCurrentStep() {
+validateCurrentStep() {
         let valid = true;
         if(this.state.step === 1) {
             ['teamName', 'leaderName', 'email', 'phone'].forEach(f => {
@@ -300,9 +290,9 @@ class RegistrationEngine {
         return valid;
     }
 
-    async submitForm() {
-        // Show loading state
-        this.container.innerHTML = `
+async submitForm() {
+
+this.container.innerHTML = `
             <div class="success-screen">
                 <h2>AUTHORIZING DEPLOYMENT...</h2>
                 <div class="spider-logo-spin">🕷️</div>
@@ -310,15 +300,15 @@ class RegistrationEngine {
             </div>
         `;
 
-        if (GOOGLE_SCRIPT_URL === 'YOUR_GOOGLE_SCRIPT_URL_HERE') {
+if (GOOGLE_SCRIPT_URL === 'YOUR_GOOGLE_SCRIPT_URL_HERE') {
             alert("Error: Google Script URL is missing. Please paste it at the top of js/registration-engine.js");
             window.location.reload();
             return;
         }
 
-        try {
-            // Prepare payload (excluding signature to save space in Sheets)
-            const payload = {
+try {
+
+const payload = {
                 teamName: this.state.data.teamName,
                 leaderName: this.state.data.leaderName,
                 email: this.state.data.email,
@@ -326,19 +316,18 @@ class RegistrationEngine {
                 selectedEvents: this.state.data.selectedEvents
             };
 
-            const response = await fetch(GOOGLE_SCRIPT_URL, {
+const response = await fetch(GOOGLE_SCRIPT_URL, {
                 method: 'POST',
-                mode: 'no-cors', // Required to bypass CORS on Apps Script
+                mode: 'no-cors', 
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(payload)
             });
 
-            // Since mode is 'no-cors', the response is opaque, we just assume success if it didn't throw
-            this.showSuccess();
+this.showSuccess();
 
-        } catch (error) {
+} catch (error) {
             console.error("Submission failed:", error);
             this.container.innerHTML = `
                 <div class="success-screen" style="border-color: #CC0000;">
@@ -350,7 +339,7 @@ class RegistrationEngine {
         }
     }
 
-    showSuccess() {
+showSuccess() {
         this.container.innerHTML = `
             <div class="success-screen">
                 <h2>DEPLOYMENT AUTHORIZED</h2>
@@ -362,7 +351,6 @@ class RegistrationEngine {
     }
 }
 
-// Bind to DOM
 document.addEventListener("DOMContentLoaded", () => {
     new RegistrationEngine();
 });

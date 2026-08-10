@@ -1,19 +1,18 @@
-// Register GSAP Plugin
+
 gsap.registerPlugin(ScrollTrigger);
 
-// Utility: Text Splitter (Pure JS to avoid loading SplitText plugin)
 function splitTextIntoSpans(selector) {
     const elements = document.querySelectorAll(selector);
-    
-    function processNode(node) {
+
+function processNode(node) {
         if (node.nodeType === Node.TEXT_NODE) {
             const text = node.textContent;
             if (!text.trim()) return node.cloneNode();
-            
-            const fragment = document.createDocumentFragment();
+
+const fragment = document.createDocumentFragment();
             const words = text.split(/(\s+)/); 
-            
-            words.forEach(word => {
+
+words.forEach(word => {
                 if (/^\s+$/.test(word)) {
                     const space = document.createElement('span');
                     space.style.display = 'inline-block';
@@ -24,8 +23,8 @@ function splitTextIntoSpans(selector) {
                     const wordSpan = document.createElement('span');
                     wordSpan.style.display = 'inline-block';
                     wordSpan.style.whiteSpace = 'nowrap';
-                    
-                    const chars = [...word];
+
+const chars = [...word];
                     chars.forEach(char => {
                         const charSpan = document.createElement('span');
                         charSpan.style.display = 'inline-block';
@@ -50,26 +49,25 @@ function splitTextIntoSpans(selector) {
         return node.cloneNode();
     }
 
-    elements.forEach(el => {
+elements.forEach(el => {
         if(el.classList.contains('splitted')) return;
-        
-        const newContent = document.createDocumentFragment();
+
+const newContent = document.createDocumentFragment();
         Array.from(el.childNodes).forEach(child => {
             newContent.appendChild(processNode(child));
         });
-        
-        el.innerHTML = '';
+
+el.innerHTML = '';
         el.appendChild(newContent);
         el.classList.add('splitted');
     });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    
-    // 1. Loader Animation Override
-    const loader = document.getElementById('loader');
-    // If it's the index page (or has a loader)
-    if (loader) {
+
+const loader = document.getElementById('loader');
+
+if (loader) {
         const tlLoader = gsap.timeline();
         tlLoader.to('#loader-fill', {
             width: '100%',
@@ -89,13 +87,12 @@ document.addEventListener('DOMContentLoaded', () => {
         initHeroAnimations();
     }
 
-    function initHeroAnimations() {
+function initHeroAnimations() {
         splitTextIntoSpans('.hero-t1');
-        
-        const heroTl = gsap.timeline();
-        
-        // Animate hero text letters
-        heroTl.from('.hero-t1 .char-span', {
+
+const heroTl = gsap.timeline();
+
+heroTl.from('.hero-t1 .char-span', {
             y: 50,
             opacity: 0,
             rotateX: -90,
@@ -119,12 +116,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }, "-=0.4");
     }
 
-    // 2. ScrollTrigger for Sections
-    // Split text for section titles
-    splitTextIntoSpans('.section-title');
+splitTextIntoSpans('.section-title');
 
-    // Title reveal
-    gsap.utils.toArray('.section-title').forEach(title => {
+gsap.utils.toArray('.section-title').forEach(title => {
         gsap.from(title.querySelectorAll('.char-span'), {
             scrollTrigger: {
                 trigger: title,
@@ -139,8 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Stagger Cards (Stats, Why)
-    gsap.utils.toArray('.stats-row, .why-grid').forEach(grid => {
+gsap.utils.toArray('.stats-row, .why-grid').forEach(grid => {
         const cards = grid.children;
         gsap.fromTo(cards, 
             { y: 50, opacity: 0 },
@@ -159,18 +152,16 @@ document.addEventListener('DOMContentLoaded', () => {
         );
     });
 
-    // 3. Velocity Skew Effect using GSAP
-    let proxy = { skew: 0 },
+let proxy = { skew: 0 },
         skewSetter = gsap.quickSetter(".event-card, .stat-card, .why-card, .team-card", "skewY", "deg"),
         clamp = gsap.utils.clamp(-10, 10);
-    
-    // Only apply on desktop to avoid weird mobile jank
-    if (window.innerWidth > 768) {
+
+if (window.innerWidth > 768) {
         window.addEventListener("scroll", () => {
             const velocity = window.scrollY - (window.lastScrollY || window.scrollY);
             window.lastScrollY = window.scrollY;
-            
-            let skew = clamp(velocity * -0.05);
+
+let skew = clamp(velocity * -0.05);
             if (Math.abs(skew) > Math.abs(proxy.skew)) {
                 proxy.skew = skew;
                 gsap.to(proxy, {

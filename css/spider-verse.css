@@ -1,11 +1,5 @@
-/* ================================================================
-   TECHNOKINGS 2K26 — spider-verse.css
-   Section component styles — Mobile-first, Desktop override via html.theme-desktop
-   ================================================================ */
 
-/* ═══════════════════════════════════════════════════════════════
-   HERO SECTION
-   ═══════════════════════════════════════════════════════════════ */
+
 #hero {
   min-height: 100svh;
   background: #000;
@@ -17,7 +11,6 @@
   padding: 0 20px;
 }
 
-/* Mobile hero background — CSS only */
 #hero::before {
   content: '';
   position: absolute;
@@ -62,7 +55,6 @@
   animation: pulseRed 1.5s ease infinite;
 }
 
-/* Mobile hero title */
 .hero-title { line-height: 0.9; animation: fadeInUp 0.6s ease 0.2s both; }
 
 .hero-t1 {
@@ -111,7 +103,6 @@
   width: 100%;
 }
 
-/* Desktop hero overrides */
 html.theme-desktop #hero {
   align-items: center;
   justify-content: flex-start;
@@ -129,7 +120,6 @@ html.theme-desktop .hero-t1 { font-size: 140px; }
 html.theme-desktop .hero-t2 { font-size: 170px; }
 html.theme-desktop .hero-t3 { font-size: 52px; }
 
-/* Chromatic aberration on KINGS — desktop only */
 html.theme-desktop .hero-t2::before,
 html.theme-desktop .hero-t2::after {
   content: attr(data-text);
@@ -189,9 +179,6 @@ html.theme-mobile .scroll-hint { display: none; }
   50% { opacity: 1; transform: scaleY(1.2); }
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   ABOUT SECTION
-   ═══════════════════════════════════════════════════════════════ */
 #about {
   padding: 60px 0;
   position: relative;
@@ -219,7 +206,6 @@ html.theme-desktop .about-grid {
   margin-bottom: 32px;
 }
 
-/* Mobile stat cards — horizontal scroll row */
 .stats-row {
   overflow-x: auto;
   display: flex;
@@ -257,7 +243,6 @@ html.theme-desktop .about-grid {
   text-transform: uppercase;
 }
 
-/* Desktop stat cards */
 html.theme-desktop .stats-row {
   overflow-x: visible;
   display: grid;
@@ -268,7 +253,6 @@ html.theme-desktop .stats-row {
 html.theme-desktop .stat-card { min-width: 0; flex-shrink: 1; }
 html.theme-desktop .stat-num { font-size: 48px; }
 
-/* Mobile HUD data block */
 .hud-block {
   background: var(--surface);
   border-left: 2px solid var(--red);
@@ -310,7 +294,6 @@ html.theme-desktop .hud-block { display: none; }
   animation: pulseRed 1.5s ease infinite;
 }
 
-/* About canvas (desktop) */
 .about-canvas-wrap {
   width: 100%;
   aspect-ratio: 1;
@@ -324,7 +307,6 @@ html.theme-mobile .about-canvas-wrap { display: none; }
   height: 100% !important;
 }
 
-/* Why TK section */
 #why-tk {
   padding: 40px 0;
   position: relative;
@@ -376,9 +358,6 @@ html.theme-desktop .why-num { font-size: 48px; }
   line-height: 1.5;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   COUNTDOWN SECTION
-   ═══════════════════════════════════════════════════════════════ */
 #countdown {
   padding: 60px 0;
   text-align: center;
@@ -387,7 +366,6 @@ html.theme-desktop .why-num { font-size: 48px; }
 
 html.theme-desktop #countdown { padding: 120px 0; }
 
-/* Mobile: 2x2 grid */
 .countdown-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -432,7 +410,6 @@ html.theme-desktop .count-num { font-size: 80px; }
   text-transform: uppercase;
 }
 
-/* Separators — desktop only */
 .count-sep {
   display: none;
 }
@@ -454,9 +431,6 @@ html.theme-desktop .count-sep {
   color: var(--gray-2);
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   EVENTS — MOBILE ACCORDION
-   ═══════════════════════════════════════════════════════════════ */
 #mobile-events-section {
   padding: 60px 0;
 }
@@ -468,7 +442,6 @@ html.theme-desktop .count-sep {
 
 html.theme-desktop .events-header { padding: 0; }
 
-/* Category filter tabs */
 .event-filter-tabs {
   display: flex;
   gap: 0;
@@ -500,7 +473,6 @@ html.theme-desktop .event-filter-tabs { padding: 0; margin-bottom: 20px; }
   color: var(--white);
 }
 
-/* Accordion list */
 .event-accordion {
   border-top: 1px solid var(--border);
 }
@@ -666,9 +638,6 @@ html.theme-desktop .event-filter-tabs { padding: 0; margin-bottom: 20px; }
 
 .acc-register:hover { background: var(--red-bright); }
 
-/* ═══════════════════════════════════════════════════════════════
-   EVENTS — DESKTOP TWO-COLUMN
-   ═══════════════════════════════════════════════════════════════ */
 #desktop-events-section {
   display: flex;
   min-height: 100vh;
@@ -696,7 +665,6 @@ html.theme-desktop .event-filter-tabs { padding: 0; margin-bottom: 20px; }
   height: 100%;
 }
 
-/* Desktop event cards */
 .event-card-desktop {
   background: rgba(0,0,0,0.65);
   backdrop-filter: blur(16px);
@@ -789,7 +757,6 @@ html.theme-desktop .event-filter-tabs { padding: 0; margin-bottom: 20px; }
 
 .ecd-register:hover { color: var(--red-bright); }
 
-/* Node tooltips */
 .node-tooltip {
   position: absolute;
   background: rgba(0,0,0,0.85);
@@ -817,7 +784,6 @@ html.theme-desktop .event-filter-tabs { padding: 0; margin-bottom: 20px; }
   color: var(--gold);
 }
 
-/* Coordinator strip */
 .event-coord-strip {
   padding: 40px 0;
   background: var(--surface);
@@ -833,9 +799,6 @@ html.theme-desktop .event-filter-tabs { padding: 0; margin-bottom: 20px; }
   margin-bottom: 12px;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   PRIZE SECTION
-   ═══════════════════════════════════════════════════════════════ */
 #prize {
   padding: 60px 0;
   text-align: center;
@@ -894,7 +857,6 @@ html.theme-desktop .prize-num { font-size: 140px; }
   margin-bottom: 48px;
 }
 
-/* Prize tier cards */
 .prize-tiers {
   display: flex;
   flex-direction: column;
@@ -953,9 +915,6 @@ html.theme-desktop .tier-card.bronze { border-top: 2px solid rgba(205,127,50,0.3
   line-height: 1.5;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   SCHEDULE SECTION
-   ═══════════════════════════════════════════════════════════════ */
 #schedule {
   padding: 60px 0;
   position: relative;
@@ -1033,9 +992,6 @@ html.theme-desktop .timeline-dot {
   line-height: 1.6;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   FAQ SECTION
-   ═══════════════════════════════════════════════════════════════ */
 #faq {
   padding: 60px 0;
   position: relative;
@@ -1098,9 +1054,6 @@ html.theme-desktop #faq { padding: 120px 0; }
   padding-bottom: 20px;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   REGISTER SECTION
-   ═══════════════════════════════════════════════════════════════ */
 #register {
   padding: 60px 0;
   position: relative;
@@ -1113,7 +1066,6 @@ html.theme-desktop #register { padding: 120px 0; }
   margin: 0 auto;
 }
 
-/* Registration form fields */
 .form-field {
   margin-bottom: 20px;
 }
@@ -1136,7 +1088,7 @@ html.theme-desktop #register { padding: 120px 0; }
   border: 1px solid var(--border);
   color: var(--white);
   font-family: var(--font-body);
-  font-size: 16px; /* CRITICAL: prevents iOS zoom */
+  font-size: 16px; 
   padding: 14px 16px;
   border-radius: 0;
   outline: none;
@@ -1196,7 +1148,6 @@ html.theme-desktop #register { padding: 120px 0; }
 .form-submit:hover { background: var(--red-bright); }
 .form-submit:active { transform: scale(0.97); }
 
-/* Register steps */
 #register-steps-section {
   padding: 60px 0 80px;
   position: relative;
@@ -1237,7 +1188,6 @@ html.theme-desktop .register-steps { flex-direction: row; }
   line-height: 1.5;
 }
 
-/* Form step cards */
 .form-step { display: none; }
 .form-step.active { display: block; }
 
@@ -1256,9 +1206,6 @@ html.theme-desktop .register-steps { flex-direction: row; }
 .step-dot.active { background: var(--red); }
 .step-dot.done { background: rgba(204,0,0,0.4); }
 
-/* ═══════════════════════════════════════════════════════════════
-   HOLOGRAM / SPIDER EVENTS (desktop legacy — hidden mobile)
-   ═══════════════════════════════════════════════════════════════ */
 #hologram-events-section {
   display: none;
 }
@@ -1267,9 +1214,6 @@ html.theme-desktop #hologram-events-section {
   display: block;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   MOBILE EVENTS LIST (legacy fallback)
-   ═══════════════════════════════════════════════════════════════ */
 #events-mobile-section {
   display: none;
 }

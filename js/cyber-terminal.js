@@ -1,9 +1,4 @@
-/**
- * ============================================================================
- * TECHNOKINGS 2K26 - CYBERPUNK TERMINAL OS
- * Pure JavaScript implementation with inline CSS styling engine
- * ============================================================================
- */
+
 
 class FileSystem {
     constructor() {
@@ -25,9 +20,9 @@ class FileSystem {
         this.cwd = ['root'];
     }
 
-    getDir(pathArray) {
+getDir(pathArray) {
         let current = this;
-        for (let i = 1; i < pathArray.length; i++) { // Skip 'root'
+        for (let i = 1; i < pathArray.length; i++) { 
             if (current[pathArray[i]]) {
                 current = current[pathArray[i]];
             } else {
@@ -37,7 +32,7 @@ class FileSystem {
         return current;
     }
 
-    getCurrentDir() {
+getCurrentDir() {
         let current = this.root;
         for (let i = 1; i < this.cwd.length; i++) {
             current = current[this.cwd[i]];
@@ -52,16 +47,16 @@ class TerminalUI {
         this.history = [];
         this.historyIndex = -1;
         this.fs = new FileSystem();
-        
-        this.buildDOM();
+
+this.buildDOM();
         this.bindEvents();
-        this.printLine("TECHNOKINGS 2K26 // OMNI-OS v1.0", "#FFD700");
+        this.printLine("TECHNOKINGS 2K26 
         this.printLine("Type 'help' for a list of commands.", "#aaaaaa");
     }
 
-    buildDOM() {
-        // Container
-        this.container = document.createElement('div');
+buildDOM() {
+
+this.container = document.createElement('div');
         this.applyStyles(this.container, {
             position: 'fixed',
             top: '0',
@@ -80,8 +75,7 @@ class TerminalUI {
             transition: 'opacity 0.3s ease'
         });
 
-        // Scanline effect
-        this.scanline = document.createElement('div');
+this.scanline = document.createElement('div');
         this.applyStyles(this.scanline, {
             position: 'absolute',
             top: '0', left: '0', width: '100%', height: '100%',
@@ -92,8 +86,7 @@ class TerminalUI {
         });
         this.container.appendChild(this.scanline);
 
-        // Output Area
-        this.outputDiv = document.createElement('div');
+this.outputDiv = document.createElement('div');
         this.applyStyles(this.outputDiv, {
             flexGrow: '1',
             overflowY: 'auto',
@@ -105,8 +98,7 @@ class TerminalUI {
         });
         this.container.appendChild(this.outputDiv);
 
-        // Input Line
-        this.inputWrapper = document.createElement('div');
+this.inputWrapper = document.createElement('div');
         this.applyStyles(this.inputWrapper, {
             display: 'flex',
             alignItems: 'center',
@@ -114,7 +106,7 @@ class TerminalUI {
             color: '#cc0000'
         });
 
-        this.promptSpan = document.createElement('span');
+this.promptSpan = document.createElement('span');
         this.promptSpan.innerText = 'user@tk26:~$ ';
         this.applyStyles(this.promptSpan, {
             marginRight: '10px',
@@ -123,7 +115,7 @@ class TerminalUI {
         });
         this.inputWrapper.appendChild(this.promptSpan);
 
-        this.inputField = document.createElement('input');
+this.inputField = document.createElement('input');
         this.inputField.type = 'text';
         this.applyStyles(this.inputField, {
             flexGrow: '1',
@@ -137,17 +129,17 @@ class TerminalUI {
         });
         this.inputWrapper.appendChild(this.inputField);
 
-        this.container.appendChild(this.inputWrapper);
+this.container.appendChild(this.inputWrapper);
         document.body.appendChild(this.container);
     }
 
-    applyStyles(element, styles) {
+applyStyles(element, styles) {
         for (const [key, value] of Object.entries(styles)) {
             element.style[key] = value;
         }
     }
 
-    toggle() {
+toggle() {
         this.isVisible = !this.isVisible;
         if (this.isVisible) {
             this.container.style.display = 'flex';
@@ -165,7 +157,7 @@ class TerminalUI {
         }
     }
 
-    printLine(text, color = '#cc0000') {
+printLine(text, color = '#cc0000') {
         const line = document.createElement('div');
         line.innerText = text;
         this.applyStyles(line, { color: color });
@@ -173,7 +165,7 @@ class TerminalUI {
         this.outputDiv.scrollTop = this.outputDiv.scrollHeight;
     }
 
-    bindEvents() {
+bindEvents() {
         document.addEventListener('keydown', (e) => {
             if (e.key === '`' || e.key === '~') {
                 e.preventDefault();
@@ -181,7 +173,7 @@ class TerminalUI {
             }
         });
 
-        this.inputField.addEventListener('keydown', (e) => {
+this.inputField.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
                 const cmd = this.inputField.value.trim();
                 if (cmd) {
@@ -209,17 +201,16 @@ class TerminalUI {
             }
         });
 
-        // Keep focus
-        this.container.addEventListener('click', () => {
+this.container.addEventListener('click', () => {
             this.inputField.focus();
         });
     }
 
-    executeCommand(cmdString) {
+executeCommand(cmdString) {
         const args = cmdString.split(' ').filter(Boolean);
         const cmd = args[0].toLowerCase();
 
-        switch(cmd) {
+switch(cmd) {
             case 'help':
                 this.printLine('Available commands:');
                 this.printLine('  help    - Show this message');
@@ -288,13 +279,13 @@ class TerminalUI {
         }
     }
 
-    updatePrompt() {
+updatePrompt() {
         let path = this.fs.cwd.join('/').replace('root', '');
         if (path === '') path = '/';
         this.promptSpan.innerText = `user@tk26:${path}$ `;
     }
 
-    triggerGlitch() {
+triggerGlitch() {
         const glitchColors = ['#cc0000', '#ffffff', '#000000', '#FFD700'];
         let count = 0;
         const interval = setInterval(() => {
@@ -313,7 +304,6 @@ class TerminalUI {
     }
 }
 
-// Initialize on load
 window.addEventListener('load', () => {
     window.SymposiumTerminal = new TerminalUI();
 });

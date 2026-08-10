@@ -1,15 +1,8 @@
-/* ================================================================
-   TECHNOKINGS 2K26 — desktop-immersive.css
-   Immersive 3D Universe UI
-   Floating, minimal, elegant glassmorphism over full-screen 3D
-   ================================================================ */
 
-/* ═══════════════════════════════════════════════════════════════
-   GLOBAL OVERRIDES (Desktop Only)
-   ═══════════════════════════════════════════════════════════════ */
+
 html.theme-desktop body {
-  /* Make all section backgrounds transparent so 3D world shows through */
-  background: transparent !important;
+
+background: transparent !important;
 }
 
 html.theme-desktop section, 
@@ -22,9 +15,6 @@ html.theme-desktop .section-divider {
   display: none !important;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   FLOATING GLASS NAV
-   ═══════════════════════════════════════════════════════════════ */
 html.theme-desktop #navbar {
   height: 80px;
   padding: 0 64px;
@@ -77,9 +67,6 @@ html.theme-desktop .nav-cta:hover {
   box-shadow: 0 0 24px rgba(204, 0, 0, 0.4);
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   CENTERED IMMERSIVE HERO
-   ═══════════════════════════════════════════════════════════════ */
 html.theme-desktop #hero {
   height: 100vh;
   min-height: 100vh;
@@ -192,9 +179,6 @@ html.theme-desktop .btn-ghost:hover {
   border-color: #fff;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   GLASS SECTIONS (About, FAQ, Countdown)
-   ═══════════════════════════════════════════════════════════════ */
 html.theme-desktop .section-title {
   text-align: center;
   font-size: 64px;
@@ -211,7 +195,6 @@ html.theme-desktop .section-eyebrow {
   justify-content: center;
 }
 
-/* About Grid */
 html.theme-desktop .about-grid {
   grid-template-columns: 1fr;
   max-width: 800px;
@@ -227,7 +210,6 @@ html.theme-desktop .about-body {
   margin-bottom: 64px;
 }
 
-/* Glass Cards (Stats, Why, Countdown, Prize) */
 html.theme-desktop .stats-row,
 html.theme-desktop .countdown-grid,
 html.theme-desktop .prize-tiers,
@@ -279,9 +261,6 @@ html.theme-desktop .count-label {
 
 html.theme-desktop .count-sep { display: none; }
 
-/* ═══════════════════════════════════════════════════════════════
-   PRIZE SECTION
-   ═══════════════════════════════════════════════════════════════ */
 html.theme-desktop .prize-amount { margin-bottom: 80px; }
 html.theme-desktop .prize-num {
   font-size: 160px;
@@ -289,9 +268,6 @@ html.theme-desktop .prize-num {
   text-shadow: 0 0 60px rgba(255, 215, 0, 0.3);
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   SCHEDULE (Vertical Floating Line)
-   ═══════════════════════════════════════════════════════════════ */
 html.theme-desktop .timeline-container {
   display: flex;
   flex-direction: column;
@@ -331,9 +307,6 @@ html.theme-desktop .timeline-content {
 }
 html.theme-desktop .timeline-content::before { display: none; }
 
-/* ═══════════════════════════════════════════════════════════════
-   EVENTS DESKTOP
-   ═══════════════════════════════════════════════════════════════ */
 html.theme-desktop .events-left-panel {
   background: rgba(10, 10, 15, 0.4);
   backdrop-filter: blur(24px);
@@ -346,9 +319,6 @@ html.theme-desktop .event-card-desktop {
   border-radius: 12px;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   FOOTER
-   ═══════════════════════════════════════════════════════════════ */
 html.theme-desktop footer {
   border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
   background: rgba(5, 5, 8, 0.8) !important;

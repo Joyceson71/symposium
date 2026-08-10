@@ -1,15 +1,9 @@
-/* ================================================================
-   TECHNOKINGS 2K26 — spider-verse.js
-   Events rendering: Mobile accordion + Desktop cards + Node graph
-   ================================================================ */
 
-// ─── GUARD: wait for IS_MOBILE from script.js ────────────────
-// IS_MOBILE is set synchronously before DOMContentLoaded
 
 document.addEventListener('DOMContentLoaded', () => {
   initCategoryTabs();
 
-  if (IS_MOBILE) {
+if (IS_MOBILE) {
     buildMobileAccordion('technical');
   } else {
     buildDesktopCards('technical');
@@ -17,12 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// ─── CATEGORY TABS ───────────────────────────────────────────
 function initCategoryTabs() {
   const tabs = document.querySelectorAll('.etab');
   if (!tabs.length) return;
 
-  tabs.forEach(tab => {
+tabs.forEach(tab => {
     tab.addEventListener('click', () => {
       tabs.forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
@@ -36,21 +29,20 @@ function initCategoryTabs() {
   });
 }
 
-// ─── MOBILE ACCORDION ────────────────────────────────────────
 function buildMobileAccordion(category) {
   const container = document.getElementById('event-accordion');
   if (!container) return;
   container.innerHTML = '';
 
-  const filtered = (typeof EVENTS !== 'undefined' ? EVENTS : [])
+const filtered = (typeof EVENTS !== 'undefined' ? EVENTS : [])
     .filter(e => e.category === category);
 
-  filtered.forEach(event => {
+filtered.forEach(event => {
     const item = document.createElement('div');
     item.className = 'accordion-item';
     item.dataset.id = event.id;
 
-    item.innerHTML = `
+item.innerHTML = `
       <div class="accordion-header" onclick="toggleAccordion('${event.id}')">
         <div class="accordion-left">
           <span class="acc-icon">${event.icon}</span>
@@ -86,42 +78,38 @@ function buildMobileAccordion(category) {
       </div>
     `;
 
-    container.appendChild(item);
+container.appendChild(item);
   });
 }
 
-// One-at-a-time accordion
 function toggleAccordion(id) {
   const body = document.getElementById('body-' + id);
   if (!body) return;
   const item = body.closest('.accordion-item');
   const isOpen = body.style.maxHeight && body.style.maxHeight !== '0px';
 
-  // Close all
-  document.querySelectorAll('.accordion-body').forEach(b => {
+document.querySelectorAll('.accordion-body').forEach(b => {
     b.style.maxHeight = '0';
     b.style.opacity   = '0';
     b.closest('.accordion-item')?.classList.remove('open');
   });
 
-  // Open this if it was closed
-  if (!isOpen) {
+if (!isOpen) {
     body.style.maxHeight = body.scrollHeight + 'px';
     body.style.opacity   = '1';
     item.classList.add('open');
   }
 }
 
-// ─── DESKTOP EVENT CARDS ─────────────────────────────────────
 function buildDesktopCards(category) {
   const container = document.getElementById('desktop-event-list');
   if (!container) return;
   container.innerHTML = '';
 
-  const filtered = (typeof EVENTS !== 'undefined' ? EVENTS : [])
+const filtered = (typeof EVENTS !== 'undefined' ? EVENTS : [])
     .filter(e => e.category === category);
 
-  filtered.forEach((event, i) => {
+filtered.forEach((event, i) => {
     const card = document.createElement('div');
     card.className = 'event-card-desktop tiltable reveal';
     card.dataset.index = i;
@@ -144,22 +132,20 @@ function buildDesktopCards(category) {
     container.appendChild(card);
   });
 
-  // Re-initialise tilt and reveal on newly added cards
-  if (typeof initCardTilt === 'function') initCardTilt();
+if (typeof initCardTilt === 'function') initCardTilt();
   if (typeof initReveal   === 'function') initReveal();
 }
 
-// ─── DESKTOP EVENTS PAGE INIT ────────────────────────────────
 function initDesktopEvents() {
-  // Node ↔ card hover bridge (fires after world-events.js sets up nodeMeshes)
-  document.addEventListener('nodeHover', e => {
+
+document.addEventListener('nodeHover', e => {
     const idx = e.detail.index;
     document.querySelectorAll('.event-card-desktop').forEach((card, i) => {
       card.style.borderLeftColor = (i === idx) ? 'var(--red)' : 'transparent';
     });
   });
 
-  document.querySelectorAll('.event-card-desktop').forEach((card, i) => {
+document.querySelectorAll('.event-card-desktop').forEach((card, i) => {
     card.addEventListener('mouseenter', () => {
       document.dispatchEvent(new CustomEvent('cardHover', { detail: { index: i } }));
     });
@@ -169,7 +155,6 @@ function initDesktopEvents() {
   });
 }
 
-// ─── LEGACY showEvent (backwards compat) ─────────────────────
 function showEvent(idx) {
   const e = (typeof EVENTS !== 'undefined') ? EVENTS[idx] : null;
   if (!e) return;

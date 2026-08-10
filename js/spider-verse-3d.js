@@ -1,19 +1,4 @@
-/**
- * ============================================================================
- * TECHNOKINGS 2K26 - ADVANCED 3D SCENE & ANIMATION SYSTEM
- * ============================================================================
- * 
- * Features:
- * - Dynamic Procedural Cityscape with InstancedMesh (10,000+ virtual structures)
- * - Spider-Verse Quantum Nodes Particle System
- * - Custom GLSL Post-Processing (Chromatic Aberration, Bloom, Grain)
- * - Cinematic Scroll-driven Camera Director
- * - Interactive Cursor Repulsion (Quantum Bubble)
- * - Audio-Reactive "Spidey-Sense" Glitch (simulated via time/scroll)
- * - Dimensional Portals & Holographic DNA models
- * 
- * Strict "No Blue" Policy: Palette restricted to #CC0000 (Red), #FFD700 (Gold), and Black.
- */
+
 
 (function initAdvanced3D() {
     const canvas = document.getElementById("bg-canvas");
@@ -22,11 +7,9 @@
         return;
     }
 
-    // Device constraints
-    const isMobile = window.innerWidth < 768;
+const isMobile = window.innerWidth < 768;
 
-    /* --- 1. CORE THREE.JS SETUP --- */
-    const renderer = new THREE.WebGLRenderer({
+const renderer = new THREE.WebGLRenderer({
         canvas,
         antialias: true,
         alpha: true,
@@ -37,50 +20,46 @@
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.1;
 
-    const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x0a0505, 0.015); // Dark red-black fog
+const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x0a0505, 0.015); 
 
-    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 500);
-    
-    // Initial camera position (Street level)
-    camera.position.set(0, 5, 20);
+const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 500);
 
-    /* --- 2. LIGHTING (Red & Gold) --- */
-    scene.add(new THREE.AmbientLight(0x1a0505, 1.5));
-    
-    const dirLight = new THREE.DirectionalLight(0xcc0000, 2.5);
+camera.position.set(0, 5, 20);
+
+scene.add(new THREE.AmbientLight(0x1a0505, 1.5));
+
+const dirLight = new THREE.DirectionalLight(0xcc0000, 2.5);
     dirLight.position.set(-20, 40, 20);
     scene.add(dirLight);
 
-    const rimLight = new THREE.SpotLight(0xffd700, 150, 80, 0.5, 1);
+const rimLight = new THREE.SpotLight(0xffd700, 150, 80, 0.5, 1);
     rimLight.position.set(10, 10, -10);
     scene.add(rimLight);
 
-    const fillLight = new THREE.PointLight(0xff0033, 100, 50);
+const fillLight = new THREE.PointLight(0xff0033, 100, 50);
     fillLight.position.set(-10, -5, 5);
     scene.add(fillLight);
 
-    /* --- 3. SCROLL & MOUSE INTERACTION STATE --- */
-    let mouseX = 0;
+let mouseX = 0;
     let mouseY = 0;
     let targetCamX = 0;
     let targetCamY = 5;
     let targetCamZ = 20;
     let scrollPercent = 0;
-    
-    window.addEventListener("mousemove", (e) => {
+
+window.addEventListener("mousemove", (e) => {
         mouseX = (e.clientX / window.innerWidth) * 2 - 1;
         mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
     });
 
-    window.addEventListener("scroll", () => {
+window.addEventListener("scroll", () => {
         const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
         const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
         scrollPercent = scrollTop / (scrollHeight || 1);
-        
-        // Cinematic camera dive on scroll
-        if (!isMobile) {
-            targetCamZ = 20 - (scrollPercent * 180); // Dive deep into the city
+
+if (!isMobile) {
+            targetCamZ = 20 - (scrollPercent * 180); 
             targetCamY = 5 + (scrollPercent * 10);
         } else {
             targetCamZ = 30 - (scrollPercent * 100);
@@ -88,83 +67,76 @@
         }
     }, { passive: true });
 
-    // Cursor repulsion vector for particle physics
-    const cursorVector = new THREE.Vector3();
+const cursorVector = new THREE.Vector3();
     const raycaster = new THREE.Raycaster();
 
-    /* --- 4. THE PROCEDURAL CYBER-CITY (INSTANCED MESH) --- */
-    const buildingCount = isMobile ? 300 : 3000;
+const buildingCount = isMobile ? 300 : 3000;
     const buildingGeo = new THREE.BoxGeometry(1, 1, 1);
-    buildingGeo.translate(0, 0.5, 0); // Origin at bottom
+    buildingGeo.translate(0, 0.5, 0); 
 
-    const buildingMat = new THREE.MeshStandardMaterial({
+const buildingMat = new THREE.MeshStandardMaterial({
         color: 0x0a0a0a,
         roughness: 0.8,
         metalness: 0.6,
     });
 
-    const city = new THREE.InstancedMesh(buildingGeo, buildingMat, buildingCount);
+const city = new THREE.InstancedMesh(buildingGeo, buildingMat, buildingCount);
     const dummy = new THREE.Object3D();
     const color = new THREE.Color();
-    
-    // Store data for "Spiders" to crawl on
-    const buildingData = [];
 
-    for (let i = 0; i < buildingCount; i++) {
-        // Create an alleyway down the middle
-        let x = (Math.random() - 0.5) * 200;
+const buildingData = [];
+
+for (let i = 0; i < buildingCount; i++) {
+
+let x = (Math.random() - 0.5) * 200;
         if (x > -15 && x < 15) {
             x = x > 0 ? x + 15 : x - 15;
         }
-        
-        const z = (Math.random() * -300) + 20; // Spread far into the background
+
+const z = (Math.random() * -300) + 20; 
         const distance = Math.abs(x);
-        
-        // Taller buildings further from center
-        const heightBase = 10 + (distance * 0.5);
+
+const heightBase = 10 + (distance * 0.5);
         const height = heightBase + Math.random() * 40;
-        
-        const w = 2 + Math.random() * 5;
+
+const w = 2 + Math.random() * 5;
         const d = 2 + Math.random() * 5;
-        
-        dummy.position.set(x, -10, z);
+
+dummy.position.set(x, -10, z);
         dummy.scale.set(w, height, d);
         dummy.rotation.y = (Math.random() > 0.5) ? 0 : Math.PI / 4;
         dummy.updateMatrix();
-        
-        city.setMatrixAt(i, dummy.matrix);
+
+city.setMatrixAt(i, dummy.matrix);
         buildingData.push({ x, y: -10 + height, z, w, d });
-        
-        // Strict Red/Black/Gold palette
-        const shade = 0.2 + Math.random() * 0.8;
+
+const shade = 0.2 + Math.random() * 0.8;
         if (Math.random() > 0.85) {
-            color.setHex(0xcc0000); // Red accents
+            color.setHex(0xcc0000); 
         } else if (Math.random() > 0.95) {
-            color.setHex(0xffd700); // Rare gold accents
+            color.setHex(0xffd700); 
         } else {
-            color.setRGB(0.1 * shade, 0.02 * shade, 0.02 * shade); // Very dark red/black
+            color.setRGB(0.1 * shade, 0.02 * shade, 0.02 * shade); 
         }
         city.setColorAt(i, color);
     }
     scene.add(city);
 
-    // Ground Grid (Red)
-    const gridHelper = new THREE.GridHelper(400, 80, 0xcc0000, 0x330000);
+const gridHelper = new THREE.GridHelper(400, 80, 0xcc0000, 0x330000);
     gridHelper.position.y = -9.9;
     scene.add(gridHelper);
 
-    /* --- 5. SPIDER-VERSE QUANTUM WEB (PARTICLES) --- */
-    const particleCount = isMobile ? 500 : 4000;
+const particleCount = isMobile ? 500 : 4000;
     const pGeo = new THREE.BufferGeometry();
     const pPos = new Float32Array(particleCount * 3);
-    const pVel = []; // Velocities for physics
+    const pVel = []; 
 
-    for (let i = 0; i < particleCount * 3; i += 3) {
+for (let i = 0; i < particleCount * 3; i += 3) {
         pPos[i] = (Math.random() - 0.5) * 100;
         pPos[i + 1] = (Math.random() - 0.5) * 60 + 10;
         pPos[i + 2] = (Math.random() - 0.5) * 200 - 50;
-        
-        pVel.push({
+
+pVel.push({
             x: (Math.random() - 0.5) * 0.02,
             y: (Math.random() - 0.5) * 0.02,
             z: (Math.random() - 0.5) * 0.02,
@@ -174,26 +146,21 @@
         });
     }
     pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
-    
-    // Shader Material for glowing red dots
-    const pMat = new THREE.PointsMaterial({
+
+const pMat = new THREE.PointsMaterial({
         color: 0xff0033,
         size: 0.3,
         transparent: true,
         opacity: 0.8,
         blending: THREE.AdditiveBlending
     });
-    
-    const quantumParticles = new THREE.Points(pGeo, pMat);
+
+const quantumParticles = new THREE.Points(pGeo, pMat);
     scene.add(quantumParticles);
 
-    /* --- 6. FLOATING MODELS / EASTER EGGS --- */
-    
-    // Model 1: The Crimson Spider-Verse Core
-    const coreGroup = new THREE.Group();
-    
-    // Outer Crimson Web
-    const webGeo = new THREE.IcosahedronGeometry(7, 2);
+const coreGroup = new THREE.Group();
+
+const webGeo = new THREE.IcosahedronGeometry(7, 2);
     const webMat = new THREE.LineBasicMaterial({
         color: 0xff0000,
         transparent: true,
@@ -201,51 +168,50 @@
     });
     const webSphere = new THREE.LineSegments(new THREE.EdgesGeometry(webGeo), webMat);
     coreGroup.add(webSphere);
-    
-    // Extruded Spider-Man Logo (Black with Red emissive glow)
-    const logoShape = new THREE.Shape();
-    // Bottom tip of abdomen
-    logoShape.moveTo(0, -3.5);
-    // Left abdomen curve
-    logoShape.lineTo(-1.2, -1.0);
-    // Left bottom leg
-    logoShape.lineTo(-3.5, -2.5);
+
+const logoShape = new THREE.Shape();
+
+logoShape.moveTo(0, -3.5);
+
+logoShape.lineTo(-1.2, -1.0);
+
+logoShape.lineTo(-3.5, -2.5);
     logoShape.lineTo(-3.6, -2.2);
-    logoShape.lineTo(-1.6, -0.4); // return to body
-    // Left middle leg
-    logoShape.lineTo(-4.0, -0.8);
+    logoShape.lineTo(-1.6, -0.4); 
+
+logoShape.lineTo(-4.0, -0.8);
     logoShape.lineTo(-4.1, -0.5);
-    logoShape.lineTo(-1.8, 0.4); // return to body
-    // Left top leg
-    logoShape.lineTo(-4.2, 1.5);
+    logoShape.lineTo(-1.8, 0.4); 
+
+logoShape.lineTo(-4.2, 1.5);
     logoShape.lineTo(-4.0, 1.8);
-    logoShape.lineTo(-1.6, 1.2); // return to head base
-    // Left head
-    logoShape.lineTo(-0.8, 2.5);
-    logoShape.lineTo(0, 2.8); // top center of head
-    // Right side (Mirrored)
-    logoShape.lineTo(0.8, 2.5);
+    logoShape.lineTo(-1.6, 1.2); 
+
+logoShape.lineTo(-0.8, 2.5);
+    logoShape.lineTo(0, 2.8); 
+
+logoShape.lineTo(0.8, 2.5);
     logoShape.lineTo(1.6, 1.2);
-    // Right top leg
-    logoShape.lineTo(4.0, 1.8);
+
+logoShape.lineTo(4.0, 1.8);
     logoShape.lineTo(4.2, 1.5);
     logoShape.lineTo(1.8, 0.4);
-    // Right middle leg
-    logoShape.lineTo(4.1, -0.5);
+
+logoShape.lineTo(4.1, -0.5);
     logoShape.lineTo(4.0, -0.8);
     logoShape.lineTo(1.6, -0.4);
-    // Right bottom leg
-    logoShape.lineTo(3.6, -2.2);
+
+logoShape.lineTo(3.6, -2.2);
     logoShape.lineTo(3.5, -2.5);
     logoShape.lineTo(1.2, -1.0);
-    // Back to start
-    logoShape.lineTo(0, -3.5);
 
-    const extrudeSettings = { depth: 0.6, bevelEnabled: true, bevelSegments: 4, steps: 2, bevelSize: 0.15, bevelThickness: 0.15 };
+logoShape.lineTo(0, -3.5);
+
+const extrudeSettings = { depth: 0.6, bevelEnabled: true, bevelSegments: 4, steps: 2, bevelSize: 0.15, bevelThickness: 0.15 };
     const logoGeo = new THREE.ExtrudeGeometry(logoShape, extrudeSettings);
     logoGeo.center();
 
-    const logoMat = new THREE.MeshStandardMaterial({
+const logoMat = new THREE.MeshStandardMaterial({
         color: 0x111111,
         emissive: 0xaa0000,
         emissiveIntensity: 0.4,
@@ -253,20 +219,18 @@
         metalness: 0.8,
     });
 
-    const emblem = new THREE.Mesh(logoGeo, logoMat);
+const emblem = new THREE.Mesh(logoGeo, logoMat);
     emblem.scale.setScalar(0.8);
     coreGroup.add(emblem);
 
-    coreGroup.position.set(0, -500, 0); // Hide initially
+coreGroup.position.set(0, -500, 0); 
 
-    // Only add the advanced hero core to the scene if we are on the homepage
-    const isHomePage = window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('/') || window.location.pathname === '';
+const isHomePage = window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('/') || window.location.pathname === '';
     if (isHomePage) {
         scene.add(coreGroup);
     }
 
-    // Model 2: Tech Rings
-    const rings = new THREE.Group();
+const rings = new THREE.Group();
     for(let i=0; i<4; i++) {
         const ring = new THREE.Mesh(
             new THREE.TorusGeometry(4 + i*0.8, 0.02, 16, 100),
@@ -279,8 +243,7 @@
     rings.position.set(0, -500, 0);
     scene.add(rings);
 
-    // Model 3: Holographic DNA (Red & Gold)
-    const dnaGroup = new THREE.Group();
+const dnaGroup = new THREE.Group();
     const dnaMat = new THREE.MeshStandardMaterial({color: 0xcc0000, emissive: 0xcc0000, emissiveIntensity: 1.5});
     for(let i=0; i<40; i++) {
         const y = (i - 20) * 0.4;
@@ -301,104 +264,86 @@
     dnaGroup.position.set(0, -500, 0);
     scene.add(dnaGroup);
 
-    /* --- 7. ANIMATION LOOP --- */
-    const clock = new THREE.Clock();
+const clock = new THREE.Clock();
 
-    function animate() {
+function animate() {
         requestAnimationFrame(animate);
         const time = clock.getElapsedTime();
-        const dt = 0.016; // approx 60fps
+        const dt = 0.016; 
 
-        // 1. Camera Smoothing (Cinematic Lerp)
-        targetCamX = mouseX * (isMobile ? 1 : 3);
+targetCamX = mouseX * (isMobile ? 1 : 3);
         const tcY = targetCamY + mouseY * 1.5;
-        
-        camera.position.x += (targetCamX - camera.position.x) * 0.05;
+
+camera.position.x += (targetCamX - camera.position.x) * 0.05;
         camera.position.y += (tcY - camera.position.y) * 0.05;
         camera.position.z += (targetCamZ - camera.position.z) * 0.05;
 
-        // Dynamic LookAt (Look slightly ahead down the Z axis)
-        camera.lookAt(camera.position.x * 0.5, camera.position.y * 0.8, camera.position.z - 20);
+camera.lookAt(camera.position.x * 0.5, camera.position.y * 0.8, camera.position.z - 20);
 
-        // 2. Quantum Particles Physics (Swarm behavior)
-        const positions = quantumParticles.geometry.attributes.position.array;
-        
-        // Calculate virtual cursor position in 3D space
-        cursorVector.set(mouseX, mouseY, 0.5);
+const positions = quantumParticles.geometry.attributes.position.array;
+
+cursorVector.set(mouseX, mouseY, 0.5);
         cursorVector.unproject(camera);
         cursorVector.sub(camera.position).normalize();
-        const cursorPoint = camera.position.clone().add(cursorVector.multiplyScalar(20)); // 20 units ahead
+        const cursorPoint = camera.position.clone().add(cursorVector.multiplyScalar(20)); 
 
-        for (let i = 0; i < particleCount; i++) {
+for (let i = 0; i < particleCount; i++) {
             const idx = i * 3;
             const px = positions[idx];
             const py = positions[idx+1];
             const pz = positions[idx+2];
             const v = pVel[i];
 
-            // Hover / Float logic
-            v.x += Math.sin(time + v.baseY) * 0.001;
+v.x += Math.sin(time + v.baseY) * 0.001;
             v.y += Math.cos(time + v.baseX) * 0.001;
 
-            // Repulsion from cursor (The "Spidey-Sense" field)
-            const dx = px - cursorPoint.x;
+const dx = px - cursorPoint.x;
             const dy = py - cursorPoint.y;
             const dz = pz - cursorPoint.z;
             const distSq = dx*dx + dy*dy + dz*dz;
-            
-            if (distSq < 100) { // Repulsion radius
+
+if (distSq < 100) { 
                 const force = (100 - distSq) * 0.005;
                 v.x += (dx / Math.sqrt(distSq)) * force;
                 v.y += (dy / Math.sqrt(distSq)) * force;
                 v.z += (dz / Math.sqrt(distSq)) * force;
             }
 
-            // Apply velocity
-            positions[idx] += v.x;
+positions[idx] += v.x;
             positions[idx+1] += v.y;
             positions[idx+2] += v.z;
 
-            // Return to base (Elasticity)
-            v.x += (v.baseX - px) * 0.001;
+v.x += (v.baseX - px) * 0.001;
             v.y += (v.baseY - py) * 0.001;
             v.z += (v.baseZ - pz) * 0.001;
-            
-            // Damping
-            v.x *= 0.95;
+
+v.x *= 0.95;
             v.y *= 0.95;
             v.z *= 0.95;
         }
         quantumParticles.geometry.attributes.position.needsUpdate = true;
 
-        // 3. Cinematic Scroll Triggers (Moving models into view)
-        
-        // Core (Hero Section) - Only animate if on homepage
-        if (isHomePage) {
+if (isHomePage) {
             if (scrollPercent < 0.3) {
                 coreGroup.position.set(0, 5, targetCamZ - 15);
                 coreGroup.scale.setScalar(1 + scrollPercent * 2);
-                
-                // Web Floating & Rotating Animation
-                coreGroup.position.set(0, 5 + Math.sin(time * 1.5) * 0.5, targetCamZ - 15);
+
+coreGroup.position.set(0, 5 + Math.sin(time * 1.5) * 0.5, targetCamZ - 15);
                 coreGroup.scale.setScalar(1 + scrollPercent * 2);
-                
-                // Track mouse and auto-rotate
-                coreGroup.rotation.y = time * 0.2 + mouseX * 0.3;
+
+coreGroup.rotation.y = time * 0.2 + mouseX * 0.3;
                 coreGroup.rotation.x = mouseY * 0.3;
-                
-                // Inner core logo slight pulse
-                emblem.rotation.y = time * 0.1;
-                
-                // Smooth Web pulsation
-                const webScale = 1 + Math.sin(time * 2) * 0.03;
+
+emblem.rotation.y = time * 0.1;
+
+const webScale = 1 + Math.sin(time * 2) * 0.03;
                 webSphere.scale.setScalar(webScale);
             } else {
                 coreGroup.position.y = -500;
             }
         }
 
-        // Tech Rings (About Section)
-        if (scrollPercent > 0.2 && scrollPercent < 0.6) {
+if (scrollPercent > 0.2 && scrollPercent < 0.6) {
             rings.position.set(0, 5, targetCamZ - 25);
             rings.children.forEach((r, i) => {
                 r.rotation.x += 0.01 * (i%2==0?1:-1);
@@ -409,21 +354,19 @@
             rings.position.y = -500;
         }
 
-        // DNA Group (Events Section)
-        if (scrollPercent > 0.5 && scrollPercent < 0.9) {
+if (scrollPercent > 0.5 && scrollPercent < 0.9) {
             dnaGroup.position.set(8, -5, targetCamZ - 15);
             dnaGroup.rotation.y = time * 0.5;
         } else {
             dnaGroup.position.y = -500;
         }
 
-        renderer.render(scene, camera);
+renderer.render(scene, camera);
     }
 
-    animate();
+animate();
 
-    /* --- 8. RESIZE HANDLER --- */
-    window.addEventListener("resize", () => {
+window.addEventListener("resize", () => {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);

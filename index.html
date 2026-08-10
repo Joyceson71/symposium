@@ -8,8 +8,8 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=Orbitron:wght@400;700;900&display=swap"
     rel="stylesheet" />
-  <!-- Three.js — loaded synchronously for desktop; SKIP_3D guard prevents waste on mobile -->
-  <script>
+
+<script>
     // Synchronous detection runs before anything else
     const _isMob = window.matchMedia('(max-width:768px)').matches || ('ontouchstart' in window && window.innerWidth <= 768);
     if (!_isMob) {
@@ -24,17 +24,12 @@
 </head>
 
 <body>
-  <!-- 3D world canvas — desktop only (hidden mobile via CSS) -->
-  <canvas id="world-canvas"></canvas>
 
+<canvas id="world-canvas"></canvas>
 
+<div id="spider-sense-overlay"></div>
 
-  <!-- Spider-sense overlay -->
-
-  <div id="spider-sense-overlay"></div>
-
-  <!-- LOADER -->
-  <div id="loader">
+<div id="loader">
     <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
       <g stroke="#CC0000" stroke-width="1">
         <line class="web-path" x1="100" y1="100" x2="100" y2="5"   style="animation-delay:0s"/>
@@ -52,10 +47,9 @@
     <div id="loader-bar"><div id="loader-fill"></div></div>
   </div>
 
-  <canvas id="confetti-canvas"></canvas>
+<canvas id="confetti-canvas"></canvas>
 
-  <!-- SUCCESS MODAL -->
-  <div id="success-modal">
+<div id="success-modal">
     <div class="success-card">
       <div class="success-check">✅</div>
       <h2 class="success-title">YOU'RE IN,<br/><span id="success-name">CHAMP</span>!</h2>
@@ -66,8 +60,7 @@
     </div>
   </div>
 
-  <!-- EASTER EGG MODAL -->
-  <div id="easter-egg-modal" class="hidden">
+<div id="easter-egg-modal" class="hidden">
     <div class="easter-egg-content">
       <h2 class="glitch-text" data-text="DIMENSION 42 FOUND">DIMENSION 42 FOUND</h2>
       <p>You've discovered a hidden multiverse portal!</p>
@@ -76,8 +69,7 @@
     </div>
   </div>
 
-  <!-- ══ DESKTOP TOP NAV ══ -->
-  <nav id="navbar" class="desktop-only">
+<nav id="navbar" class="desktop-only">
     <div id="scroll-progress"></div>
     <a href="#" class="nav-logo">
       <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
@@ -98,8 +90,7 @@
     <button class="nav-cta" onclick="window.location.href='register.html'">REGISTER NOW</button>
   </nav>
 
-  <!-- ══ MOBILE TOP BAR ══ -->
-  <div id="mobile-top-bar" class="mobile-only">
+<div id="mobile-top-bar" class="mobile-only">
     <a href="#" class="mob-logo">
       <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
         <circle cx="16" cy="16" r="14" stroke="#CC0000" stroke-width="1.5"/>
@@ -110,10 +101,9 @@
     </a>
   </div>
 
-  <!-- ══ HERO ══ -->
-  <section id="hero">
-    <!-- Corner web decorations -->
-    <svg class="web-corner tl" width="100" height="100" viewBox="0 0 100 100" fill="none">
+<section id="hero">
+
+<svg class="web-corner tl" width="100" height="100" viewBox="0 0 100 100" fill="none">
       <path d="M0 0 L100 50 M0 0 L50 100 M0 0 L80 80 M0 0 L0 100 M0 0 L100 0" stroke="#CC0000" stroke-width="0.5"/>
       <circle cx="0" cy="0" r="30" stroke="#CC0000" stroke-width="0.5" fill="none"/>
       <circle cx="0" cy="0" r="60" stroke="#CC0000" stroke-width="0.5" fill="none"/>
@@ -124,7 +114,7 @@
       <circle cx="0" cy="0" r="60" stroke="#CC0000" stroke-width="0.5" fill="none"/>
     </svg>
 
-    <div class="hero-content">
+<div class="hero-content">
       <p class="hero-eyebrow">ECE DEPT SYMPOSIUM · SEPT 18, 2026</p>
       <div class="hero-title">
         <span class="hero-t1">TECHNO</span>
@@ -138,16 +128,13 @@
       </div>
     </div>
 
-
-
-    <div class="scroll-hint">
+<div class="scroll-hint">
       <span>SCROLL TO EXPLORE</span>
       <div class="scroll-arrow"></div>
     </div>
   </section>
 
-  <!-- ══ ABOUT ══ -->
-  <section id="about">
+<section id="about">
     <div class="container">
       <div class="about-grid">
         <div class="reveal-left">
@@ -176,8 +163,8 @@
               <div class="stat-label">Event Date</div>
             </div>
           </div>
-          <!-- Mobile HUD block — hidden desktop -->
-          <div class="hud-block mobile-only">
+
+<div class="hud-block mobile-only">
             <div class="hud-row">
               <span class="hud-key">DATE</span>
               <span class="hud-val">September 18, 2026</span>
@@ -201,12 +188,11 @@
           </div>
         </div>
 
-      </div>
+</div>
     </div>
   </section>
 
-  <!-- Section divider -->
-  <div class="section-divider">
+<div class="section-divider">
     <svg viewBox="0 0 1200 40" preserveAspectRatio="none" width="100%" height="40">
       <path d="M0 20 L200 20 L220 5 L280 5 L300 20 L600 20 L620 35 L680 35 L700 20 L1200 20"
             stroke="#CC0000" stroke-width="1.5" fill="none" opacity="0.6"/>
@@ -215,8 +201,7 @@
     </svg>
   </div>
 
-  <!-- ══ WHY TECHNOKINGS ══ -->
-  <section id="why-tk">
+<section id="why-tk">
     <div class="container">
       <div class="why-grid">
         <div class="why-card reveal">
@@ -238,8 +223,7 @@
     </div>
   </section>
 
-  <!-- Section divider -->
-  <div class="section-divider">
+<div class="section-divider">
     <svg viewBox="0 0 1200 40" preserveAspectRatio="none" width="100%" height="40">
       <path d="M0 20 L200 20 L220 5 L280 5 L300 20 L600 20 L620 35 L680 35 L700 20 L1200 20"
             stroke="#CC0000" stroke-width="1.5" fill="none" opacity="0.6"/>
@@ -248,8 +232,7 @@
     </svg>
   </div>
 
-  <!-- ══ COUNTDOWN ══ -->
-  <section id="countdown">
+<section id="countdown">
     <div class="container">
       <p class="section-eyebrow" style="text-align:center">THE COUNTDOWN HAS BEGUN</p>
       <h2 class="section-title" style="text-align:center">
@@ -278,12 +261,10 @@
       </div>
       <p class="countdown-sub">September 18, 2026 • Kings Engineering College • ECE Department</p>
 
-
-    </div>
+</div>
   </section>
 
-  <!-- ══ PRIZE POOL ══ -->
-  <section id="prize">
+<section id="prize">
     <canvas id="prize-canvas" class="desktop-only"></canvas>
     <div class="prize-content reveal">
       <p class="section-eyebrow" style="color:var(--gold)">TOTAL PRIZE POOL</p>
@@ -318,17 +299,16 @@
     </div>
   </section>
 
-  <!-- ══ SCHEDULE ══ -->
-  <section id="schedule">
+<section id="schedule">
     <div class="container">
       <div class="events-header reveal" style="text-align:center;margin-bottom:56px">
         <p class="section-eyebrow">THE DAY'S FLOW</p>
         <h2 class="section-title">EVENT<br/><span class="red">SCHEDULE</span></h2>
       </div>
 
-      <div class="timeline-container">
+<div class="timeline-container">
 
-        <div class="timeline-line"></div>
+<div class="timeline-line"></div>
         <div class="timeline-item reveal-left">
           <div class="timeline-dot"></div>
           <div class="timeline-content">
@@ -381,8 +361,7 @@
     </div>
   </section>
 
-  <!-- ══ FAQ ══ -->
-  <section id="faq">
+<section id="faq">
     <div class="container">
       <div class="events-header reveal" style="text-align:center;margin-bottom:56px">
         <p class="section-eyebrow">GOT QUESTIONS?</p>
@@ -429,8 +408,7 @@
     </div>
   </section>
 
-  <!-- ══ FOOTER ══ -->
-  <footer>
+<footer>
     <div class="container">
       <div class="footer-grid">
         <div>
@@ -468,8 +446,7 @@
     </div>
   </footer>
 
-  <!-- ══ MOBILE BOTTOM NAV ══ -->
-  <nav id="mobile-bottom-nav" class="mobile-only">
+<nav id="mobile-bottom-nav" class="mobile-only">
     <a href="index.html" class="mob-nav-tab active" id="tab-home">
       <span class="mob-tab-icon">🏠</span>
       <span class="mob-tab-label">HOME</span>
@@ -488,17 +465,16 @@
     </a>
   </nav>
 
-  <!-- ══ SCRIPTS ══ -->
-  <script src="js/script.js"></script>
+<script src="js/script.js"></script>
   <script src="js/events-data.js"></script>
   <script src="js/spider-verse.js"></script>
 
-  <script src="js/interactions.js"></script>
+<script src="js/interactions.js"></script>
   <script src="js/symposium-core.js"></script>
   <script src="js/registration-engine.js"></script>
   <script src="js/dom-animations.js"></script>
-  <!-- GSAP — desktop only -->
-  <script>
+
+<script>
     if (!window.SKIP_3D) {
       document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"><\/script>');
       document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"><\/script>');
@@ -508,8 +484,8 @@
       document.write('<script src="js/spider-physics.js"><\/script>');
     }
   </script>
-  <!-- 3D World engine — desktop only -->
-  <script>
+
+<script>
     if (!window.SKIP_3D) {
       const s = document.createElement('script');
       s.src = 'js/world.js';

@@ -1,5 +1,4 @@
-// events-data.js — TechnoKings 2K26 centralised event data
-// Must be loaded BEFORE any script that calls showEvent() or references EVENTS
+
 
 const EVENTS = [
   {

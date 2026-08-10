@@ -1,35 +1,24 @@
-/* ================================================================
-   TECHNOKINGS 2K26 — style.css
-   Dual-theme foundation: Mobile-first, Desktop override via html.theme-desktop
-   ================================================================ */
 
-/* ═══════════════════════════════════════════════════════════════
-   1. CSS TOKENS
-   ═══════════════════════════════════════════════════════════════ */
+
 :root {
-  /* Core palette */
-  --red:        #CC0000;
+
+--red:        #CC0000;
   --red-bright: #FF2233;
   --gold:       #FFD700;
   --white:      #FFFFFF;
   --black:      #000000;
 
-  /* Mobile surfaces */
-  --surface:    #111111;
+--surface:    #111111;
   --surface-2:  #1A1A1A;
   --border:     #222222;
   --gray-1:     #AAAAAA;
   --gray-2:     #666666;
 
-  /* Fonts */
-  --font-display: 'Bebas Neue', sans-serif;
+--font-display: 'Bebas Neue', sans-serif;
   --font-ui:      'Orbitron', monospace;
   --font-body:    'Inter', sans-serif;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   2. RESET + BASE
-   ═══════════════════════════════════════════════════════════════ */
 *, *::before, *::after {
   margin: 0;
   padding: 0;
@@ -48,8 +37,8 @@ body {
   font-family: var(--font-body);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
-  /* Mobile: bottom nav padding */
-  padding-bottom: calc(64px + env(safe-area-inset-bottom));
+
+padding-bottom: calc(64px + env(safe-area-inset-bottom));
 }
 
 html.theme-desktop body {
@@ -68,16 +57,10 @@ a {
 
 ul { list-style: none; }
 
-/* ═══════════════════════════════════════════════════════════════
-   3. THEME SPLIT UTILITIES
-   ═══════════════════════════════════════════════════════════════ */
-/* Mobile-only: hidden on desktop */
 html.theme-desktop .mobile-only { display: none !important; }
 
-/* Desktop-only: hidden on mobile */
 html.theme-mobile .desktop-only { display: none !important; }
 
-/* World canvas — desktop only */
 #world-canvas {
   position: fixed;
   inset: 0;
@@ -88,15 +71,11 @@ html.theme-mobile .desktop-only { display: none !important; }
 }
 html.theme-mobile #world-canvas { display: none !important; }
 
-/* Content layers sit above 3D canvas */
 nav, section, footer, #mobile-bottom-nav, #loader, #success-modal {
   position: relative;
   z-index: 1;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   4. TYPOGRAPHY SCALE
-   ═══════════════════════════════════════════════════════════════ */
 .section-eyebrow {
   font-family: var(--font-ui);
   font-size: 9px;
@@ -118,16 +97,10 @@ nav, section, footer, #mobile-bottom-nav, #loader, #success-modal {
 
 .red { color: var(--red); }
 
-/* ═══════════════════════════════════════════════════════════════
-   5. SCROLLBAR (desktop only)
-   ═══════════════════════════════════════════════════════════════ */
 html.theme-desktop ::-webkit-scrollbar { width: 4px; }
 html.theme-desktop ::-webkit-scrollbar-track { background: #000; }
 html.theme-desktop ::-webkit-scrollbar-thumb { background: var(--red); border-radius: 2px; }
 
-/* ═══════════════════════════════════════════════════════════════
-   6. LOADER
-   ═══════════════════════════════════════════════════════════════ */
 #loader {
   position: fixed;
   inset: 0;
@@ -189,9 +162,6 @@ html.theme-desktop ::-webkit-scrollbar-thumb { background: var(--red); border-ra
   to { width: 100%; }
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   8. SUCCESS MODAL
-   ═══════════════════════════════════════════════════════════════ */
 #success-modal {
   position: fixed;
   inset: 0;
@@ -271,9 +241,6 @@ html.theme-desktop ::-webkit-scrollbar-thumb { background: var(--red); border-ra
 
 .success-close:hover { background: var(--red-bright); }
 
-/* ═══════════════════════════════════════════════════════════════
-   9. WEB CORNER DECORATIONS
-   ═══════════════════════════════════════════════════════════════ */
 .web-corner {
   position: absolute;
   opacity: 0.08;
@@ -282,9 +249,6 @@ html.theme-desktop ::-webkit-scrollbar-thumb { background: var(--red); border-ra
 .web-corner.tl { top: 0; left: 0; }
 .web-corner.br { bottom: 0; right: 0; transform: rotate(180deg); }
 
-/* ═══════════════════════════════════════════════════════════════
-   10. SCROLL REVEAL
-   ═══════════════════════════════════════════════════════════════ */
 .reveal,
 .reveal-left,
 .reveal-right {
@@ -303,9 +267,6 @@ html.theme-desktop ::-webkit-scrollbar-thumb { background: var(--red); border-ra
   transform: none;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   11. MOBILE BOTTOM NAV
-   ═══════════════════════════════════════════════════════════════ */
 #mobile-bottom-nav {
   position: fixed;
   bottom: 0; left: 0; right: 0;
@@ -319,7 +280,6 @@ html.theme-desktop ::-webkit-scrollbar-thumb { background: var(--red); border-ra
   z-index: 9000;
 }
 
-/* Hidden on desktop */
 html.theme-desktop #mobile-bottom-nav { display: none; }
 
 .mob-nav-tab {
@@ -373,9 +333,6 @@ html.theme-desktop #mobile-bottom-nav { display: none; }
   text-transform: uppercase;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   12. DESKTOP TOP NAV
-   ═══════════════════════════════════════════════════════════════ */
 #navbar {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -392,7 +349,6 @@ html.theme-desktop #mobile-bottom-nav { display: none; }
   transition: border-color 0.3s;
 }
 
-/* Hide top nav on mobile (replaced by bottom bar) */
 html.theme-mobile #navbar { display: none; }
 
 #navbar.scrolled {
@@ -400,7 +356,6 @@ html.theme-mobile #navbar { display: none; }
   background: rgba(0,0,0,0.92);
 }
 
-/* Scroll progress bar inside nav */
 #scroll-progress {
   position: absolute;
   bottom: 0; left: 0;
@@ -477,7 +432,6 @@ html.theme-mobile #navbar { display: none; }
 
 .nav-cta:hover { background: var(--red-bright); }
 
-/* Mobile top bar (minimal — replaces #navbar on mobile) */
 #mobile-top-bar {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -509,14 +463,10 @@ html.theme-desktop #mobile-top-bar { display: none; }
   color: var(--white);
 }
 
-/* Body top padding for mobile top bar */
 html.theme-mobile body {
   padding-top: 56px;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   13. MOBILE MENU DRAWER (fallback, desktop hamburger hidden)
-   ═══════════════════════════════════════════════════════════════ */
 #mobile-menu {
   position: fixed;
   inset: 0;
@@ -568,9 +518,6 @@ html.theme-mobile body {
   transition: transform 0.3s;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   14. BUTTONS (shared)
-   ═══════════════════════════════════════════════════════════════ */
 .btn-primary {
   display: inline-flex;
   align-items: center;
@@ -619,9 +566,6 @@ html.theme-mobile body {
   color: var(--white);
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   15. CONTAINER
-   ═══════════════════════════════════════════════════════════════ */
 .container {
   width: 100%;
   max-width: 1200px;
@@ -633,17 +577,11 @@ html.theme-desktop .container {
   padding: 0 40px;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   16. SECTION DIVIDER
-   ═══════════════════════════════════════════════════════════════ */
 .section-divider {
   position: relative;
   z-index: 1;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   17. FOOTER
-   ═══════════════════════════════════════════════════════════════ */
 footer {
   background: var(--surface);
   border-top: 1px solid var(--border);
@@ -652,7 +590,6 @@ footer {
   z-index: 1;
 }
 
-/* Mobile footer extra padding for bottom nav */
 html.theme-mobile footer {
   padding-bottom: 24px;
 }
@@ -758,9 +695,6 @@ html.theme-desktop .footer-bottom {
 
 .footer-heart { color: var(--red); }
 
-/* ═══════════════════════════════════════════════════════════════
-   18. CONFETTI CANVAS
-   ═══════════════════════════════════════════════════════════════ */
 #confetti-canvas {
   position: fixed;
   inset: 0;
@@ -768,9 +702,6 @@ html.theme-desktop .footer-bottom {
   z-index: 99989;
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   19. EASTER EGG MODAL
-   ═══════════════════════════════════════════════════════════════ */
 #easter-egg-modal {
   position: fixed;
   inset: 0;
@@ -802,9 +733,6 @@ html.theme-desktop .footer-bottom {
   border: 1px dashed var(--red);
 }
 
-/* ═══════════════════════════════════════════════════════════════
-   20. WALKMAN (desktop only — hidden mobile)
-   ═══════════════════════════════════════════════════════════════ */
 #walkman-container {
   display: none;
 }

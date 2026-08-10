@@ -3,16 +3,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const cards = document.querySelectorAll('.holo-card');
     const nextBtn = document.getElementById('carousel-next');
     const prevBtn = document.getElementById('carousel-prev');
-    
-    if (!ring || cards.length === 0) return;
 
-    let currentAngle = 0;
+if (!ring || cards.length === 0) return;
+
+let currentAngle = 0;
     const numCards = cards.length;
     const theta = 360 / numCards;
-    const cardWidth = 320; // Increased size
-    const radius = Math.round((cardWidth / 2) / Math.tan(Math.PI / numCards)) + 50; // Added padding
+    const cardWidth = 320; 
+    const radius = Math.round((cardWidth / 2) / Math.tan(Math.PI / numCards)) + 50; 
 
-    function setupCarousel() {
+function setupCarousel() {
         if (window.innerWidth <= 768) {
             cards.forEach(card => card.style.transform = '');
             ring.style.transform = '';
@@ -25,13 +25,13 @@ document.addEventListener('DOMContentLoaded', () => {
         updateCarousel();
     }
 
-    function updateCarousel() {
+function updateCarousel() {
         if (window.innerWidth > 768) {
             ring.style.transform = `translateZ(-${radius}px) rotateY(${currentAngle}deg)`;
         }
     }
 
-    if (nextBtn && prevBtn) {
+if (nextBtn && prevBtn) {
         nextBtn.addEventListener('click', () => {
             currentAngle -= theta;
             updateCarousel();
@@ -42,16 +42,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Auto-Rotate Logic
-    let autoRotateInterval = setInterval(() => {
+let autoRotateInterval = setInterval(() => {
         if (window.innerWidth > 768 && !isDragging) {
-            currentAngle -= (theta / 300); // Super slow continuous rotation
+            currentAngle -= (theta / 300); 
             updateCarousel();
         }
     }, 16);
 
-    // Pause auto-rotate on hover
-    ring.addEventListener('mouseenter', () => clearInterval(autoRotateInterval));
+ring.addEventListener('mouseenter', () => clearInterval(autoRotateInterval));
     ring.addEventListener('mouseleave', () => {
         clearInterval(autoRotateInterval);
         autoRotateInterval = setInterval(() => {
@@ -62,43 +60,42 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 16);
     });
 
-    // Smooth Dragging
-    let startX = 0;
+let startX = 0;
     let isDragging = false;
     let startAngle = 0;
 
-    ring.addEventListener('mousedown', (e) => {
+ring.addEventListener('mousedown', (e) => {
         isDragging = true;
         startX = e.pageX;
         startAngle = currentAngle;
-        ring.style.transition = 'none'; // Disable CSS transition for smooth drag
+        ring.style.transition = 'none'; 
     });
 
-    window.addEventListener('mouseup', () => {
+window.addEventListener('mouseup', () => {
         if(isDragging) {
             isDragging = false;
             ring.style.transition = 'transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-            // Snap to nearest card
-            currentAngle = Math.round(currentAngle / theta) * theta;
+
+currentAngle = Math.round(currentAngle / theta) * theta;
             updateCarousel();
         }
     });
 
-    ring.addEventListener('mousemove', (e) => {
+ring.addEventListener('mousemove', (e) => {
         if(!isDragging) return;
         const delta = e.pageX - startX;
-        currentAngle = startAngle + (delta * 0.2); // Sensitivity
+        currentAngle = startAngle + (delta * 0.2); 
         updateCarousel();
     });
 
-    ring.addEventListener('touchstart', (e) => {
+ring.addEventListener('touchstart', (e) => {
         isDragging = true;
         startX = e.touches[0].clientX;
         startAngle = currentAngle;
         ring.style.transition = 'none';
     }, {passive: true});
 
-    ring.addEventListener('touchend', () => {
+ring.addEventListener('touchend', () => {
         if(isDragging) {
             isDragging = false;
             ring.style.transition = 'transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
@@ -107,16 +104,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    ring.addEventListener('touchmove', (e) => {
+ring.addEventListener('touchmove', (e) => {
         if(!isDragging) return;
         const delta = e.touches[0].clientX - startX;
         currentAngle = startAngle + (delta * 0.2);
         updateCarousel();
     }, {passive: true});
 
-    window.addEventListener('resize', () => {
+window.addEventListener('resize', () => {
         setupCarousel();
     });
 
-    setupCarousel();
+setupCarousel();
 });
