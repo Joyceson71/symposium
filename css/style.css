@@ -200,26 +200,28 @@ html.theme-desktop ::-webkit-scrollbar-thumb { background: var(--red); border-ra
 html.theme-desktop #cursor {
   display: block;
   position: fixed;
+  top: 0;
+  left: 0;
   width: 10px;
   height: 10px;
   background: var(--red);
   border-radius: 50%;
   pointer-events: none;
   z-index: 99998;
-  transform: translate(-50%, -50%);
   transition: width 0.2s, height 0.2s;
 }
 
 html.theme-desktop #cursor-ring {
   display: block;
   position: fixed;
+  top: 0;
+  left: 0;
   width: 36px;
   height: 36px;
   border: 1.5px solid var(--red);
   border-radius: 50%;
   pointer-events: none;
   z-index: 99997;
-  transform: translate(-50%, -50%);
   transition: width 0.2s, height 0.2s, opacity 0.2s;
 }
 
