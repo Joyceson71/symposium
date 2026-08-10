@@ -1,5 +1,8 @@
-﻿// cursor.js — TechnoKings 2K26 shared custom cursor for all pages
+// cursor.js — TechnoKings 2K26 custom cursor — desktop only
 (function() {
+  if (typeof IS_MOBILE !== 'undefined' && IS_MOBILE) return;
+  if (window.SKIP_3D) return;
+
   var cursor = document.getElementById('cursor');
   var ring = document.getElementById('cursor-ring');
   if (!cursor || !ring) return;

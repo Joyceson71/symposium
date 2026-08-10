@@ -4,7 +4,13 @@
    ================================================================ */
 
 document.addEventListener("DOMContentLoaded", () => {
-    
+    // Skip all desktop effects on mobile
+    if (typeof IS_MOBILE !== 'undefined' && IS_MOBILE) {
+        // Only lightweight mobile-safe setup below
+        initMobileReveal();
+        return;
+    }
+
     // 1. Reading Progress Bar
     const progressBar = document.createElement("div");
     progressBar.className = "reading-progress";
@@ -339,3 +345,18 @@ window.showToast = function(message, type = 'info', duration = 3000) {
         setTimeout(() => toast.remove(), 500);
     }, duration);
 };
+
+// ─── MOBILE REVEAL (safe, no desktop effects) ──────────────
+function initMobileReveal() {
+    const els = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+    if (!els.length) return;
+    const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.classList.add('visible');
+                obs.unobserve(e.target);
+            }
+        });
+    }, { threshold: 0.1 });
+    els.forEach(el => obs.observe(el));
+}
