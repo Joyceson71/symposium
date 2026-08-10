@@ -6,7 +6,7 @@
  */
 
 // Paste your Google Apps Script Web App URL here:
-const GOOGLE_SCRIPT_URL = 'YOUR_GOOGLE_SCRIPT_URL_HERE';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz1N-zRD6Qol3B2G7v6Ss71wUuVx9BR7pSHb-1Mq6HuG77MmLZQ8NszS6OlYlU__Y13vw/exec';
 
 class RegistrationEngine {
     constructor() {
