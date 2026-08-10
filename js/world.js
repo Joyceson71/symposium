@@ -1,6 +1,6 @@
 /* ================================================================
    TECHNOKINGS 2K26 — world.js
-   Desktop-only 3D engine. Scroll-driven camera through 5 scenes.
+   Desktop-only 3D engine. Immersive 3D Universe.
    Only loaded when window.SKIP_3D is not set.
    ================================================================ */
 
@@ -10,241 +10,234 @@ if (window.SKIP_3D) { /* noop */ } else {
 const canvas = document.getElementById('world-canvas');
 if (canvas && typeof THREE !== 'undefined') {
 
-const renderer = new THREE.WebGLRenderer({
-  canvas,
-  alpha: true,
-  antialias: true,
-  powerPreference: 'high-performance'
-});
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.2;
-
-// ─── SCENE & CAMERA ──────────────────────────────────────────
-const scene  = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 100);
-camera.position.set(0, 8, 14);
-
-// ─── CAMERA PATH ─────────────────────────────────────────────
-const cameraPath = new THREE.CatmullRomCurve3([
-  new THREE.Vector3( 0,  8, 14),   // hero
-  new THREE.Vector3(-2,  4, 10),   // about
-  new THREE.Vector3( 1,  0, 12),   // countdown
-  new THREE.Vector3( 2, -4, 10),   // prize
-  new THREE.Vector3( 0, -8, 14),   // register
-]);
-
-const lookAtPath = new THREE.CatmullRomCurve3([
-  new THREE.Vector3( 4,  0,  0),
-  new THREE.Vector3(-1,  1,  0),
-  new THREE.Vector3( 0,  0,  0),
-  new THREE.Vector3( 0, -2,  0),
-  new THREE.Vector3( 0, -6,  0),
-]);
-
-let cameraT = 0;
-let targetT = 0;
-
-// ─── LIGHTS ──────────────────────────────────────────────────
-scene.add(new THREE.AmbientLight(0x1a0000, 1.5));
-
-const keyLight = new THREE.DirectionalLight(0xff1a1a, 3);
-keyLight.position.set(3, 5, 3);
-scene.add(keyLight);
-
-const fillLight = new THREE.DirectionalLight(0x000022, 0.5);
-fillLight.position.set(-4, 2, 2);
-scene.add(fillLight);
-
-const rimLight = new THREE.DirectionalLight(0xff0033, 1.5);
-rimLight.position.set(0, -3, -4);
-scene.add(rimLight);
-
-// ─── HERO: Wireframe Icosphere ────────────────────────────────
-const icoGeo = new THREE.IcosahedronGeometry(3, 2);
-const icoMat = new THREE.MeshBasicMaterial({
-  color: 0xCC0000, wireframe: true,
-  transparent: true, opacity: 0.22
-});
-const ico = new THREE.Mesh(icoGeo, icoMat);
-ico.position.set(4, 0, 0);
-scene.add(ico);
-
-// ─── HERO: Particle field ─────────────────────────────────────
-const PART_COUNT = 300;
-const partGeo = new THREE.BufferGeometry();
-const pPositions = new Float32Array(PART_COUNT * 3);
-for (let i = 0; i < PART_COUNT; i++) {
-  pPositions[i*3]   = (Math.random() - 0.5) * 20;
-  pPositions[i*3+1] = (Math.random() - 0.5) * 12;
-  pPositions[i*3+2] = (Math.random() - 1)   * 8;
-}
-partGeo.setAttribute('position', new THREE.BufferAttribute(pPositions, 3));
-const partMat = new THREE.PointsMaterial({ color: 0xCC0000, size: 0.04, transparent: true, opacity: 0.6 });
-const particles = new THREE.Points(partGeo, partMat);
-scene.add(particles);
-
-// ─── ABOUT: PCB Plane ─────────────────────────────────────────
-const pcb = new THREE.Mesh(
-  new THREE.BoxGeometry(8, 0.1, 6),
-  new THREE.MeshPhongMaterial({ color: 0x060f06, shininess: 80 })
-);
-pcb.position.set(-2, 4, -2);
-pcb.rotation.x = -0.2;
-scene.add(pcb);
-
-// PCB traces as LineSegments
-const tracePoints = [];
-for (let i = 0; i < 20; i++) {
-  const x1 = (Math.random() - 0.5) * 7, x2 = x1 + (Math.random() - 0.5) * 2;
-  const z1 = (Math.random() - 0.5) * 5, z2 = z1 + (Math.random() - 0.5) * 2;
-  tracePoints.push(x1, 0.06, z1, x2, 0.06, z2);
-}
-const traceGeo = new THREE.BufferGeometry();
-traceGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(tracePoints), 3));
-const traces = new THREE.LineSegments(traceGeo,
-  new THREE.LineBasicMaterial({ color: 0xCC0000, transparent: true, opacity: 0.5 }));
-pcb.add(traces);
-
-// ─── COUNTDOWN: Torus Knot ────────────────────────────────────
-const torusGeo = new THREE.TorusKnotGeometry(2, 0.28, 120, 16);
-const torus    = new THREE.Mesh(torusGeo, new THREE.MeshPhongMaterial({
-  color: 0x1A0000, emissive: 0x220000, shininess: 200,
-  transparent: true, opacity: 0.9
-}));
-const torusWire = new THREE.Mesh(torusGeo, new THREE.MeshBasicMaterial({
-  color: 0xCC0000, wireframe: true, transparent: true, opacity: 0.25
-}));
-torus.position.set(0, 0, 0);
-torusWire.position.copy(torus.position);
-scene.add(torus);
-scene.add(torusWire);
-
-const orbitLight = new THREE.PointLight(0xFF0033, 4, 8);
-scene.add(orbitLight);
-
-// ─── PRIZE: Trophy (Octahedron) ───────────────────────────────
-const octGeo  = new THREE.OctahedronGeometry(1.4);
-const trophy  = new THREE.Mesh(octGeo, new THREE.MeshPhongMaterial({
-  color: 0xFFD700, emissive: 0x442200, shininess: 200
-}));
-const trophyWire = new THREE.Mesh(octGeo, new THREE.MeshBasicMaterial({
-  color: 0xFFD700, wireframe: true, transparent: true, opacity: 0.4
-}));
-trophy.position.set(0, -4, 0);
-trophyWire.position.copy(trophy.position);
-scene.add(trophy);
-scene.add(trophyWire);
-
-const crown = new THREE.Mesh(
-  new THREE.TorusGeometry(1.0, 0.12, 8, 12),
-  new THREE.MeshPhongMaterial({ color: 0xFFD700, emissive: 0x332200 })
-);
-crown.position.set(0, -2.8, 0);
-scene.add(crown);
-
-const goldLight = new THREE.PointLight(0xFFAA00, 3, 10);
-goldLight.position.set(0, -1, 4);
-scene.add(goldLight);
-
-// ─── GOLD PARTICLE FOUNTAIN ───────────────────────────────────
-const GOLD_COUNT = 200;
-const goldGeo       = new THREE.BufferGeometry();
-const goldPos       = new Float32Array(GOLD_COUNT * 3);
-const goldVel       = new Float32Array(GOLD_COUNT * 3);
-for (let i = 0; i < GOLD_COUNT; i++) {
-  goldPos[i*3]   = (Math.random() - 0.5) * 10;
-  goldPos[i*3+1] = -8 + Math.random() * 4;
-  goldPos[i*3+2] = (Math.random() - 0.5) * 6;
-  goldVel[i*3]   = (Math.random() - 0.5) * 0.02;
-  goldVel[i*3+1] = Math.random() * 0.04 + 0.02;
-  goldVel[i*3+2] = (Math.random() - 0.5) * 0.01;
-}
-goldGeo.setAttribute('position', new THREE.BufferAttribute(goldPos, 3));
-const goldParticles = new THREE.Points(goldGeo,
-  new THREE.PointsMaterial({ color: 0xFFD700, size: 0.06, transparent: true, opacity: 0.7 }));
-scene.add(goldParticles);
-
-// ─── MOUSE PARALLAX ──────────────────────────────────────────
-let mouseX = 0, mouseY = 0;
-document.addEventListener('mousemove', e => {
-  mouseX = (e.clientX / window.innerWidth  - 0.5) * 2;
-  mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
-}, { passive: true });
-
-// ─── RESIZE ──────────────────────────────────────────────────
-window.addEventListener('resize', () => {
+  const renderer = new THREE.WebGLRenderer({
+    canvas,
+    alpha: true,
+    antialias: true,
+    powerPreference: 'high-performance'
+  });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.setSize(window.innerWidth, window.innerHeight);
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-}, { passive: true });
+  // Add a very dark background color instead of true transparent for depth
+  renderer.setClearColor(0x050508, 1);
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.1;
 
-// ─── ANIMATE ─────────────────────────────────────────────────
-let frameCount = 0;
-function lerp(a, b, t) { return a + (b - a) * t; }
+  // ─── SCENE & CAMERA ──────────────────────────────────────────
+  const scene  = new THREE.Scene();
+  scene.fog = new THREE.FogExp2(0x050508, 0.03); // Deep universe fog
+  
+  const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 200);
+  camera.position.set(0, 5, 25);
 
-function animate() {
-  requestAnimationFrame(animate);
-  frameCount++;
-  const t = frameCount * 0.01;
+  // ─── CAMERA PATH (Drone Flight) ──────────────────────────────
+  const cameraPath = new THREE.CatmullRomCurve3([
+    new THREE.Vector3( 0,  5, 30),   // hero
+    new THREE.Vector3( 5,  0, 15),   // about
+    new THREE.Vector3(-2, -5,  5),   // countdown
+    new THREE.Vector3( 0, -2, -10),  // schedule / prizes
+    new THREE.Vector3(-5,  3, -25),  // register
+  ]);
 
-  // Scroll-driven camera
-  const scrollPct = window.scrollY / Math.max(1, document.body.scrollHeight - window.innerHeight);
-  targetT = scrollPct;
-  cameraT = lerp(cameraT, targetT, 0.06);
+  const lookAtPath = new THREE.CatmullRomCurve3([
+    new THREE.Vector3( 0,  0,  0),
+    new THREE.Vector3( 2, -2, -5),
+    new THREE.Vector3(-4, -2, -15),
+    new THREE.Vector3( 2,  2, -30),
+    new THREE.Vector3( 0,  0, -40),
+  ]);
 
-  const clampedT = Math.min(cameraT, 0.999);
-  const camPos  = cameraPath.getPoint(clampedT);
-  const lookAt  = lookAtPath.getPoint(clampedT);
+  let cameraT = 0;
+  let targetT = 0;
 
-  camera.position.lerp(camPos, 0.08);
-  camera.lookAt(lookAt);
+  // ─── LIGHTS (Crimson + Neon Purple/Blue) ─────────────────────
+  scene.add(new THREE.AmbientLight(0x0a0515, 1)); // Very faint purple ambient
 
-  // Mouse parallax — subtle scene tilt
-  scene.rotation.y = lerp(scene.rotation.y, mouseX * 0.02, 0.04);
-  scene.rotation.x = lerp(scene.rotation.x, -mouseY * 0.01, 0.04);
+  // Crimson Core Light
+  const redLight = new THREE.PointLight(0xCC0000, 4, 100);
+  redLight.position.set(0, 0, 0);
+  scene.add(redLight);
 
-  // Icosphere rotation
-  ico.rotation.y += 0.002;
-  ico.rotation.x += 0.001;
+  // Neon Blue/Purple Rim Light
+  const blueLight = new THREE.DirectionalLight(0x4400ff, 2);
+  blueLight.position.set(-10, 10, 10);
+  scene.add(blueLight);
 
-  // Particle drift upward
-  particles.rotation.y += 0.001;
-  const pPos = particles.geometry.attributes.position;
-  for (let i = 0; i < PART_COUNT; i++) {
-    pPos.array[i*3+1] += 0.008;
-    if (pPos.array[i*3+1] > 8) pPos.array[i*3+1] = -8;
+  const purpleLight = new THREE.DirectionalLight(0xaa00ff, 1.5);
+  purpleLight.position.set(10, -10, -10);
+  scene.add(purpleLight);
+
+  // ─── UNIVERSE: Starfield & Nebula ────────────────────────────
+  // Stars
+  const starCount = 3000;
+  const starGeo = new THREE.BufferGeometry();
+  const starPos = new Float32Array(starCount * 3);
+  for (let i = 0; i < starCount; i++) {
+    starPos[i*3]   = (Math.random() - 0.5) * 100;
+    starPos[i*3+1] = (Math.random() - 0.5) * 100;
+    starPos[i*3+2] = (Math.random() - 0.5) * 100;
   }
-  pPos.needsUpdate = true;
+  starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+  const starMat = new THREE.PointsMaterial({
+    color: 0xffffff,
+    size: 0.08,
+    transparent: true,
+    opacity: 0.6,
+    blending: THREE.AdditiveBlending
+  });
+  const starfield = new THREE.Points(starGeo, starMat);
+  scene.add(starfield);
 
-  // Torus knot
-  torus.rotation.x += 0.003;
-  torus.rotation.y += 0.005;
-  torusWire.rotation.copy(torus.rotation);
+  // Nebula dust
+  const dustCount = 800;
+  const dustGeo = new THREE.BufferGeometry();
+  const dustPos = new Float32Array(dustCount * 3);
+  const dustColors = new Float32Array(dustCount * 3);
+  
+  const col1 = new THREE.Color(0xCC0000); // Red
+  const col2 = new THREE.Color(0x4400ff); // Blue/Purple
 
-  // Orbiting light around torus
-  orbitLight.position.x = Math.cos(t * 0.8) * 3;
-  orbitLight.position.y = Math.sin(t * 0.5) * 2;
-  orbitLight.position.z = Math.sin(t * 0.8) * 3;
+  for (let i = 0; i < dustCount; i++) {
+    dustPos[i*3]   = (Math.random() - 0.5) * 80;
+    dustPos[i*3+1] = (Math.random() - 0.5) * 80;
+    dustPos[i*3+2] = (Math.random() - 0.5) * 80;
 
-  // Trophy rotation
-  trophy.rotation.y    += 0.005;
-  trophyWire.rotation.copy(trophy.rotation);
-  crown.rotation.y     -= 0.008;
-
-  // Gold particles rise
-  const gPos = goldParticles.geometry.attributes.position;
-  for (let i = 0; i < GOLD_COUNT; i++) {
-    gPos.array[i*3+1] += goldVel[i*3+1];
-    if (gPos.array[i*3+1] > -1) gPos.array[i*3+1] = -10;
+    // Mix colors randomly
+    const c = Math.random() > 0.5 ? col1 : col2;
+    dustColors[i*3] = c.r;
+    dustColors[i*3+1] = c.g;
+    dustColors[i*3+2] = c.b;
   }
-  gPos.needsUpdate = true;
+  dustGeo.setAttribute('position', new THREE.BufferAttribute(dustPos, 3));
+  dustGeo.setAttribute('color', new THREE.BufferAttribute(dustColors, 3));
+  const dustMat = new THREE.PointsMaterial({
+    size: 0.5,
+    vertexColors: true,
+    transparent: true,
+    opacity: 0.3,
+    blending: THREE.AdditiveBlending
+  });
+  const dust = new THREE.Points(dustGeo, dustMat);
+  scene.add(dust);
 
-  renderer.render(scene, camera);
+  // ─── ABSTRACT GEOMETRY ───────────────────────────────────────
+  const objects = [];
+
+  // Giant glowing ring
+  const ringMat = new THREE.MeshStandardMaterial({
+    color: 0x111111,
+    emissive: 0xCC0000,
+    emissiveIntensity: 0.5,
+    roughness: 0.1,
+    metalness: 0.8
+  });
+  const ring = new THREE.Mesh(new THREE.TorusGeometry(12, 0.2, 16, 100), ringMat);
+  ring.position.set(0, 0, -5);
+  scene.add(ring);
+  objects.push(ring);
+
+  // Massive Torus Knot (The Tech Core)
+  const knotMat = new THREE.MeshPhysicalMaterial({
+    color: 0x111122,
+    emissive: 0x220044,
+    metalness: 0.9,
+    roughness: 0.1,
+    clearcoat: 1.0,
+    clearcoatRoughness: 0.1,
+    wireframe: true,
+    transparent: true,
+    opacity: 0.2
+  });
+  const knot = new THREE.Mesh(new THREE.TorusKnotGeometry(4, 1, 100, 16), knotMat);
+  knot.position.set(5, -2, -15);
+  scene.add(knot);
+  objects.push(knot);
+
+  // Floating Octahedrons
+  const octaMat = new THREE.MeshPhysicalMaterial({
+    color: 0x000000,
+    metalness: 1,
+    roughness: 0,
+    transmission: 0.9,
+    ior: 1.5,
+    thickness: 2
+  });
+  
+  for (let i = 0; i < 5; i++) {
+    const octa = new THREE.Mesh(new THREE.OctahedronGeometry(2), octaMat);
+    octa.position.set(
+      (Math.random() - 0.5) * 30,
+      (Math.random() - 0.5) * 20,
+      (Math.random() - 0.5) * 40 - 10
+    );
+    octa.rotation.set(Math.random()*Math.PI, Math.random()*Math.PI, 0);
+    // Add custom rotation speeds
+    octa.userData = {
+      rx: (Math.random() - 0.5) * 0.02,
+      ry: (Math.random() - 0.5) * 0.02
+    };
+    scene.add(octa);
+    objects.push(octa);
+  }
+
+  // ─── SCROLL INTERACTION ──────────────────────────────────────
+  let scrollY = 0;
+  let targetScrollY = 0;
+
+  window.addEventListener('scroll', () => {
+    targetScrollY = window.scrollY;
+  }, { passive: true });
+
+  const maxScroll = Math.max(
+    document.body.scrollHeight - window.innerHeight,
+    1 // fallback to avoid NaN
+  );
+
+  // ─── ANIMATION LOOP ──────────────────────────────────────────
+  function animate() {
+    requestAnimationFrame(animate);
+
+    // Smooth scroll interpolation
+    scrollY += (targetScrollY - scrollY) * 0.05;
+    targetT = Math.min(Math.max(scrollY / maxScroll, 0), 1);
+    cameraT += (targetT - cameraT) * 0.05; // extra smoothing for camera path
+
+    // Update camera position along the path
+    camera.position.copy(cameraPath.getPointAt(cameraT));
+    const lookTarget = lookAtPath.getPointAt(cameraT);
+    camera.lookAt(lookTarget);
+
+    // Rotate abstract geometry
+    ring.rotation.x += 0.001;
+    ring.rotation.y += 0.002;
+    
+    knot.rotation.y += 0.003;
+    knot.rotation.z += 0.001;
+
+    // Rotate Octahedrons
+    objects.forEach((obj, idx) => {
+      if (idx > 1) { // skip ring and knot
+        obj.rotation.x += obj.userData.rx;
+        obj.rotation.y += obj.userData.ry;
+      }
+    });
+
+    // Slowly rotate starfield and dust for life
+    starfield.rotation.y -= 0.0005;
+    dust.rotation.y += 0.0008;
+    dust.rotation.x += 0.0002;
+
+    renderer.render(scene, camera);
+  }
+
+  // Handle Resize
+  window.addEventListener('resize', () => {
+    if (window.innerWidth <= 768) return; // ignore if they resized to mobile
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+
+  animate();
 }
-
-animate();
-
-} // end canvas/THREE check
-} // end SKIP_3D check
+}

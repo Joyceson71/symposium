@@ -1,0 +1,356 @@
+/* ================================================================
+   TECHNOKINGS 2K26 — desktop-immersive.css
+   Immersive 3D Universe UI
+   Floating, minimal, elegant glassmorphism over full-screen 3D
+   ================================================================ */
+
+/* ═══════════════════════════════════════════════════════════════
+   GLOBAL OVERRIDES (Desktop Only)
+   ═══════════════════════════════════════════════════════════════ */
+html.theme-desktop body {
+  /* Make all section backgrounds transparent so 3D world shows through */
+  background: transparent !important;
+}
+
+html.theme-desktop section, 
+html.theme-desktop footer {
+  background: transparent !important;
+  border: none !important;
+}
+
+html.theme-desktop .section-divider {
+  display: none !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   FLOATING GLASS NAV
+   ═══════════════════════════════════════════════════════════════ */
+html.theme-desktop #navbar {
+  height: 80px;
+  padding: 0 64px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+  border-bottom: none;
+  backdrop-filter: none;
+}
+
+html.theme-desktop #navbar.scrolled {
+  background: rgba(10, 10, 15, 0.4);
+  backdrop-filter: blur(24px) saturate(1.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+html.theme-desktop .nav-logo-text {
+  font-size: 18px;
+  letter-spacing: 6px;
+  font-weight: 300;
+}
+
+html.theme-desktop .nav-links a {
+  font-size: 10px;
+  letter-spacing: 4px;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+}
+
+html.theme-desktop .nav-links a::after {
+  background: rgba(255, 255, 255, 0.8);
+  height: 2px;
+  border-radius: 2px;
+}
+
+html.theme-desktop .nav-cta {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 11px;
+  letter-spacing: 4px;
+  padding: 12px 28px;
+  backdrop-filter: blur(12px);
+  border-radius: 40px;
+  clip-path: none;
+  transition: all 0.3s ease;
+}
+
+html.theme-desktop .nav-cta:hover {
+  background: rgba(204, 0, 0, 0.8);
+  border-color: rgba(204, 0, 0, 1);
+  box-shadow: 0 0 24px rgba(204, 0, 0, 0.4);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CENTERED IMMERSIVE HERO
+   ═══════════════════════════════════════════════════════════════ */
+html.theme-desktop #hero {
+  height: 100vh;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  text-align: center;
+}
+
+html.theme-desktop .hero-content {
+  width: 100%;
+  max-width: 1000px;
+  align-items: center;
+  text-align: center;
+  padding: 0 40px;
+  z-index: 10;
+}
+
+html.theme-desktop .hero-eyebrow {
+  background: transparent;
+  border: none;
+  font-size: 10px;
+  letter-spacing: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 32px;
+}
+
+html.theme-desktop .hero-eyebrow::before { display: none; }
+
+html.theme-desktop .hero-title {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 40px;
+}
+
+html.theme-desktop .hero-t1,
+html.theme-desktop .hero-t2,
+html.theme-desktop .hero-t3 {
+  display: inline-block;
+  font-weight: 300;
+  line-height: 1;
+}
+
+html.theme-desktop .hero-t1 {
+  font-size: clamp(60px, 8vw, 100px);
+  letter-spacing: 8px;
+  color: #fff;
+}
+
+html.theme-desktop .hero-t2 {
+  font-size: clamp(80px, 12vw, 160px);
+  letter-spacing: 12px;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.9);
+  text-shadow: 0 0 40px rgba(204, 0, 0, 0.6);
+}
+
+html.theme-desktop .hero-t3 {
+  font-size: clamp(30px, 4vw, 50px);
+  letter-spacing: 24px;
+  color: rgba(204, 0, 0, 0.8);
+}
+
+html.theme-desktop .hero-tagline {
+  font-size: 12px;
+  letter-spacing: 8px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 56px;
+}
+
+html.theme-desktop .hero-tagline::before { display: none; }
+
+html.theme-desktop .hero-btns {
+  flex-direction: row;
+  justify-content: center;
+  gap: 24px;
+}
+
+html.theme-desktop .btn-primary,
+html.theme-desktop .btn-ghost {
+  border-radius: 40px;
+  clip-path: none;
+  height: 56px;
+  font-size: 12px;
+  letter-spacing: 4px;
+  padding: 0 36px;
+  backdrop-filter: blur(8px);
+}
+
+html.theme-desktop .btn-primary {
+  background: rgba(204, 0, 0, 0.85);
+  border: 1px solid rgba(255, 60, 60, 0.4);
+}
+
+html.theme-desktop .btn-primary:hover {
+  background: rgba(255, 30, 30, 1);
+  box-shadow: 0 0 32px rgba(204, 0, 0, 0.5);
+}
+
+html.theme-desktop .btn-ghost {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+html.theme-desktop .btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #fff;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   GLASS SECTIONS (About, FAQ, Countdown)
+   ═══════════════════════════════════════════════════════════════ */
+html.theme-desktop .section-title {
+  text-align: center;
+  font-size: 64px;
+  font-weight: 300;
+  letter-spacing: 4px;
+  margin-bottom: 64px;
+}
+
+html.theme-desktop .section-eyebrow {
+  text-align: center;
+  font-size: 10px;
+  letter-spacing: 8px;
+  color: rgba(255, 255, 255, 0.4);
+  justify-content: center;
+}
+
+/* About Grid */
+html.theme-desktop .about-grid {
+  grid-template-columns: 1fr;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+html.theme-desktop .about-body {
+  border: none;
+  font-size: 18px;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 64px;
+}
+
+/* Glass Cards (Stats, Why, Countdown, Prize) */
+html.theme-desktop .stats-row,
+html.theme-desktop .countdown-grid,
+html.theme-desktop .prize-tiers,
+html.theme-desktop .why-grid {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+html.theme-desktop .stat-card,
+html.theme-desktop .count-block,
+html.theme-desktop .tier-card,
+html.theme-desktop .why-card {
+  background: rgba(15, 15, 20, 0.4);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 40px 32px;
+  flex: 1;
+  transition: transform 0.3s, border-color 0.3s, background 0.3s;
+}
+
+html.theme-desktop .stat-card:hover,
+html.theme-desktop .count-block:hover,
+html.theme-desktop .tier-card:hover,
+html.theme-desktop .why-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(204, 0, 0, 0.4);
+  background: rgba(20, 15, 20, 0.6);
+}
+
+html.theme-desktop .stat-num,
+html.theme-desktop .count-num {
+  font-size: 64px;
+  font-weight: 300;
+  color: #fff;
+  text-shadow: 0 0 24px rgba(255, 255, 255, 0.2);
+}
+
+html.theme-desktop .stat-label,
+html.theme-desktop .count-label {
+  font-size: 9px;
+  letter-spacing: 6px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 12px;
+}
+
+html.theme-desktop .count-sep { display: none; }
+
+/* ═══════════════════════════════════════════════════════════════
+   PRIZE SECTION
+   ═══════════════════════════════════════════════════════════════ */
+html.theme-desktop .prize-amount { margin-bottom: 80px; }
+html.theme-desktop .prize-num {
+  font-size: 160px;
+  color: #fff;
+  text-shadow: 0 0 60px rgba(255, 215, 0, 0.3);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SCHEDULE (Vertical Floating Line)
+   ═══════════════════════════════════════════════════════════════ */
+html.theme-desktop .timeline-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 700px;
+  margin: 0 auto;
+  overflow: visible;
+  padding: 0;
+}
+
+html.theme-desktop .timeline-line {
+  display: block;
+  left: 32px;
+  background: linear-gradient(to bottom, transparent, rgba(204, 0, 0, 0.5), transparent);
+}
+
+html.theme-desktop .timeline-item {
+  flex-direction: row;
+  margin-bottom: 40px;
+}
+
+html.theme-desktop .timeline-dot {
+  display: block;
+  position: absolute;
+  left: -4px;
+  top: 36px;
+  background: var(--red);
+  box-shadow: 0 0 16px var(--red);
+}
+
+html.theme-desktop .timeline-content {
+  background: rgba(15, 15, 20, 0.4);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 32px 40px;
+  margin-left: 80px;
+}
+html.theme-desktop .timeline-content::before { display: none; }
+
+/* ═══════════════════════════════════════════════════════════════
+   EVENTS DESKTOP
+   ═══════════════════════════════════════════════════════════════ */
+html.theme-desktop .events-left-panel {
+  background: rgba(10, 10, 15, 0.4);
+  backdrop-filter: blur(24px);
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+html.theme-desktop .event-card-desktop {
+  background: rgba(20, 20, 25, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════════════════════════════════ */
+html.theme-desktop footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
+  background: rgba(5, 5, 8, 0.8) !important;
+  backdrop-filter: blur(20px);
+}

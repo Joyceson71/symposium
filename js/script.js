@@ -31,10 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initCustomCursor();
     initScrollProgressBar();
     initCardTilt();
-    initTargetingReticle();
-    initTextScramble();
-    initTimelineDrag();
-    wrapNavCta();
+
   }
 });
 
@@ -288,108 +285,5 @@ function closeEasterEgg() {
   if (m) m.classList.add('hidden');
 }
 
-// ─── TARGETING RETICLE (desktop) ─────────────────────────────
-function initTargetingReticle() {
-  const reticle = document.getElementById('targeting-reticle');
-  if (!reticle) return;
-  let rx = window.innerWidth / 2, ry = window.innerHeight / 2;
-  let tx = rx, ty = ry;
 
-  document.addEventListener('mousemove', e => {
-    tx = e.clientX; ty = e.clientY;
-  }, { passive: true });
-
-  (function animReticle() {
-    rx += (tx - rx) * 0.1;
-    ry += (ty - ry) * 0.1;
-    reticle.style.left = rx + 'px';
-    reticle.style.top  = ry + 'px';
-    requestAnimationFrame(animReticle);
-  })();
-}
-
-// ─── TEXT SCRAMBLE (hero title on load) ──────────────────────
-const SCRAMBLE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%';
-
-function scrambleText(el, finalText, duration) {
-  if (!el) return;
-  const frames = Math.round(duration / 40);
-  let frame = 0;
-
-  const iv = setInterval(() => {
-    const progress = frame / frames;
-    const revealedLen = Math.floor(progress * finalText.length);
-    let result = '';
-    for (let i = 0; i < finalText.length; i++) {
-      if (finalText[i] === ' ') { result += ' '; continue; }
-      if (i < revealedLen) {
-        result += finalText[i];
-      } else {
-        result += SCRAMBLE_CHARS[Math.floor(Math.random() * SCRAMBLE_CHARS.length)];
-      }
-    }
-    el.textContent = result;
-    frame++;
-    if (frame > frames) {
-      el.textContent = finalText;
-      clearInterval(iv);
-    }
-  }, 40);
-}
-
-function initTextScramble() {
-  // Scramble hero title lines with staggered delays
-  setTimeout(() => {
-    const t1 = document.querySelector('.hero-t1');
-    const t2 = document.querySelector('.hero-t2');
-    const t3 = document.querySelector('.hero-t3');
-    if (t1) scrambleText(t1, 'TECHNO', 600);
-    setTimeout(() => { if (t2) scrambleText(t2, 'KINGS', 700); }, 300);
-    setTimeout(() => { if (t3) scrambleText(t3, '2K26', 400); }, 700);
-  }, 400);
-}
-
-// ─── TIMELINE HORIZONTAL DRAG (desktop schedule) ─────────────
-function initTimelineDrag() {
-  const container = document.querySelector('.timeline-container');
-  if (!container) return;
-
-  let isDown = false;
-  let startX, scrollLeft;
-
-  container.addEventListener('mousedown', e => {
-    isDown = true;
-    container.style.cursor = 'grabbing';
-    startX = e.pageX - container.offsetLeft;
-    scrollLeft = container.scrollLeft;
-  });
-
-  container.addEventListener('mouseleave', () => {
-    isDown = false;
-    container.style.cursor = 'grab';
-  });
-
-  container.addEventListener('mouseup', () => {
-    isDown = false;
-    container.style.cursor = 'grab';
-  });
-
-  container.addEventListener('mousemove', e => {
-    if (!isDown) return;
-    e.preventDefault();
-    const x = e.pageX - container.offsetLeft;
-    const walk = (x - startX) * 1.5;
-    container.scrollLeft = scrollLeft - walk;
-  });
-
-  container.style.cursor = 'grab';
-}
-
-// ─── NAV CTA SPAN WRAP (for slide fill effect) ───────────────
-function wrapNavCta() {
-  const cta = document.querySelector('.nav-cta');
-  if (!cta || cta.querySelector('span')) return;
-  const text = cta.textContent;
-  cta.innerHTML = `<span>${text}</span>`;
-}
 
