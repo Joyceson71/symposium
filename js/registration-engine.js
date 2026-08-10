@@ -5,6 +5,9 @@
  * ============================================================================
  */
 
+// Paste your Google Apps Script Web App URL here:
+const GOOGLE_SCRIPT_URL = 'YOUR_GOOGLE_SCRIPT_URL_HERE';
+
 class RegistrationEngine {
     constructor() {
         this.container = document.getElementById('registration-app');
@@ -297,16 +300,65 @@ class RegistrationEngine {
         return valid;
     }
 
-    submitForm() {
+    async submitForm() {
+        // Show loading state
+        this.container.innerHTML = `
+            <div class="success-screen">
+                <h2>AUTHORIZING DEPLOYMENT...</h2>
+                <div class="spider-logo-spin">🕷️</div>
+                <p>Establishing secure connection to mainframe.</p>
+            </div>
+        `;
+
+        if (GOOGLE_SCRIPT_URL === 'YOUR_GOOGLE_SCRIPT_URL_HERE') {
+            alert("Error: Google Script URL is missing. Please paste it at the top of js/registration-engine.js");
+            window.location.reload();
+            return;
+        }
+
+        try {
+            // Prepare payload (excluding signature to save space in Sheets)
+            const payload = {
+                teamName: this.state.data.teamName,
+                leaderName: this.state.data.leaderName,
+                email: this.state.data.email,
+                phone: this.state.data.phone,
+                selectedEvents: this.state.data.selectedEvents
+            };
+
+            const response = await fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors', // Required to bypass CORS on Apps Script
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+
+            // Since mode is 'no-cors', the response is opaque, we just assume success if it didn't throw
+            this.showSuccess();
+
+        } catch (error) {
+            console.error("Submission failed:", error);
+            this.container.innerHTML = `
+                <div class="success-screen" style="border-color: #CC0000;">
+                    <h2 style="color: #CC0000;">DEPLOYMENT FAILED</h2>
+                    <p>Connection lost. Please try again.</p>
+                    <button class="btn-ghost" onclick="window.location.reload()">RETRY</button>
+                </div>
+            `;
+        }
+    }
+
+    showSuccess() {
         this.container.innerHTML = `
             <div class="success-screen">
                 <h2>DEPLOYMENT AUTHORIZED</h2>
-                <div class="spider-logo-spin">🕷️</div>
-                <p>Welcome to the Spider-Verse, ${this.state.data.leaderName}.</p>
+                <div class="spider-logo-spin">✅</div>
+                <p>Welcome to the multi-verse, ${this.state.data.leaderName}.</p>
                 <button class="btn-primary" onclick="window.location.reload()">RETURN TO BASE</button>
             </div>
         `;
-        // In a real app, send this.state.data to server here via fetch()
     }
 }
 
