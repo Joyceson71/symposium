@@ -324,3 +324,18 @@ html.theme-desktop footer {
   background: rgba(5, 5, 8, 0.8) !important;
   backdrop-filter: blur(20px);
 }
+
+html.theme-desktop .why-grid {
+  flex-wrap: wrap;
+}
+html.theme-desktop .why-card {
+  flex: 1 1 calc(33.333% - 24px);
+  min-width: 250px;
+}
+html.theme-desktop .sponsors-grid .sponsor-logo:hover {
+  background: rgba(204, 0, 0, 0.1) !important;
+  border-color: rgba(204, 0, 0, 0.4) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 20px rgba(204, 0, 0, 0.2);
+  transform: translateY(-4px);
+}
