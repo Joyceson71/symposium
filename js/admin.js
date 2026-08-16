@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
   renderRegistrations();
   renderEvents();
   initSettings();
+  
+  document.getElementById('live-sim-btn')?.addEventListener('click', toggleSimulation);
 });
 
 // Navigation Logic
@@ -84,7 +86,7 @@ function initCharts() {
 
   // 1. Line Chart (Registration Trends)
   const ctxLine = document.getElementById('registrationChart').getContext('2d');
-  new Chart(ctxLine, {
+  window.registrationChart = new Chart(ctxLine, {
     type: 'line',
     data: {
       labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Today'],
@@ -121,7 +123,7 @@ function initCharts() {
   const data = Object.values(eventCounts).slice(0, 5);
   
   const ctxDoughnut = document.getElementById('eventChart').getContext('2d');
-  new Chart(ctxDoughnut, {
+  window.eventChart = new Chart(ctxDoughnut, {
     type: 'doughnut',
     data: {
       labels: labels,
@@ -217,12 +219,131 @@ function initSettings() {
   });
   
   document.getElementById('export-csv')?.addEventListener('click', () => {
-    alert('Mock CSV Export triggered! (Check console for output)');
-    console.log('CSV Data:', mockRegistrations);
+    const headers = ['ID', 'Team Name', 'Leader', 'College', 'Events', 'Date', 'Status'];
+    const csvRows = [headers.join(',')];
+    
+    mockRegistrations.forEach(reg => {
+      const row = [
+        reg.id,
+        `"${reg.teamName}"`,
+        `"${reg.leader}"`,
+        `"${reg.college}"`,
+        `"${reg.events.join(' / ')}"`,
+        `"${reg.date}"`,
+        reg.status
+      ];
+      csvRows.push(row.join(','));
+    });
+    
+    const blob = new Blob([csvRows.join('\\n')], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.style.display = 'none';
+    a.href = url;
+    a.download = 'technokings_registrations.csv';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    addActivity('CSV Exported Successfully.', 'success');
   });
   
   document.getElementById('toggle-registration')?.addEventListener('click', (e) => {
     alert('Registrations closed state toggled.');
     e.target.innerText = e.target.innerText === 'Close Registrations' ? 'Open Registrations' : 'Close Registrations';
+    addActivity(`Registrations ${e.target.innerText === 'Close Registrations' ? 'Opened' : 'Closed'}.`, 'warning');
   });
+}
+
+// Live Simulation Logic
+let simInterval = null;
+
+function addActivity(msg, type='success') {
+  const feed = document.getElementById('activity-feed');
+  if (!feed) return;
+  const div = document.createElement('div');
+  div.className = `activity-item ${type}`;
+  div.innerHTML = `<strong>${new Date().toLocaleTimeString()}</strong> - ${msg}`;
+  feed.prepend(div);
+  if (feed.children.length > 20) feed.removeChild(feed.lastChild);
+}
+
+function toggleSimulation() {
+  const btn = document.getElementById('live-sim-btn');
+  const txt = document.getElementById('live-sim-text');
+  const ind = btn.querySelector('.sim-indicator');
+  
+  if (simInterval) {
+    clearInterval(simInterval);
+    simInterval = null;
+    btn.classList.remove('sim-active');
+    ind.classList.remove('pulsing');
+    txt.innerText = 'Start Live Simulation';
+    addActivity('Live Simulation Stopped.', 'warning');
+  } else {
+    btn.classList.add('sim-active');
+    ind.classList.add('pulsing');
+    txt.innerText = 'Stop Simulation';
+    addActivity('Live Simulation Started...', 'success');
+    
+    simInterval = setInterval(() => {
+      simulateNewRegistration();
+    }, 3500);
+  }
+}
+
+function simulateNewRegistration() {
+  const colleges = ['Kings Engineering College', 'MIT', 'SRM', 'VIT', 'Anna University', 'Sathyabama', 'Loyola', 'REC'];
+  const eventIds = (typeof EVENTS !== 'undefined' && EVENTS.length) ? EVENTS.map(e => e.name) : ['Hackathon', 'RoboWars', 'Coding'];
+  const statuses = ['Confirmed', 'Pending'];
+  
+  const i = mockRegistrations.length + 1;
+  const newReg = {
+    id: `REG-${1000 + i}`,
+    teamName: `Team Live-${i}`,
+    leader: `Hacker ${i}`,
+    college: colleges[Math.floor(Math.random() * colleges.length)],
+    events: [eventIds[Math.floor(Math.random() * eventIds.length)]],
+    date: new Date().toLocaleDateString(),
+    status: statuses[Math.floor(Math.random() * statuses.length)]
+  };
+  
+  mockRegistrations.unshift(newReg); // Add to beginning
+  localStorage.setItem('symposium_mock_regs', JSON.stringify(mockRegistrations));
+  
+  addActivity(`New registration: ${newReg.teamName} from ${newReg.college} for ${newReg.events[0]}.`, 'success');
+  
+  updateDashboardViews();
+}
+
+function updateDashboardViews() {
+  // Update stats
+  document.getElementById('stat-total').innerText = mockRegistrations.length;
+  document.getElementById('stat-revenue').innerText = `₹${mockRegistrations.length * 500}`;
+  
+  // Re-render table
+  renderRegistrations();
+  renderEvents();
+  
+  // Update Doughnut
+  if (window.eventChart) {
+    const eventCounts = {};
+    mockRegistrations.forEach(reg => {
+      reg.events.forEach(ev => {
+        eventCounts[ev] = (eventCounts[ev] || 0) + 1;
+      });
+    });
+    window.eventChart.data.labels = Object.keys(eventCounts).slice(0, 5);
+    window.eventChart.data.datasets[0].data = Object.values(eventCounts).slice(0, 5);
+    window.eventChart.update();
+    
+    let topEvent = Object.keys(eventCounts).reduce((a, b) => eventCounts[a] > eventCounts[b] ? a : b, 'None');
+    document.getElementById('stat-top-event').innerText = topEvent;
+  }
+  
+  // Update Line Chart (Randomly increment last day for effect)
+  if (window.registrationChart) {
+     const data = window.registrationChart.data.datasets[0].data;
+     data[data.length - 1] += 1;
+     window.registrationChart.update();
+  }
 }

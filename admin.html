@@ -54,7 +54,13 @@
     <div class="content-wrapper">
       <!-- Overview Section -->
       <section id="overview" class="admin-section active-section">
-        <h1 class="section-title">Dashboard Overview</h1>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+          <h1 class="section-title" style="margin-bottom: 0;">Dashboard Overview</h1>
+          <button id="live-sim-btn" class="btn btn-outline" style="border-color: var(--admin-success); color: var(--admin-success); font-size: 0.9rem; display: flex; align-items: center; gap: 8px;">
+            <span class="sim-indicator" style="display:inline-block; width:8px; height:8px; border-radius:50%; background:currentColor;"></span>
+            <span id="live-sim-text">Start Live Simulation</span>
+          </button>
+        </div>
         
         <div class="stats-grid">
           <div class="stat-card">
@@ -82,6 +88,13 @@
           <div class="chart-card glass-panel">
             <h3>Event Distribution</h3>
             <canvas id="eventChart"></canvas>
+          </div>
+        </div>
+
+        <div class="glass-panel" style="margin-top: 1.5rem;">
+          <h3 style="margin-top: 0; margin-bottom: 1rem; font-family: 'Orbitron', sans-serif; color: #ccc;">Live Activity Feed</h3>
+          <div id="activity-feed" class="activity-feed-container">
+            <div class="activity-item text-muted" style="border-color: #888;">System initialized. Waiting for events...</div>
           </div>
         </div>
       </section>

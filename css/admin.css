@@ -499,3 +499,46 @@
     display: none;
   }
 }
+
+/* Activity Feed */
+.activity-feed-container {
+  max-height: 250px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-right: 10px;
+}
+.activity-item {
+  padding: 0.75rem 1rem;
+  background: rgba(255,255,255,0.02);
+  border-left: 3px solid var(--admin-accent);
+  border-radius: 0 4px 4px 0;
+  font-size: 0.9rem;
+  animation: slideInRight 0.3s ease-out forwards;
+}
+.activity-item.success { border-left-color: var(--admin-success); }
+.activity-item.warning { border-left-color: #ff9800; }
+.text-muted { color: var(--admin-muted); }
+
+.sim-active {
+  background: rgba(0, 230, 118, 0.1) !important;
+  color: var(--admin-success) !important;
+  border-color: var(--admin-success) !important;
+  box-shadow: 0 0 15px rgba(0, 230, 118, 0.3);
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(-20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(0, 230, 118, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 230, 118, 0); }
+}
+
+.sim-indicator.pulsing {
+  animation: pulse 2s infinite;
+}
