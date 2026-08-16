@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Admin Dashboard | TechnoKings 2K26</title>
+  <meta name="description" content="Admin Dashboard for TechnoKings 2K26 Symposium." />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=Orbitron:wght@400;700;900&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/admin.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="admin-body">
+
+  <div id="spider-sense-overlay"></div>
+
+  <!-- Sidebar -->
+  <aside class="admin-sidebar">
+    <div class="sidebar-header">
+      <h2>TECHNOKINGS<span>ADMIN</span></h2>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="#overview" class="nav-item active" data-target="overview">
+        <span class="icon">📊</span> Overview
+      </a>
+      <a href="#registrations" class="nav-item" data-target="registrations">
+        <span class="icon">👥</span> Registrations
+      </a>
+      <a href="#events" class="nav-item" data-target="events">
+        <span class="icon">📅</span> Events
+      </a>
+      <a href="#settings" class="nav-item" data-target="settings">
+        <span class="icon">⚙️</span> Settings
+      </a>
+    </nav>
+    <div class="sidebar-footer">
+      <a href="/" class="back-link">← Back to Site</a>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <main class="admin-main">
+    <header class="admin-header">
+      <div class="header-search">
+        <input type="text" placeholder="Search data...">
+      </div>
+      <div class="header-profile">
+        <div class="profile-pic">Admin</div>
+      </div>
+    </header>
+
+    <div class="content-wrapper">
+      <!-- Overview Section -->
+      <section id="overview" class="admin-section active-section">
+        <h1 class="section-title">Dashboard Overview</h1>
+        
+        <div class="stats-grid">
+          <div class="stat-card">
+            <h3>Total Registrations</h3>
+            <div class="stat-value" id="stat-total">0</div>
+            <div class="stat-trend positive">↑ 12% from yesterday</div>
+          </div>
+          <div class="stat-card">
+            <h3>Revenue (Mock)</h3>
+            <div class="stat-value" id="stat-revenue">₹0</div>
+            <div class="stat-trend positive">↑ 8% from yesterday</div>
+          </div>
+          <div class="stat-card">
+            <h3>Top Event</h3>
+            <div class="stat-value" id="stat-top-event">Loading...</div>
+            <div class="stat-trend">Most popular</div>
+          </div>
+        </div>
+
+        <div class="charts-grid">
+          <div class="chart-card glass-panel">
+            <h3>Registration Trends</h3>
+            <canvas id="registrationChart"></canvas>
+          </div>
+          <div class="chart-card glass-panel">
+            <h3>Event Distribution</h3>
+            <canvas id="eventChart"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- Registrations Section -->
+      <section id="registrations" class="admin-section">
+        <h1 class="section-title">Recent Registrations</h1>
+        <div class="table-container glass-panel">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Team Name</th>
+                <th>Leader</th>
+                <th>College</th>
+                <th>Events</th>
+                <th>Date</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="registrations-tbody">
+              <!-- JS will populate this -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Events Section -->
+      <section id="events" class="admin-section">
+        <h1 class="section-title">Event Management</h1>
+        <div class="events-grid" id="admin-events-grid">
+          <!-- JS will populate this -->
+        </div>
+      </section>
+
+      <!-- Settings Section -->
+      <section id="settings" class="admin-section">
+        <h1 class="section-title">Settings</h1>
+        <div class="glass-panel settings-panel">
+          <div class="setting-group">
+            <label>Registration Status</label>
+            <button class="btn btn-cyber" id="toggle-registration">Close Registrations</button>
+          </div>
+          <div class="setting-group">
+            <label>Export Data</label>
+            <button class="btn btn-outline" id="export-csv">Download CSV</button>
+          </div>
+          <div class="setting-group">
+            <label>Clear Mock Data</label>
+            <button class="btn btn-danger" id="clear-data">Reset LocalStorage</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="js/events-data.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

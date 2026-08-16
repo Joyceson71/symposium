@@ -6,6 +6,7 @@
   "rewrites": [
     { "source": "/coordinators", "destination": "/coordinators.html" },
     { "source": "/events", "destination": "/events.html" },
-    { "source": "/register", "destination": "/register.html" }
+    { "source": "/register", "destination": "/register.html" },
+    { "source": "/admin", "destination": "/admin.html" }
   ]
 }
