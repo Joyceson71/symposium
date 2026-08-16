@@ -97,7 +97,7 @@ magnet.addEventListener('mouseleave', function() {
         });
     });
 
-const tiltCards = document.querySelectorAll('.stat-card, .tier-card, .event-card, .team-card');
+const tiltCards = document.querySelectorAll('.stat-card, .tier-card, .event-card, .team-card, .why-card, .count-block');
     tiltCards.forEach(card => {
         card.classList.add('tilt-card');
 

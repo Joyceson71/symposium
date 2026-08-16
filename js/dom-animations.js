@@ -94,7 +94,7 @@ btn.addEventListener("mouseenter", () => {
         });
     });
 
-const tiltCards = document.querySelectorAll(".event-card, .coordinator-card");
+const tiltCards = document.querySelectorAll(".event-card, .coordinator-card, .stat-card, .tier-card, .why-card, .count-block");
 
 tiltCards.forEach(card => {
         card.addEventListener("mousemove", (e) => {
