@@ -238,9 +238,10 @@ html.theme-desktop .stat-card:hover,
 html.theme-desktop .count-block:hover,
 html.theme-desktop .tier-card:hover,
 html.theme-desktop .why-card:hover {
-  transform: translateY(-8px);
-  border-color: rgba(204, 0, 0, 0.4);
-  background: rgba(20, 15, 20, 0.6);
+  transform: translateY(-8px) scale(1.02);
+  border-color: rgba(204, 0, 0, 0.8);
+  background: rgba(204, 0, 0, 0.05);
+  box-shadow: 0 8px 32px rgba(204, 0, 0, 0.3);
 }
 
 html.theme-desktop .stat-num,
